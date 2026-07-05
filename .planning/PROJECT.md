@@ -6,7 +6,7 @@ A bilingual (French/English) website for Romane Lepont's photography and artisti
 
 ## Core Value
 
-Visitors can browse Romane's photographic work and buy a piece (print, original, book, or merch) through a real, working checkout — everything else supports that.
+Visitors can browse Romane's photographic work and buy a piece (print, original, book, or merch) through a real, working checkout — everything else supports that. **Delivered in two milestones**: v1 replaces the current site fast with portfolio/about/contact so the old Myportfolio site can be retired sooner; v1.x adds exhibitions, the shop, and checkout on top of that foundation.
 
 ## Requirements
 
@@ -16,17 +16,21 @@ Visitors can browse Romane's photographic work and buy a piece (print, original,
 
 ### Active
 
+**v1 (replace current site):**
 - [ ] Visitor can browse a portfolio of photo galleries/projects (migrated from the current site: Rebut, Silos, Brume, Adults, The Victorian Tea Room, Paysages, Accumulation, MADO, etc.)
 - [ ] Visitor can read an About/bio page covering Romane's background, artistic approach, and atelier/practice info
+- [ ] Visitor can contact Romane (contact page/form)
+- [ ] Site is available in French and English with a language switcher
+- [ ] Romane (non-technical) can independently update galleries/photos without touching code
+- [ ] Site is reachable at the existing domain, atelierjacquelinesuzanne.fr
+
+**v1.x (add shop, deferred until v1 is live — see REQUIREMENTS.md v2 section):**
 - [ ] Visitor can view a list of upcoming and past exhibitions (dates, location, description)
 - [ ] Visitor can browse products for sale: fine art prints, original artworks, books/zines, other merchandise
 - [ ] Visitor can complete a real online purchase (cart + payment, e.g. Stripe) without manual intervention
 - [ ] Product stock is tracked — one-of-a-kind originals show as sold out after purchase; limited editions decrement available quantity
 - [ ] Site supports shipping to France and the rest of Europe
-- [ ] Site is available in French and English with a language switcher
-- [ ] Visitor can contact Romane (contact page/form)
-- [ ] Romane (non-technical) can independently update some content — at minimum adding photos/galleries and updating the exhibitions/agenda — without touching code
-- [ ] Site is reachable at the existing domain, atelierjacquelinesuzanne.fr
+- [ ] Romane can independently update the exhibitions/agenda without touching code
 
 ### Out of Scope
 
@@ -42,6 +46,8 @@ Visitors can browse Romane's photographic work and buy a piece (print, original,
 - Builder (Florian) is Romane's brother, building this as a custom-coded project rather than configuring an existing SaaS builder.
 - Budget is near-zero: free-tier hosting and free/open-source tooling preferred, accepting only unavoidable per-transaction payment processing fees (e.g. Stripe).
 - Romane is not a developer. Whatever content-editing solution is chosen must be simple enough for her to add photos and update the exhibitions list herself, while staying within the near-zero budget (e.g. a free-tier headless CMS rather than a paid enterprise one).
+- Research (`.planning/research/`) recommends Astro + Cloudflare Pages + Sanity CMS + custom Stripe Checkout — €0/month baseline plus Stripe's per-transaction fee. Key risk: Stripe doesn't manage inventory, so stock must be tracked and atomically re-validated server-side to avoid overselling one-of-a-kind originals.
+- French e-commerce legal requirements (mentions légales, CGV incl. 14-day droit de rétractation, GDPR/cookie consent) are mandatory before any live transaction. Separately, Stripe payouts require Romane to have a registered business (SIRET) in France — this has its own lead time and should be tracked as an early, parallel administrative task, not a blocker gating development.
 
 ## Constraints
 
@@ -61,6 +67,12 @@ Visitors can browse Romane's photographic work and buy a piece (print, original,
 | Shipping limited to France + Europe | Balances reach against shipping/customs complexity | — Pending |
 | Track stock for originals and limited editions | Originals are one-of-a-kind and must not oversell; editions are limited runs | — Pending |
 | Near-zero budget tooling | Personal/family project, cost sensitivity is explicit and primary | — Pending |
+| Stack: Astro + Cloudflare Pages + Sanity + custom Stripe Checkout | Meets €0/month budget, non-technical CMS editing, and image-heavy free-tier hosting needs (research-backed) | — Pending |
+| Track Romane's SIRET/business registration as an early parallel roadmap item | Stripe payouts require it; has its own lead time separate from dev work | — Pending |
+| Defer COA messaging, edition numbering, room mockups, newsletter to v1.x | Not required to prove the core shop works; keeps v1 scope focused on launch-blocking essentials | — Pending |
+| Include per-project artist statements in v1 | User chose to write these before launch rather than defer | — Pending |
+| Phased launch: v1 = portfolio/about/contact only; v1.x = exhibitions + shop + checkout + shipping | User wants the old Myportfolio site replaced quickly without waiting for the full shop to be built | — Pending |
+| Commerce-specific legal pages (CGV, droit de rétractation acknowledgment) move to v1.x with the shop | Only needed once there's something to sell; mentions légales/privacy/cookies still ship in v1 for the content-only site | — Pending |
 
 ## Evolution
 
