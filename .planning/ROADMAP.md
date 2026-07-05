@@ -29,7 +29,13 @@ Decimal phases appear between their surrounding integers in numeric order.
   1. Visitor can access the site under both `/fr/` and `/en/` URL paths with correctly localized UI chrome (nav, footer, etc.).
   2. Visitor can switch language via a persistent switcher that lands them on the equivalent page in the other language.
   3. The site is built as static output and deployed to OVH Web Hosting at a public URL, connected to a live Sanity CMS project with at least one locale-aware content type.
-**Plans**: TBD
+**Plans**: 5 plans
+Plans:
+- [ ] 01-01-PLAN.md — Scaffold Astro project + i18n routing config + Playwright/Vitest harness + failing tests (Wave 1)
+- [ ] 01-02-PLAN.md — OVH provisioning: confirm plan tier/protocol (D-06), create staging subdomain + Let's Encrypt HTTPS (Wave 1)
+- [ ] 01-03-PLAN.md — Sanity CMS: project + locale-aware siteSettings singleton + build-time getSiteSettings() helper (Wave 2)
+- [ ] 01-04-PLAN.md — Bilingual UI slice: switcher utility, BaseLayout chrome from Sanity, FR/EN homepages + 404, e2e GREEN (Wave 3)
+- [ ] 01-05-PLAN.md — CI/CD: GitHub Actions build+test+FTPS deploy to OVH staging + Sanity rebuild webhook + verify live (Wave 4)
 **UI hint**: yes
 
 ### Phase 2: Portfolio Galleries
@@ -88,7 +94,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Bilingual Infrastructure | 0/TBD | Not started | - |
+| 1. Foundation & Bilingual Infrastructure | 0/5 | Planned | - |
 | 2. Portfolio Galleries | 0/TBD | Not started | - |
 | 3. About & Contact | 0/TBD | Not started | - |
 | 4. Legal & Compliance | 0/TBD | Not started | - |
