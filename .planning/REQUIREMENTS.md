@@ -119,27 +119,27 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| PORT-01 | TBD | Pending |
-| PORT-02 | TBD | Pending |
-| PORT-03 | TBD | Pending |
-| ABOUT-01 | TBD | Pending |
-| ABOUT-02 | TBD | Pending |
-| I18N-01 | TBD | Pending |
-| I18N-02 | TBD | Pending |
-| CMS-01 | TBD | Pending |
-| CONT-01 | TBD | Pending |
-| CONT-02 | TBD | Pending |
-| LEGAL-01 | TBD | Pending |
-| LEGAL-03 | TBD | Pending |
-| LEGAL-05 | TBD | Pending |
-| LAUNCH-01 | TBD | Pending |
+| PORT-01 | Phase 2 | Pending |
+| PORT-02 | Phase 2 | Pending |
+| PORT-03 | Phase 2 | Pending |
+| ABOUT-01 | Phase 3 | Pending |
+| ABOUT-02 | Phase 3 | Pending |
+| I18N-01 | Phase 1 | Pending |
+| I18N-02 | Phase 1 | Pending |
+| CMS-01 | Phase 2 | Pending |
+| CONT-01 | Phase 3 | Pending |
+| CONT-02 | Phase 3 | Pending |
+| LEGAL-01 | Phase 4 | Pending |
+| LEGAL-03 | Phase 4 | Pending |
+| LEGAL-05 | Phase 4 | Pending |
+| LAUNCH-01 | Phase 5 | Pending |
 
 **Coverage:**
 - v1 requirements: 14 total
-- Mapped to phases: 0 (pending roadmap creation)
-- Unmapped: 14 ⚠️ (expected before roadmap step)
-- v2 (v1.x fast-follow) requirements: 17 tracked, not yet in roadmap
+- Mapped to phases: 14/14 ✓
+- Unmapped: 0
+- v2 (v1.x fast-follow) requirements: 17 tracked, not yet in roadmap (out of scope for this roadmap by design)
 
 ---
 *Requirements defined: 2026-07-05*
-*Last updated: 2026-07-05 after initial definition*
+*Last updated: 2026-07-05 after v1 roadmap creation (14/14 v1 requirements mapped to Phases 1-5)*
