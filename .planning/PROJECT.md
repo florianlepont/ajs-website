@@ -1,0 +1,83 @@
+# Atelier Jacqueline Suzanne — Website
+
+## What This Is
+
+A bilingual (French/English) website for Romane Lepont's photography and artistic practice, "Atelier Jacqueline Suzanne." It replaces her current Myportfolio-based site (atelierjacquelinesuzanne.fr) with a custom build that showcases her work, tells visitors who she is, sells her art with real online checkout, and lists her exhibitions. Built by her brother (a developer) as a near-zero-cost custom site — not a SaaS site builder.
+
+## Core Value
+
+Visitors can browse Romane's photographic work and buy a piece (print, original, book, or merch) through a real, working checkout — everything else supports that.
+
+## Requirements
+
+### Validated
+
+(None yet — ship to validate)
+
+### Active
+
+- [ ] Visitor can browse a portfolio of photo galleries/projects (migrated from the current site: Rebut, Silos, Brume, Adults, The Victorian Tea Room, Paysages, Accumulation, MADO, etc.)
+- [ ] Visitor can read an About/bio page covering Romane's background, artistic approach, and atelier/practice info
+- [ ] Visitor can view a list of upcoming and past exhibitions (dates, location, description)
+- [ ] Visitor can browse products for sale: fine art prints, original artworks, books/zines, other merchandise
+- [ ] Visitor can complete a real online purchase (cart + payment, e.g. Stripe) without manual intervention
+- [ ] Product stock is tracked — one-of-a-kind originals show as sold out after purchase; limited editions decrement available quantity
+- [ ] Site supports shipping to France and the rest of Europe
+- [ ] Site is available in French and English with a language switcher
+- [ ] Visitor can contact Romane (contact page/form)
+- [ ] Romane (non-technical) can independently update some content — at minimum adding photos/galleries and updating the exhibitions/agenda — without touching code
+- [ ] Site is reachable at the existing domain, atelierjacquelinesuzanne.fr
+
+### Out of Scope
+
+- Exhibition booking/RSVP or ticketing — agenda is informational only (list of dates/locations), not interactive
+- Worldwide shipping — limited to France + Europe for v1, to keep shipping/customs complexity down
+- Press/mentions section on the About page — not requested for v1
+- Calendar-view UI for exhibitions — a simple list is sufficient for v1
+
+## Context
+
+- Replaces an existing live site (atelierjacquelinesuzanne.fr), currently built on Myportfolio/Format, French-only, with galleries (Rebut - Édition, Silo - Édition, Silos, Brume, Adults, The Victorian Tea Room, Paysages, Accumulation, MADO), a Contact page, and an Instagram link (@ajs_romanelepont). No shop or exhibitions section exists today.
+- This is a full replacement, not an addition — the old site's content (galleries) migrates in; the platform itself is being replaced.
+- Builder (Florian) is Romane's brother, building this as a custom-coded project rather than configuring an existing SaaS builder.
+- Budget is near-zero: free-tier hosting and free/open-source tooling preferred, accepting only unavoidable per-transaction payment processing fees (e.g. Stripe).
+- Romane is not a developer. Whatever content-editing solution is chosen must be simple enough for her to add photos and update the exhibitions list herself, while staying within the near-zero budget (e.g. a free-tier headless CMS rather than a paid enterprise one).
+
+## Constraints
+
+- **Budget**: Near-zero recurring cost (~0-5€/month target) for hosting/CMS/tools — only per-transaction payment fees (Stripe) are accepted as a given cost.
+- **Tech stack**: Not yet decided — must support real e-commerce checkout, stock tracking, bilingual content, and non-technical content editing within the near-zero budget. To be resolved during research/roadmap.
+- **Domain**: Must end up served from the existing domain atelierjacquelinesuzanne.fr.
+- **Maintainer**: Romane (non-technical) needs to self-serve at least photo/gallery additions and exhibition/agenda updates post-launch.
+- **Compliance**: Selling to France + Europe implies basic e-commerce legal requirements (mentions légales, CGV, GDPR-compliant checkout) — French/EU context.
+
+## Key Decisions
+
+| Decision | Rationale | Outcome |
+|----------|-----------|---------|
+| Full replacement of current site, not an addition | User wants one unified site, not a portfolio site plus a bolted-on shop | — Pending |
+| Real checkout (not inquiry-based selling) | User explicitly chose full e-commerce over manual/inquiry-based sales | — Pending |
+| Bilingual French + English | Current content already mixes French and English project titles; wider audience reach | — Pending |
+| Shipping limited to France + Europe | Balances reach against shipping/customs complexity | — Pending |
+| Track stock for originals and limited editions | Originals are one-of-a-kind and must not oversell; editions are limited runs | — Pending |
+| Near-zero budget tooling | Personal/family project, cost sensitivity is explicit and primary | — Pending |
+
+## Evolution
+
+This document evolves at phase transitions and milestone boundaries.
+
+**After each phase transition** (via `/gsd-transition`):
+1. Requirements invalidated? → Move to Out of Scope with reason
+2. Requirements validated? → Move to Validated with phase reference
+3. New requirements emerged? → Add to Active
+4. Decisions to log? → Add to Key Decisions
+5. "What This Is" still accurate? → Update if drifted
+
+**After each milestone** (via `/gsd:complete-milestone`):
+1. Full review of all sections
+2. Core Value check — still the right priority?
+3. Audit Out of Scope — reasons still valid?
+4. Update Context with current state
+
+---
+*Last updated: 2026-07-05 after initialization*
