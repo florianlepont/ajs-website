@@ -11,9 +11,18 @@ import { getRelativeLocaleUrl } from 'astro:i18n';
  * `getRelativeLocaleUrl()`.
  */
 export function getSwitcherHref(currentPath: string, targetLocale: 'fr' | 'en'): string {
+  // Strip Astro's configured `base` (e.g. "/ajs-website/" on GitHub Pages)
+  // before computing the slug: `Astro.url.pathname` reflects the deployed
+  // base-prefixed path, but `getRelativeLocaleUrl()` below re-applies the
+  // base itself — without stripping it first, a non-root base produces a
+  // doubled path (e.g. "/ajs-website/ajs-website"). No-op when base is "/".
+  const base = import.meta.env.BASE_URL ?? '/';
+  const baseRelativePath =
+    base !== '/' && currentPath.startsWith(base) ? currentPath.slice(base.length - 1) : currentPath;
+
   // Strip the current locale prefix (if any) and any trailing slash to
   // recover the shared slug.
-  const slug = currentPath.replace(/^\/en\//, '/').replace(/^\//, '').replace(/\/$/, '');
+  const slug = baseRelativePath.replace(/^\/en\//, '/').replace(/^\//, '').replace(/\/$/, '');
 
   // Missing-counterpart fallback (D-04, forward-looking to Phase 2+): if the
   // current page has no published translation in the target locale, send

@@ -28,18 +28,27 @@ const homeHref = getRelativeLocaleUrl(locale, '');
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
-    <script is:inline>
+    <script is:inline define:vars={{ base: import.meta.env.BASE_URL }}>
       // D-03: no server/middleware exists on OVH static hosting to read
       // cookies, so a returning visitor's locale preference is honored via a
       // render-blocking (is:inline, not deferred) same-origin redirect,
       // before paint, to minimize flash-of-wrong-locale content.
+      //
+      // `base` (e.g. "/ajs-website/" on GitHub Pages, "/" on OVH production)
+      // is inlined at build time via `define:vars` so the redirect targets
+      // the correct deployed path instead of assuming the site is served
+      // from the domain root.
       (function () {
         var COOKIE_NAME = 'ajs_locale';
         var match = document.cookie.match(new RegExp('(?:^|; )' + COOKIE_NAME + '=([^;]*)'));
         var preferred = match ? decodeURIComponent(match[1]) : null;
-        var onFrenchRootPage = !location.pathname.startsWith('/en/');
+        var basePath = base.endsWith('/') ? base : base + '/';
+        var pathAfterBase = location.pathname.startsWith(basePath)
+          ? location.pathname.slice(basePath.length - 1)
+          : location.pathname;
+        var onFrenchRootPage = !pathAfterBase.startsWith('/en/');
         if (preferred === 'en' && onFrenchRootPage) {
-          location.replace('/en' + location.pathname);
+          location.replace(basePath.slice(0, -1) + '/en' + pathAfterBase);
         }
       })();
     </script>
