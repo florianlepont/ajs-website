@@ -1,6 +1,10 @@
-import { defineConfig } from 'vitest/config';
+import { getViteConfig } from 'astro/config';
 
-export default defineConfig({
+// Uses Astro's own `getViteConfig` (rather than plain `vitest/config`
+// `defineConfig`) so Astro's virtual modules — e.g. `astro:i18n`, imported by
+// src/lib/i18n-paths.ts — resolve correctly under Vitest, matching the same
+// Vite pipeline `astro build`/`astro dev` use.
+export default getViteConfig({
   test: {
     include: ['tests/unit/**/*.test.ts'],
     environment: 'node',
