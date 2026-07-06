@@ -389,19 +389,19 @@ Source: pattern cross-verified across multiple community write-ups on triggering
 | A3 | No framework/island library (`@astrojs/react` etc.) is needed for Phase 1's plain-text switcher | Standard Stack (Supporting) | Low risk — if the planner or a later UI decision wants richer switcher interactivity, adding React/Preact later is a small, additive change, not a rework. |
 | A4 | `sanity` npm package's current major version (6.3.0) is compatible with the schema/CLI patterns referenced from older tutorials (some of which reference "Sanity v3/v4") | Standard Stack | If Sanity Studio's config API has changed meaningfully since v4, the singleton-document schema pattern (D-09) may need adjusted syntax — recommend the planner verify against Sanity's own current docs/Context7 at execution time rather than trusting a possibly-stale community tutorial. |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **Which OVH Web Hosting plan tier is currently active, and does it include SSH access?**
+1. **Which OVH Web Hosting plan tier is currently active, and does it include SSH access?**  _RESOLVED: operationalized as 01-02 Task 1 (OVH panel investigation & deploy protocol)._
    - What we know: OVH's current tiers are roughly Personal (FTP only), Professional (adds SSH), Performance (SSH + more resources). Pricing bands observed: ~€1-4/mo (Starter/Personal) up to ~€13/mo (Performance).
    - What's unclear: Which one Florian already has (a sunk cost per PROJECT.md, not a new spend decision).
    - Recommendation: D-06 already schedules this as the first Phase 1 execution task — log into the OVH control panel and check the hosting plan name/features before writing the CI workflow. Default the plan to the FTP-based `FTP-Deploy-Action` path since it works regardless of the answer.
 
-2. **Does the existing `atelierjacquelinesuzanne.fr` DNS zone live at OVH (as registrar+DNS) or elsewhere?**
+2. **Does the existing `atelierjacquelinesuzanne.fr` DNS zone live at OVH (as registrar+DNS) or elsewhere?**  _RESOLVED: operationalized as 01-02 Task 2 (staging subdomain / DNS zone setup)._
    - What we know: The domain is already live with the current Myportfolio site; PROJECT.md doesn't specify the registrar.
    - What's unclear: Whether adding the `staging.` subdomain is a same-provider DNS-zone edit (simpler, OVH-native multisite flow) or requires manual coordination with an external DNS host.
    - Recommendation: Check this alongside the D-06 OVH-panel investigation, before attempting to create the staging subdomain.
 
-3. **Should CI test failures block deploy, or only warn?**
+3. **Should CI test failures block deploy, or only warn?**  _RESOLVED: implemented by 01-05 Task 1 (hard-gate tests before FTP deploy)._
    - What we know: `nyquist_validation` is enabled in config.json; Playwright/Vitest are recommended as Wave-0 additions.
    - What's unclear: Whether the walking-skeleton MVP mode wants a hard gate (test failure blocks FTP deploy) from day one, or a softer warn-only approach until the test suite matures.
    - Recommendation: Hard-gate from the start (`npx playwright test` and `npx vitest run` as required steps before the deploy step in the same job) — cheap to do now, much harder to retrofit as a discipline later, and matches the "Wave 0 test infra" spirit of nyquist validation.
