@@ -1,0 +1,81 @@
+---
+// Plain-text "FR | EN" locale toggle (D-11): two <a> tags separated by a
+// literal "|", each href computed at build time via getSwitcherHref so the
+// switcher always points at the equivalent page in the other locale (D-04).
+import { getSwitcherHref } from '../lib/i18n-paths';
+
+const currentLocale = Astro.currentLocale === 'en' ? 'en' : 'fr';
+const frHref = getSwitcherHref(Astro.url.pathname, 'fr');
+const enHref = getSwitcherHref(Astro.url.pathname, 'en');
+---
+
+<nav class="language-switcher" aria-label="Language switcher">
+  <a
+    href={frHref}
+    class={`switcher-link${currentLocale === 'fr' ? ' is-current' : ''}`}
+    aria-current={currentLocale === 'fr' ? 'page' : undefined}
+    data-locale="fr"
+  >FR</a>
+  <span class="switcher-separator" aria-hidden="true">|</span>
+  <a
+    href={enHref}
+    class={`switcher-link${currentLocale === 'en' ? ' is-current' : ''}`}
+    aria-current={currentLocale === 'en' ? 'page' : undefined}
+    data-locale="en"
+  >EN</a>
+</nav>
+
+<style>
+  .language-switcher {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px; /* xs spacing token */
+    font-size: 14px; /* Label role */
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  .switcher-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px; /* WCAG 2.5.5 tap-target floor, applied via padding not font-size */
+    padding: 8px; /* sm spacing token */
+    color: #1a1a1a; /* Accent */
+    text-decoration: none;
+  }
+
+  .switcher-link:hover,
+  .switcher-link:focus-visible {
+    text-decoration: underline;
+  }
+
+  .switcher-link:focus-visible {
+    outline: 2px solid #1a1a1a;
+    outline-offset: 2px;
+  }
+
+  .switcher-link.is-current {
+    font-weight: 600;
+    text-decoration: underline;
+  }
+
+  .switcher-separator {
+    color: #1a1a1a;
+  }
+</style>
+
+<script>
+  const COOKIE_NAME = 'ajs_locale';
+
+  document
+    .querySelectorAll<HTMLAnchorElement>('.language-switcher .switcher-link')
+    .forEach((link) => {
+      link.addEventListener('click', () => {
+        const locale = link.dataset.locale;
+        if (locale) {
+          document.cookie = `${COOKIE_NAME}=${locale}; path=/; max-age=31536000; SameSite=Lax`;
+        }
+      });
+    });
+</script>
