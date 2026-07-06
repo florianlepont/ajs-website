@@ -2,9 +2,9 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: verifying
-stopped_at: Completed 01-05-PLAN.md — Phase 1 complete
-last_updated: "2026-07-06T13:04:58.475Z"
+status: ready
+stopped_at: Phase 1 complete + code review fixes verified live — ready to plan Phase 2
+last_updated: "2026-07-06T14:24:00.000Z"
 last_activity: 2026-07-06
 progress:
   total_phases: 5
@@ -27,7 +27,7 @@ See: .planning/PROJECT.md (updated 2026-07-05)
 
 Phase: 01 (foundation-bilingual-infrastructure) — COMPLETE
 Plan: 5 of 5
-Status: Phase complete — ready for verification
+Status: Phase complete, code review fixes verified live — ready to plan Phase 2
 Last activity: 2026-07-06
 
 Progress: [██████████] 100%
@@ -78,6 +78,7 @@ Recent decisions affecting current work:
 - [Phase 01]: [Phase 01 Plan 05]: CI builds the site twice (root base for the Playwright+Vitest hard gate, GitHub Pages base for the deployed artifact) to avoid coupling the locked e2e test suite to the deploy target's base path
 - [Phase 01]: [Phase 01 Plan 05]: Fixed getSwitcherHref and the locale-cookie redirect script to strip the configured base path before computing slugs/paths — both broke under GitHub Pages' non-root base, only discovered once ASTRO_BASE was actually exercised in this plan
 - [Phase 01]: [Phase 01 Plan 05]: Phase 1 staging site is live at https://florianlepont.github.io/ajs-website/, verified end-to-end (push-triggered deploy, repository_dispatch-triggered rebuild, live switcher/cookie/404 checks via a headless-browser script against the production URL) — Phase 1 is complete
+- [Phase 01]: Post-completion code review (01-REVIEW.md) found 1 Critical + 6 Warnings; fixed CR-01 (404 page's hardcoded links weren't base-aware — real live bug, confirmed via curl against the deployed site) plus WR-01 (Sanity singleton create/duplicate guard), WR-02 (locale cookie scoped to base path, not domain-wide), WR-03 (null-safety for partially-populated Sanity docs), WR-04 (extracted stripBasePath + unit tests + a CI grep guard against un-prefixed hrefs), WR-06 (404 page switcher no longer computes a nonsensical /404 slug). WR-05 and remaining Info items deferred by explicit choice. Re-verified live post-fix: 404 page links all correctly base-prefixed, HTTP 404 served correctly.
 
 ### Pending Todos
 
@@ -85,8 +86,9 @@ None yet.
 
 ### Blockers/Concerns
 
-- [Research carryover]: Confirm whether the domain currently has an active email service before any DNS cutover in Phase 5 — unresolved as of research, must be checked before Phase 5 execution.
-- [Research carryover]: Re-verify current free-tier/quota limits (Sanity) and OVH Web Hosting deployment method (FTP/SFTP or OVH deployment tooling for static files) immediately before Phase 1 implementation — numbers/details cited in research may drift or don't cover the OVH hosting swap.
+None currently open. Both prior research-carryover items were resolved during Phase 1 execution:
+- Domain email service: confirmed active (MX Plan + Zimbra mailbox) via the OVH panel — Phase 5's DNS cutover must preserve these records, not wipe the zone.
+- OVH deployment method: confirmed via the OVH panel — "Free hosting" tier, SFTP enabled on port 22, host `ftp.cluster129.hosting.ovh.net`, user `atelihu`, home dir `/home/atelihu` (see 01-02-SUMMARY.md). Note: this same Free tier cannot attach any subdomain (multisite requires a paid tier) — Phase 1 staging used GitHub Pages instead; Phase 5's production cutover plan should account for the single-domain limitation.
 
 ## Deferred Items
 
@@ -98,6 +100,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-06T13:04:58.472Z
-Stopped at: Completed 01-05-PLAN.md — Phase 1 complete
+Last session: 2026-07-06T14:24:00.000Z
+Stopped at: Phase 1 complete, code review fixes (CR-01 + WR-01/02/03/04/06) verified live at https://florianlepont.github.io/ajs-website/
 Resume file: None
