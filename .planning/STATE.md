@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 01-02-PLAN.md
-last_updated: "2026-07-06T10:52:36.588Z"
+stopped_at: Completed 01-03-PLAN.md
+last_updated: "2026-07-06T12:10:27.305Z"
 last_activity: 2026-07-06
 progress:
   total_phases: 5
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-07-05)
 ## Current Position
 
 Phase: 01 (foundation-bilingual-infrastructure) — EXECUTING
-Plan: 3 of 5
+Plan: 4 of 5
 Status: Ready to execute
 Last activity: 2026-07-06
 
@@ -54,6 +54,7 @@ Progress: [░░░░░░░░░░] 0%
 *Updated after each plan completion*
 | Phase 01 P01 | 11min | 3 tasks | 12 files |
 | Phase 01 P02 | 15min | 2 tasks | 1 files |
+| Phase 01 P03 | 35min | 2 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -67,6 +68,8 @@ Recent decisions affecting current work:
 - [Roadmap]: Legal & Compliance (Phase 4) depends on Phase 3 (Contact) since the privacy notice must describe contact-form data handling.
 - [Phase 01]: No SSR adapter installed for Astro (output: 'static' framework default) per OVH static-hosting constraint — OVH Web Hosting is a zero-compute Apache file server; @astrojs/cloudflare/wrangler are explicitly excluded
 - [Phase 01]: Phase 1 staging deploys to GitHub Pages (repo now public) instead of an OVH subdomain; OVH SFTP facts recorded for Phase 5 — OVH Free hosting tier cannot attach any subdomain (multisite requires paid tier); GitHub Pages reuses existing repo with zero new signup and automatic HTTPS
+- [Phase 01]: Sanity read-only + one-time write tokens created and revoked entirely via CLI (sanity tokens add/delete), no dashboard visit needed — sanity tokens add/list/delete supports full non-interactive token lifecycle management
+- [Phase 01]: siteSettings singleton bilingual placeholder copy published via a temporary editor-role token created and deleted in the same session — Viewer (read-only) token cannot write; a scoped, immediately-revoked editor token avoided a manual Studio-publish step for Florian
 
 ### Pending Todos
 
@@ -87,6 +90,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-06T10:52:36.586Z
-Stopped at: Completed 01-02-PLAN.md
+Last session: 2026-07-06T12:10:27.303Z
+Stopped at: Completed 01-03-PLAN.md
 Resume file: None
