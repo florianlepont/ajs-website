@@ -76,6 +76,20 @@ jobs:
           SANITY_API_READ_TOKEN: ${{ secrets.SANITY_API_READ_TOKEN }}
           ASTRO_BASE: /ajs-website/
 
+      # WR-04: regression guard for the exact bug class that shipped as
+      # CR-01 — a hardcoded root-relative link (unrelated to the switcher
+      # utility, so no unit test would catch it) that bypassed the base
+      # path entirely. Any bare href="/" or href="/en/" in this base-prefixed
+      # build is wrong by construction: every real link on this site must go
+      # through an Astro i18n URL helper, which always emits the configured
+      # base ("/ajs-website/..." here, never a bare root-relative path).
+      - name: Check for un-prefixed links (base-path regression guard)
+        run: |
+          if grep -rE 'href="/"|href="/en/"' dist/; then
+            echo "::error::Found a hardcoded root-relative href that bypasses the GitHub Pages base path (see 01-REVIEW.md CR-01/WR-04). Use an astro:i18n URL helper instead of a literal string." >&2
+            exit 1
+          fi
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:

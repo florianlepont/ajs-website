@@ -66,13 +66,24 @@ const enHref = getSwitcherHref(Astro.url.pathname, 'en');
 <script>
   const COOKIE_NAME = 'ajs_locale';
 
+  // WR-02: `import.meta.env.BASE_URL` is one of the env vars Astro/Vite
+  // statically replaces in client bundles too (not just frontmatter), so this
+  // works the same way BaseLayout's inline redirect script derives its base.
+  // Scoping the cookie's path to the deployed base — "/" on OVH production,
+  // "/ajs-website/" on GitHub Pages staging — matters because GitHub Pages
+  // project sites share the `github.io` user domain: an unscoped `path=/`
+  // cookie would be sent on every request to *any* project hosted under
+  // florianlepont.github.io, not just this one.
+  const base = import.meta.env.BASE_URL ?? '/';
+  const cookiePath = base.endsWith('/') ? base : `${base}/`;
+
   document
     .querySelectorAll<HTMLAnchorElement>('.language-switcher .switcher-link')
     .forEach((link) => {
       link.addEventListener('click', () => {
         const locale = link.dataset.locale;
         if (locale) {
-          document.cookie = `${COOKIE_NAME}=${locale}; path=/; max-age=31536000; SameSite=Lax`;
+          document.cookie = `${COOKIE_NAME}=${locale}; path=${cookiePath}; max-age=31536000; SameSite=Lax; Secure`;
         }
       });
     });

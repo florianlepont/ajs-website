@@ -15,9 +15,14 @@ const { title } = Astro.props;
 const locale = Astro.currentLocale === 'en' ? 'en' : 'fr';
 
 const siteSettings = await getSiteSettings();
-const siteTitle = siteSettings?.siteTitle[locale] ?? 'Atelier Jacqueline Suzanne';
-const footerText = siteSettings?.footerText[locale] ?? '';
-const homeLabel = siteSettings?.navLabels.home[locale] ?? (locale === 'en' ? 'Home' : 'Accueil');
+// WR-03: chain all the way to each leaf — a document written outside the
+// Studio's publish-time validation (e.g. via a script calling the API
+// directly, as this project's own seed content was) can be truthy but
+// partially populated, and this runs in frontmatter at build time, so an
+// unguarded nested access here would fail the entire site build.
+const siteTitle = siteSettings?.siteTitle?.[locale] ?? 'Atelier Jacqueline Suzanne';
+const footerText = siteSettings?.footerText?.[locale] ?? '';
+const homeLabel = siteSettings?.navLabels?.home?.[locale] ?? (locale === 'en' ? 'Home' : 'Accueil');
 const homeHref = getRelativeLocaleUrl(locale, '');
 ---
 
