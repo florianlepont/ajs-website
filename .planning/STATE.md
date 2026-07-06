@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Phase 1 UI-SPEC approved
-last_updated: "2026-07-06T09:58:38.291Z"
-last_activity: 2026-07-06 -- Phase 1 planning complete
+stopped_at: Completed 01-01-PLAN.md
+last_updated: "2026-07-06T10:16:01.211Z"
+last_activity: 2026-07-06
 progress:
   total_phases: 5
   completed_phases: 0
   total_plans: 5
-  completed_plans: 0
+  completed_plans: 1
   percent: 0
 ---
 
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-07-05)
 
 **Core value:** Visitors can browse Romane's photographic work and buy a piece through a real, working checkout — everything else supports that. (v1 milestone delivers the portfolio/about/contact foundation; checkout follows in v1.x.)
-**Current focus:** Phase 1 — Foundation & Bilingual Infrastructure
+**Current focus:** Phase 01 — foundation-bilingual-infrastructure
 
 ## Current Position
 
-Phase: 1 of 5 (Foundation & Bilingual Infrastructure)
-Plan: 0 of TBD in current phase
+Phase: 01 (foundation-bilingual-infrastructure) — EXECUTING
+Plan: 2 of 5
 Status: Ready to execute
-Last activity: 2026-07-06 -- Phase 1 planning complete
+Last activity: 2026-07-06
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -52,6 +52,7 @@ Progress: [░░░░░░░░░░] 0%
 - Trend: -
 
 *Updated after each plan completion*
+| Phase 01 P01 | 11min | 3 tasks | 12 files |
 
 ## Accumulated Context
 
@@ -63,6 +64,7 @@ Recent decisions affecting current work:
 - [Roadmap]: v1 milestone scoped to portfolio + about + contact + baseline legal + DNS cutover only; shop/checkout/exhibitions deferred to v1.x (separate future roadmap).
 - [Roadmap]: Bilingual routing + CMS scaffolding front-loaded into Phase 1 since I18N cross-cuts every later content phase.
 - [Roadmap]: Legal & Compliance (Phase 4) depends on Phase 3 (Contact) since the privacy notice must describe contact-form data handling.
+- [Phase 01]: No SSR adapter installed for Astro (output: 'static' framework default) per OVH static-hosting constraint — OVH Web Hosting is a zero-compute Apache file server; @astrojs/cloudflare/wrangler are explicitly excluded
 
 ### Pending Todos
 
@@ -83,6 +85,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-05T18:54:25.035Z
-Stopped at: Phase 1 UI-SPEC approved
-Resume file: .planning/phases/01-foundation-bilingual-infrastructure/01-UI-SPEC.md
+Last session: 2026-07-06T10:15:37.642Z
+Stopped at: Completed 01-01-PLAN.md
+Resume file: None

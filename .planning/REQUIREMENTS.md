@@ -20,8 +20,8 @@ Phased launch: v1 replaces the current Myportfolio site fast with portfolio + ab
 
 ### Bilingual
 
-- [ ] **I18N-01**: All v1 visitor-facing content (galleries, about, contact, legal pages) is available in French and English
-- [ ] **I18N-02**: Visitor can switch language via a persistent switcher
+- [x] **I18N-01**: All v1 visitor-facing content (galleries, about, contact, legal pages) is available in French and English
+- [x] **I18N-02**: Visitor can switch language via a persistent switcher
 
 ### Content Editing
 
@@ -124,8 +124,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PORT-03 | Phase 2 | Pending |
 | ABOUT-01 | Phase 3 | Pending |
 | ABOUT-02 | Phase 3 | Pending |
-| I18N-01 | Phase 1 | Pending |
-| I18N-02 | Phase 1 | Pending |
+| I18N-01 | Phase 1 | Complete |
+| I18N-02 | Phase 1 | Complete |
 | CMS-01 | Phase 2 | Pending |
 | CONT-01 | Phase 3 | Pending |
 | CONT-02 | Phase 3 | Pending |
@@ -135,6 +135,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | LAUNCH-01 | Phase 5 | Pending |
 
 **Coverage:**
+
 - v1 requirements: 14 total
 - Mapped to phases: 14/14 ✓
 - Unmapped: 0
