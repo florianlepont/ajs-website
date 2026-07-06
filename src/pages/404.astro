@@ -3,7 +3,17 @@
 // auto-wire Astro's prerendered 404 into its own error handling; this page
 // is paired with public/.htaccess's `ErrorDocument 404 /404.html`). Renders
 // through the same BaseLayout chrome as every other page.
+import { getRelativeLocaleUrl } from 'astro:i18n';
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+// CR-01: astro:i18n's URL helpers are the only thing that apply the
+// deployed `base` (e.g. "/ajs-website/" on GitHub Pages) to a link — plain
+// literal href strings are never rewritten. Every other "return home" link
+// in the codebase (BaseLayout's nav, LanguageSwitcher) already goes through
+// getRelativeLocaleUrl(); this page must too, or a visitor who lands here
+// under a non-root base gets bounced off the site entirely.
+const frHome = getRelativeLocaleUrl('fr', '');
+const enHome = getRelativeLocaleUrl('en', '');
 ---
 
 <BaseLayout title="Page introuvable / Page not found">
@@ -11,12 +21,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <section>
       <h1>Page introuvable</h1>
       <p>Page introuvable. Retournez à l'accueil.</p>
-      <p><a href="/">Retourner à l'accueil</a></p>
+      <p><a href={frHome}>Retourner à l'accueil</a></p>
     </section>
     <section>
       <h2>Page not found</h2>
       <p>Page not found. Return home.</p>
-      <p><a href="/en/">Return home</a></p>
+      <p><a href={enHome}>Return home</a></p>
     </section>
   </div>
 </BaseLayout>

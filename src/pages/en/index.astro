@@ -5,8 +5,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getSiteSettings } from '../../lib/sanity';
 
 const siteSettings = await getSiteSettings();
-const welcomeHeading = siteSettings?.welcomeHeading.en ?? '';
-const welcomeBody = siteSettings?.welcomeBody.en ?? '';
+const welcomeHeading = siteSettings?.welcomeHeading?.en ?? '';
+const welcomeBody = siteSettings?.welcomeBody?.en ?? '';
 ---
 
 <BaseLayout title="Atelier Jacqueline Suzanne">

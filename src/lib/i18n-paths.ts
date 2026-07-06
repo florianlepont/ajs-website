@@ -10,15 +10,26 @@ import { getRelativeLocaleUrl } from 'astro:i18n';
  * prefix) and re-applies it under the target locale via
  * `getRelativeLocaleUrl()`.
  */
+/**
+ * Strips Astro's configured `base` (e.g. "/ajs-website/" on GitHub Pages)
+ * from a pathname. Extracted as a pure, standalone function (WR-04) so it
+ * can be unit-tested directly under a non-root base without needing to
+ * fight Vite's static replacement of `import.meta.env.BASE_URL` inside a
+ * test run — this is the exact logic missing before CR-01/the base-path
+ * fixes, isolated so that class of bug has a real regression test.
+ */
+export function stripBasePath(path: string, base: string): string {
+  return base !== '/' && path.startsWith(base) ? path.slice(base.length - 1) : path;
+}
+
 export function getSwitcherHref(currentPath: string, targetLocale: 'fr' | 'en'): string {
-  // Strip Astro's configured `base` (e.g. "/ajs-website/" on GitHub Pages)
-  // before computing the slug: `Astro.url.pathname` reflects the deployed
-  // base-prefixed path, but `getRelativeLocaleUrl()` below re-applies the
-  // base itself — without stripping it first, a non-root base produces a
-  // doubled path (e.g. "/ajs-website/ajs-website"). No-op when base is "/".
+  // Strip Astro's configured `base` before computing the slug:
+  // `Astro.url.pathname` reflects the deployed base-prefixed path, but
+  // `getRelativeLocaleUrl()` below re-applies the base itself — without
+  // stripping it first, a non-root base produces a doubled path (e.g.
+  // "/ajs-website/ajs-website"). No-op when base is "/".
   const base = import.meta.env.BASE_URL ?? '/';
-  const baseRelativePath =
-    base !== '/' && currentPath.startsWith(base) ? currentPath.slice(base.length - 1) : currentPath;
+  const baseRelativePath = stripBasePath(currentPath, base);
 
   // Strip the current locale prefix (if any) and any trailing slash to
   // recover the shared slug.
@@ -48,7 +59,14 @@ export function getSwitcherHref(currentPath: string, targetLocale: 'fr' | 'en'):
  * Placeholder existence check. Always `true` in Phase 1 (only the homepage
  * exists, and it exists in both locales) — replace with a real per-page
  * lookup once Phase 2+ content can genuinely be missing a translation.
+ *
+ * WR-06 exception: the 404 page is not real content with a per-locale
+ * counterpart route — naively swapping its "404" slug produces a nonsensical
+ * dead-end link (e.g. "/en/404"). Falling back to `false` here routes the
+ * switcher to each locale's homepage instead, via the existing
+ * missing-counterpart fallback above.
  */
-function hasTranslatedCounterpart(_slug: string, _targetLocale: 'fr' | 'en'): boolean {
+function hasTranslatedCounterpart(slug: string, _targetLocale: 'fr' | 'en'): boolean {
+  if (slug === '404') return false;
   return true;
 }
