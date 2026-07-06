@@ -1,0 +1,50 @@
+---
+// Bilingual 404 page (RESEARCH.md "Don't Hand-Roll" — Apache does not
+// auto-wire Astro's prerendered 404 into its own error handling; this page
+// is paired with public/.htaccess's `ErrorDocument 404 /404.html`). Renders
+// through the same BaseLayout chrome as every other page.
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Page introuvable / Page not found">
+  <div class="not-found">
+    <section>
+      <h1>Page introuvable</h1>
+      <p>Page introuvable. Retournez à l'accueil.</p>
+      <p><a href="/">Retourner à l'accueil</a></p>
+    </section>
+    <section>
+      <h2>Page not found</h2>
+      <p>Page not found. Return home.</p>
+      <p><a href="/en/">Return home</a></p>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .not-found {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 48px 16px; /* 2xl vertical, md horizontal */
+    text-align: center;
+  }
+
+  .not-found h1,
+  .not-found h2 {
+    font-size: 20px; /* Heading role */
+    font-weight: 600;
+    line-height: 1.2;
+    margin: 0 0 16px;
+  }
+
+  .not-found p {
+    font-size: 16px; /* Body role */
+    font-weight: 400;
+    line-height: 1.5;
+    margin: 0 0 16px;
+  }
+
+  .not-found a {
+    color: #1a1a1a; /* Accent */
+  }
+</style>

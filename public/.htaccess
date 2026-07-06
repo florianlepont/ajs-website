@@ -1,0 +1,4 @@
+# Apache does not automatically wire Astro's prerendered src/pages/404.astro
+# into its own error handling on static hosting — both pieces are required
+# together (RESEARCH.md "Don't Hand-Roll" table).
+ErrorDocument 404 /404.html

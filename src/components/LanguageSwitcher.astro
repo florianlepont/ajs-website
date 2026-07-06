@@ -15,9 +15,7 @@ const enHref = getSwitcherHref(Astro.url.pathname, 'en');
     class={`switcher-link${currentLocale === 'fr' ? ' is-current' : ''}`}
     aria-current={currentLocale === 'fr' ? 'page' : undefined}
     data-locale="fr"
-  >FR</a>
-  <span class="switcher-separator" aria-hidden="true">|</span>
-  <a
+  >FR</a>{' '}<span class="switcher-separator" aria-hidden="true">|</span>{' '}<a
     href={enHref}
     class={`switcher-link${currentLocale === 'en' ? ' is-current' : ''}`}
     aria-current={currentLocale === 'en' ? 'page' : undefined}

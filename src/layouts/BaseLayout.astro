@@ -3,6 +3,7 @@
 // singleton) plus the D-03 pre-paint locale-cookie redirect. Both locale
 // variants (`/` and `/en/`) render this exact same layout — only the copy
 // differs (UI-SPEC Layout Notes).
+import { getRelativeLocaleUrl } from 'astro:i18n';
 import { getSiteSettings } from '../lib/sanity';
 import LanguageSwitcher from '../components/LanguageSwitcher.astro';
 
@@ -16,6 +17,8 @@ const locale = Astro.currentLocale === 'en' ? 'en' : 'fr';
 const siteSettings = await getSiteSettings();
 const siteTitle = siteSettings?.siteTitle[locale] ?? 'Atelier Jacqueline Suzanne';
 const footerText = siteSettings?.footerText[locale] ?? '';
+const homeLabel = siteSettings?.navLabels.home[locale] ?? (locale === 'en' ? 'Home' : 'Accueil');
+const homeHref = getRelativeLocaleUrl(locale, '');
 ---
 
 <!doctype html>
@@ -44,6 +47,9 @@ const footerText = siteSettings?.footerText[locale] ?? '';
   <body>
     <header class="chrome-band">
       <p class="site-title">{siteTitle}</p>
+      <nav class="site-nav" aria-label="Primary">
+        <a href={homeHref} class="nav-link">{homeLabel}</a>
+      </nav>
       <LanguageSwitcher />
     </header>
     <main>
@@ -128,6 +134,23 @@ const footerText = siteSettings?.footerText[locale] ?? '';
     font-size: 20px; /* Heading role */
     font-weight: 600;
     line-height: 1.2;
+  }
+
+  .site-nav {
+    margin-right: auto;
+    margin-left: var(--space-md);
+  }
+
+  .nav-link {
+    font-size: 14px; /* Label role */
+    font-weight: 400;
+    line-height: 1.5;
+    text-decoration: none;
+  }
+
+  .nav-link:hover,
+  .nav-link:focus-visible {
+    text-decoration: underline;
   }
 
   footer.chrome-band {

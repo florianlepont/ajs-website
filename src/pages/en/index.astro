@@ -1,14 +1,12 @@
 ---
-// French homepage (root, D-10 placeholder content). Copy is sourced from the
-// Sanity siteSettings singleton via BaseLayout/getSiteSettings — no hardcoded
-// chrome or welcome strings, no placeholder CTA button (UI-SPEC: the first
-// real CTA arrives in Phase 2).
-import BaseLayout from '../layouts/BaseLayout.astro';
-import { getSiteSettings } from '../lib/sanity';
+// English homepage (D-10 placeholder content). Identical layout to the
+// French homepage — only the locale/copy differs (UI-SPEC Layout Notes).
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getSiteSettings } from '../../lib/sanity';
 
 const siteSettings = await getSiteSettings();
-const welcomeHeading = siteSettings?.welcomeHeading.fr ?? '';
-const welcomeBody = siteSettings?.welcomeBody.fr ?? '';
+const welcomeHeading = siteSettings?.welcomeHeading.en ?? '';
+const welcomeBody = siteSettings?.welcomeBody.en ?? '';
 ---
 
 <BaseLayout title="Atelier Jacqueline Suzanne">
