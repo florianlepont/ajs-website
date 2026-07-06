@@ -2,9 +2,9 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: ready
-stopped_at: Phase 1 complete + code review fixes verified live — ready to plan Phase 2
-last_updated: "2026-07-06T14:24:00.000Z"
+status: planning
+stopped_at: Phase 2 context gathered
+last_updated: "2026-07-06T14:38:09.320Z"
 last_activity: 2026-07-06
 progress:
   total_phases: 5
@@ -87,6 +87,7 @@ None yet.
 ### Blockers/Concerns
 
 None currently open. Both prior research-carryover items were resolved during Phase 1 execution:
+
 - Domain email service: confirmed active (MX Plan + Zimbra mailbox) via the OVH panel — Phase 5's DNS cutover must preserve these records, not wipe the zone.
 - OVH deployment method: confirmed via the OVH panel — "Free hosting" tier, SFTP enabled on port 22, host `ftp.cluster129.hosting.ovh.net`, user `atelihu`, home dir `/home/atelihu` (see 01-02-SUMMARY.md). Note: this same Free tier cannot attach any subdomain (multisite requires a paid tier) — Phase 1 staging used GitHub Pages instead; Phase 5's production cutover plan should account for the single-domain limitation.
 
@@ -100,6 +101,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-06T14:24:00.000Z
-Stopped at: Phase 1 complete, code review fixes (CR-01 + WR-01/02/03/04/06) verified live at https://florianlepont.github.io/ajs-website/
-Resume file: None
+Last session: 2026-07-06T14:38:09.313Z
+Stopped at: Phase 2 context gathered
+Resume file: .planning/phases/02-portfolio-galleries/02-CONTEXT.md
