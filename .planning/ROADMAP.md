@@ -67,7 +67,24 @@ Plans:
   3. Visitor can read a short artist statement for each gallery/project, in both French and English.
   4. Romane can log into the CMS and add, edit, or reorder gallery images and create a new gallery entry without developer help.
 
-**Plans**: TBD
+**Plans**: 4 plans
+Plans:
+**Wave 1**
+
+- [ ] 02-01-PLAN.md — Gallery schema + Studio drag-ordering + typed read layer (getGalleries/getGallery, image builders) + navLabels.galleries + RED Wave 0 tests (Wave 1)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 02-02-PLAN.md — Site-wide visual identity: BaseLayout Dawn Pink/Woodsmoke/Wild Strawberry tokens, Delight font, two-weight Display system, galleries nav link, homepage Display (Wave 2)
+
+**Wave 3** *(blocked on Wave 2 completion)*
+
+- [ ] 02-03-PLAN.md — Visitor browsing slice: GalleryGrid/GalleryCard + FR/EN listing & detail pages + full content migration (Wave 3)
+
+**Wave 4** *(blocked on Wave 3 completion)*
+
+- [ ] 02-04-PLAN.md — Full-size viewing slice: native-dialog Lightbox island (prev/next/keyboard/touch/counter) + wiring + CMS-01 & live verification (Wave 4)
+
 **UI hint**: yes
 
 ### Phase 3: About & Contact
@@ -123,7 +140,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation & Bilingual Infrastructure | 5/5 | Complete   | 2026-07-06 |
-| 2. Portfolio Galleries | 0/TBD | Not started | - |
+| 2. Portfolio Galleries | 0/4 | Planned | - |
 | 3. About & Contact | 0/TBD | Not started | - |
 | 4. Legal & Compliance | 0/TBD | Not started | - |
 | 5. Launch & Domain Cutover | 0/TBD | Not started | - |
