@@ -5,6 +5,7 @@ status: draft
 shadcn_initialized: false
 preset: none
 created: 2026-07-06
+revised: 2026-07-06
 ---
 
 # Phase 2 — UI Design Contract
@@ -13,94 +14,142 @@ created: 2026-07-06
 
 ---
 
+## Revision Note (2026-07-06) — Real Visual Identity Supersedes Phase 1 Placeholders
+
+**This is a genuine revision, not a cosmetic tweak.** The first pass of this UI-SPEC (approved by the checker, then flagged by the user as "we did not discuss UI at all") carried forward Phase 1's explicitly-provisional grayscale/system-font tokens with zero creative input. Phase 1's own `01-UI-SPEC.md` flagged this exact moment: *"Flag for revisit: once real visual identity is established, this token should be replaced project-wide (single point of change: `BaseLayout.astro`'s root CSS)"* (Font) and *"Revisit if/when a brand color is chosen for the portfolio identity"* (Color). This document is that revisit.
+
+**D-07/D-08-style override record** (mirroring `01-CONTEXT.md`'s "Staging Host Override" pattern for how a later decision supersedes an earlier one):
+
+- **Font superseded:** Phase 1's system-font stack (`-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif` as the *primary* face) → **"Delight"** (variable font), with the system stack demoted to a fallback/pre-load value only. Applies **site-wide**.
+- **Color superseded:** Phase 1's grayscale palette (`#FFFFFF` / `#F5F4F2` / `#1A1A1A`) → Dawn Pink / new secondary neutral / Woodsmoke + Wild Strawberry accent. Applies **site-wide**.
+- **Typography scale superseded:** Phase 1's 4-size/2-weight table (14/16/20/32, weights 400/600) → new 4-size/2-weight table (14/16/20/Display-range, weights 300/900). The old 32px Display size is retired, not stacked on top — see Typography section for why.
+- **Scope:** This supersedes `01-UI-SPEC.md` everywhere it applies (nav, footer, site title, homepage, 404 page), not just Phase 2's new gallery routes. `BaseLayout.astro`'s `:root` custom properties are the single point of change; Phase 2's executor updates it once, and every existing page inherits the new identity automatically.
+- **Source of the new direction:** User-supplied creative direction in conversation (2026-07-06), not upstream `REQUIREMENTS.md`/`CONTEXT.md` (neither document specifies visual identity — this was always going to be a live design decision). Two reference images were shared and described (not fetchable as text — see inline notes below where details are extrapolated vs. taken as given): a Behance typeface project ("Delight Typeface" by Rajesh Rajput) and an editorial fashion-site mockup ("Lumière") showing oversized bold display type on a flat color panel over photography. A third reference was a color-swatch image supplying the six hex values below.
+
+All decisions in this section are **locked** — not re-asked here, per the task's explicit instruction.
+
+---
+
 ## Design System
 
 | Property | Value |
 |----------|-------|
-| Tool | none — plain Astro components + scoped `<style>` blocks + CSS custom properties. Established in Phase 1 (`src/layouts/BaseLayout.astro`); no component library was installed or is needed. shadcn gate does not apply: this is a static Astro site with no React/Next.js/Vite framework layer (`@astrojs/react` is listed only as a "consider if needed" in `.planning/research/STACK.md`, never installed — `package.json` confirms no framework/UI-library dependency exists). |
+| Tool | none — plain Astro components + scoped `<style>` blocks + CSS custom properties, unchanged from Phase 1 (`src/layouts/BaseLayout.astro`). No component library installed. shadcn gate does not apply: no React/Next.js/Vite framework layer exists (`package.json` confirms no framework/UI-library dependency; `components.json` absent). |
 | Preset | not applicable |
 | Component library | none — hand-authored `.astro` components only (`BaseLayout.astro`, `LanguageSwitcher.astro` precedent) |
-| Icon library | none installed. **Default (new, this phase):** hand-authored inline SVG icons for the lightbox controls (chevron-left, chevron-right, close/X) — stroke-based, 24×24px viewBox, `stroke="currentColor"` so color is set via CSS (`color: var(--color-dominant)` on the dark lightbox scrim). No icon package added, consistent with the project's zero-extra-dependency posture. |
-| Font | System font stack, unchanged from Phase 1: `-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif` (`BaseLayout.astro` global style). No new font introduced this phase. |
+| Icon library | none installed. Hand-authored inline SVG icons for lightbox controls (chevron-left, chevron-right, close/X) — stroke-based, 24×24px viewBox, `stroke="currentColor"`, color set via CSS. Unchanged from the prior pass except the token it references (`--color-dominant`, now Dawn Pink, still reads as a light icon against the dark scrim — see Color section). |
+| Font | **"Delight"** — a free variable typeface released on Behance by Rajesh Rajput (Fontlab Studio; 9 static weights across a variable `wght` axis, approximately **100–900**). Declared as the site's primary/only typeface family, **site-wide**, superseding Phase 1's system-font stack. CSS stack: `font-family: 'Delight', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;` — the system fallback is retained (not removed) so the site degrades gracefully if the variable font fails to load or isn't yet wired in. |
+
+**Sourcing dependency — explicit execution-time task, not a spec blocker:** "Delight" is not on Google Fonts or any public CDN/npm registry (confirmed: Behance-hosted free release, image-only project page, not fetchable as text/API). Before `BaseLayout.astro` can apply it, Florian must, as an early Phase 2 execution task:
+1. Source the actual variable font file(s) (likely `.woff2`) from the Behance project or the designer directly.
+2. Confirm the license permits self-hosted commercial web use (a free Behance release does not automatically imply a web-embedding license — verify before shipping).
+3. Self-host the file(s) (e.g. `public/fonts/`), since no CDN hosts it.
+4. Add a single variable-font `@font-face` rule to `BaseLayout.astro`'s global styles: `font-weight: 100 900; font-display: swap;` pointing at the self-hosted file.
+
+This UI-SPEC declares the intended typographic system now (which weights map to which roles, below) so planning/execution isn't blocked on font sourcing; the system-font fallback is fully functional in the meantime. **We did not visually inspect actual Delight letterforms** (the Behance page is image-only) — no letterform characteristics (x-height, contrast, terminal style, etc.) are asserted anywhere in this document; only the weight-axis behavior ("9 weights," "100–900") is treated as given.
 
 ---
 
 ## Spacing Scale
 
-Declared values (must be multiples of 4) — **carried over unchanged from Phase 1** (`BaseLayout.astro` `:root` custom properties):
+Declared values (must be multiples of 4) — **unchanged from Phase 1**, no change required by the new visual direction:
 
 | Token | Value | Usage |
 |-------|-------|-------|
 | xs | 4px | Icon gaps, inline padding (e.g. lightbox counter/control gaps) |
 | sm | 8px | Compact element spacing (e.g. gallery card internal padding) |
 | md | 16px | Default element spacing (page horizontal padding, thumbnail grid gap on mobile) |
-| lg | 24px | Section padding (gallery page vertical rhythm) |
-| xl | 32px | Layout gaps — **default for this phase:** thumbnail/cover grid `gap` on the listing and detail pages |
+| lg | 24px | Section padding (gallery page vertical rhythm); vertical padding inside gallery title panels |
+| xl | 32px | Layout gaps — default thumbnail/cover grid `gap`; horizontal padding inside gallery title panels |
 | 2xl | 48px | Major section breaks (space above/below artist statement block) |
 | 3xl | 64px | Page-level spacing |
 
 Exceptions:
 - **44px minimum tap target** for all lightbox controls (prev/next arrow buttons, close button) — same WCAG 2.5.5 exception already established for `.switcher-link` in `LanguageSwitcher.astro`. Applied via padding around the 24px icon, not by inflating icon size.
-- No other exceptions this phase.
+- **Gallery title panel padding** (new, this revision): `var(--space-xl)` (32px) horizontal, `var(--space-lg)` (24px) vertical, around the Display-role title text inside the Wild Strawberry panel — applies identically to the gallery-card and gallery-detail contexts (see Layout Notes).
+- No other exceptions.
 
 ---
 
 ## Typography
 
-**Carried over unchanged from Phase 1** (`BaseLayout.astro` / `index.astro` precedent) — reused for every new Phase 2 element rather than introducing new sizes/weights, per the 3–4 size / 2 weight constraint.
+**Superseded from Phase 1** per the Revision Note above. The reference's oversized magazine-cover headline (Reference 2, "Lumière") is dramatically larger than Phase 1's old 32px Display max — a 32px headline cannot achieve that effect, so Display is redefined rather than added-to-on-top-of the existing 4 sizes.
 
 | Role | Size | Weight | Line Height |
 |------|------|--------|-------------|
-| Body | 16px | 400 (regular) | 1.5 |
-| Label | 14px | 400 (regular) | 1.5 |
-| Heading | 20px | 600 (semibold) | 1.2 |
-| Display | 32px | 600 (semibold) | 1.2 |
+| Label | 14px | 300 (Light) | 1.5 |
+| Body | 16px | 300 (Light) | 1.5 |
+| Heading | 20px | 900 (Black) | 1.2 |
+| Display | 40–104px (context-dependent — see Role Assignment below) | 900 (Black) | 1.0 |
 
-Role assignment for this phase's new elements (default, consistent with existing usage):
+Exactly 4 roles, exactly 2 weights (300 Light, 900 Black) — no other weight from the font's 100–900 axis is used. This retires Phase 1's 400/600 pair entirely (site-wide) to get the reference's **extreme light-vs-black contrast** between thin nav/label/body text and the oversized black display headline, per the user's explicit direction. Concretely: reading text (Body, Label) is Light; declarative text (Heading, Display) is Black. Woodsmoke ink on Dawn Pink background measures ≈15:1 contrast (see Color section), so the Light weight's reduced stroke weight is not an accessibility concern — WCAG contrast is governed by color, not font-weight.
 
-| Element | Role used |
-|---------|-----------|
-| Gallery listing page `<h1>` ("Galleries" / "Galeries") | Display |
-| Gallery detail page `<h1>` (project title, e.g. "Rebut") | Display |
-| Gallery card title (on the listing grid) | Heading |
-| Artist statement paragraph(s) | Body |
-| Empty-state heading | Heading |
-| Empty-state body copy | Body |
-| Lightbox image counter ("3 / 12") | Label |
-| Visually-hidden CTA/affordance text, `aria-label`s | Label (size only; not visually rendered where `sr-only`) |
-| Nav label "Galleries" / "Galeries" (extends `navLabels`) | Label (matches existing `.nav-link` treatment) |
+**Why Display is declared as a range, not one fixed number:** the locked decision requires the oversized-title-on-color-panel treatment on *both* the gallery listing cards (narrow grid column) and the gallery detail page header / homepage hero (full-bleed). A single fixed size can't serve both without either being too small in the hero or overflowing the card. Rather than add a 5th size role (which would break the 3–4 size cap), Display is declared once with its bounds, and the exact per-context number is fixed and prescriptive in the Role Assignment table immediately below — this is not left to executor judgment.
 
-`is_locked` note: the "one document-level artist statement per gallery, no per-image captions" rule (D-03) means no typography role is needed for image captions — alt text is metadata only, never rendered as visible text.
+### Role Assignment (site-wide — supersedes Phase 1's mapping)
+
+| Element | Role | Size / Weight | Notes |
+|---------|------|----------------|-------|
+| Site wordmark/title (header, `siteSettings.siteTitle`) | Heading | 20px / 900 | Was 20/600 in Phase 1 — same size, new Black weight, now visually distinct from thin nav links beside it. |
+| Nav links (incl. new "Galeries"/"Galleries" label) | Label | 14px / 300 | Thin/light nav treatment — directly matches the reference's "much lighter/thinner weight text for nav links." |
+| Language switcher "FR \| EN" | Label | 14px / 300 | Unchanged role, new weight, unchanged copy/behavior (D-11 from Phase 1, still locked). |
+| Footer text | Label | 14px / 300 | |
+| Homepage welcome heading | Display (hero) | 56px mobile / 104px desktop (≥768px) | Plain oversized text on Dawn Pink background — **no color panel** here; the panel treatment is reserved for gallery title moments per the locked decision's exact wording ("gallery cards/detail headers"). |
+| Homepage welcome body | Body | 16px / 300 | |
+| Gallery listing page `<h1>` ("Galeries"/"Galleries") | Display (hero) | 56px mobile / 104px desktop | Plain, no panel (same rationale as homepage). |
+| Gallery card title (listing grid) | Display (card) | 40px, flat across breakpoints | **Inside** the Wild Strawberry panel overlapping the cover photo (locked decision — see Layout Notes). Fixed size avoids awkward breakpoint math since card width itself already varies via the grid. |
+| Gallery detail page `<h1>` (project title, e.g. "Rebut") | Display (hero) | 56px mobile / 104px desktop | **Inside** the Wild Strawberry panel beside/over the cover photo (locked decision). |
+| Artist statement paragraph(s) | Body | 16px / 300 | |
+| Empty-state heading | Heading | 20px / 900 | Plain, no panel — a fallback state, not an art-directed moment. |
+| Empty-state body | Body | 16px / 300 | |
+| Lightbox image counter ("3 / 12") | Label | 14px / 300 | Matches the reference's small editorial "numbered index" detail (e.g. "03 / 27") — already fulfilled by this existing element, no new UI added for it. |
+| 404 heading | Heading | 20px / 900 | |
+| 404 body | Body | 16px / 300 | |
+| Visually-hidden CTA/affordance text, `aria-label`s | Label | size only (not visually rendered where `sr-only`) | |
+
+`is_locked` note carried forward: D-03 (one document-level artist statement per gallery, no per-image captions) still means no typography role is needed for image captions — alt text is metadata only, never rendered as visible text.
+
+**Display styling detail (both hero and card contexts):** `letter-spacing: -0.02em` (tight tracking, matching the reference's "tightly-tracked" description) and `line-height: 1.0`.
 
 ---
 
 ## Color
 
-**Carried over unchanged from Phase 1** (`BaseLayout.astro` `:root` custom properties):
+**Superseded from Phase 1** per the Revision Note above. Palette source: user-shared color-swatch reference image (six named hex values).
 
 | Role | Value | Usage |
 |------|-------|-------|
-| Dominant (60%) | `#ffffff` | Page background, gallery grid background, lightbox control icon color (against the dark scrim) |
-| Secondary (30%) | `#f5f4f2` | Chrome bands (header/footer, unchanged), gallery card background before image loads, thumbnail placeholder background |
-| Accent (10%) | `#1a1a1a` | Body text color, gallery card title text, artist-statement text, focus-visible outlines, hover/underline states on gallery card titles and lightbox counter text |
-| Destructive | `#dc2626` | Reserved, **unused this phase** — no destructive actions are exposed to visitors in Phase 2 (see Copywriting Contract) |
+| Dominant (60%) | Dawn Pink `#F0E7E4` | Page background, gallery grid background — site-wide, replaces Phase 1's `#FFFFFF`. |
+| Secondary (30%) | `#E4D9D0` (new — **Claude's discretion**, not one of the six named swatches) | Header/footer chrome bands, gallery card background before image loads, thumbnail placeholder background. A warm, slightly deeper neutral than Dawn Pink — same subtlety-of-contrast relationship Phase 1 established between its own dominant/secondary pair (`#FFFFFF`→`#F5F4F2`), just re-keyed to the new warm palette. Deliberately a neutral, not one of the vivid swatches, to keep the checker's single-accent rule intact. |
+| Accent (10%) | Wild Strawberry `#F92D97` | Links (see contrast note below), buttons/CTA backgrounds, hover states, focus-visible ring (co-styled, see below), and the flat color-panel fill behind/beside gallery display titles (documented exception, below). Reserved for these uses only — never a general background fill, never body text color. |
+| Destructive | `#DC2626` | Unchanged from Phase 1, still unused this phase, still forward-declared. Intentionally distinct from Wild Strawberry so error states are never confused with the brand accent. |
 
-Accent reserved for: body/heading text color, gallery card title text, focus-visible outline (2px solid, 2px offset — matches existing global `a:focus-visible, button:focus-visible` rule), hover/underline affordance on gallery card titles and the language switcher (unchanged). **Never** used as a large background fill outside the one documented exception below.
+**Text/ink color (governs foreground text only — not counted against the 60/30/10 fill split, which governs surface/background area):** Woodsmoke `#141213` — used for all body copy, headings, gallery/card titles, artist statement text, nav text, site-wide. Near-identical hex to Phase 1's `#1A1A1A` (a clean drop-in), formalized here as its own token (`--color-ink`) distinct from `--color-accent`, since Phase 1 had conflated "text color" and "accent" into one variable — this revision separates them because Wild Strawberry cannot also serve as the default body-text color (see contrast math below).
 
-**Documented exception — Lightbox scrim:** the full-viewport lightbox overlay background reuses `var(--color-accent)` (`#1a1a1a`) at `rgba(26, 26, 26, 0.96)` as a near-opaque scrim. This is a deliberate, singular exception to the 60/30/10 rule: the lightbox is a temporary, full-screen modal state (photography convention — dark surrounds make images read correctly), not a persistent page surface, so it does not compete with the site's normal 60/30/10 balance. Icon controls inside the lightbox use `var(--color-dominant)` (`#ffffff`) for contrast against this scrim.
+**Computed contrast (WCAG relative-luminance formula, so real numbers back these choices rather than assertion):**
+- Woodsmoke on Dawn Pink: **≈15.3:1** — far exceeds AAA (7:1). Confirms the ink/background pairing for all body text.
+- Wild Strawberry text directly on Dawn Pink: **≈2.95:1** — **fails** WCAG 1.4.3 (needs 4.5:1 for normal text, and fails even the 3:1 large-text/non-text-component floor). **Resolution:** Wild Strawberry is never used as standalone link/body text color on the Dawn Pink background. Links render in Woodsmoke text (compliant, ≈15:1) with a permanent Wild Strawberry underline/bottom-border as the accent cue; hover/focus states intensify via a Wild Strawberry background chip or thicker underline, never by recoloring the glyph itself. This keeps Wild Strawberry visually present on every link (honoring the locked "accent used for links" decision) without an accessibility regression.
+- Woodsmoke text on Wild Strawberry background: **≈5.3:1** — passes AA for normal text. This is why buttons/CTAs and the gallery title panels both use **Wild Strawberry background + Woodsmoke text**, not white/cream text — it's simultaneously the accessible choice and the on-brand "bold panel + near-black type" motif from Reference 2.
+- Focus-visible outlines: a bare Wild Strawberry outline against Dawn Pink shares the same ≈2.95:1 shortfall as the link case above (WCAG 1.4.11 non-text contrast needs 3:1). **Resolution:** focus-visible uses a co-styled double ring — `outline: 2px solid var(--color-ink); outline-offset: 2px;` (the compliant, measured boundary against the background) plus `box-shadow: 0 0 0 4px var(--color-accent);` as an additional Wild Strawberry ring just outside it. This satisfies WCAG via the Woodsmoke outline while still visibly incorporating Wild Strawberry per the locked intent that accent participates in focus states.
+
+**Documented exception — Gallery title panels:** the flat color-panel treatment behind/beside each gallery's oversized Display title (both the listing-card context and the gallery-detail-page header context) uses `var(--color-accent)` (Wild Strawberry) as a bounded panel fill, not a global background — mirroring Reference 2's "bold color panel + near-black type over photography" motif. This is the single sanctioned large-surface use of the accent color; it's scoped to the panel rectangle itself (overlapping the lower portion of the cover photo, not the full card or page), so the rest of each card/page keeps the normal 60/30/10 balance. Title type on the panel is Woodsmoke (`#141213`), per the ≈5.3:1 contrast figure above — never Dominant/cream text on the pink panel.
+
+**Documented exception — Lightbox scrim (carried forward from the prior pass, token reference corrected):** the full-viewport lightbox overlay background uses `var(--color-ink)` (Woodsmoke) at `rgba(20, 18, 19, 0.96)` as a near-opaque scrim — **not** `var(--color-accent)`, since accent is now Wild Strawberry and a vivid pink scrim would be jarring and break photography-viewing convention (dark, neutral surrounds read images correctly). This is corrected from the prior draft, which used the (then near-black) accent token before accent and ink were separated. Icon controls inside the lightbox use `var(--color-dominant)` (Dawn Pink) for contrast against the scrim (≈15:1, unchanged from the prior calculation's intent, re-verified against the new dominant hex).
+
+**Reserved palette — not used this phase:** Blue Ribbon `#4B52EB`, Pear `#D0ED40`, Periwinkle `#C7BFEF` are explicitly **out of scope** for Phase 2's color system. Noted here as "available for future use" (e.g. a possible future per-gallery color variation) but **not** wired into any token, component, or decorative accent this phase — this keeps the checker's single-accent rule intact. Do not use these hexes anywhere in Phase 2 implementation.
 
 ---
 
 ## Copywriting Contract
 
-All copy is bilingual (FR / EN) per I18N-01. FR is authored first (primary market, D-12: statements adapted from the existing Myportfolio site's French text), EN is the professional translation.
+Carried forward largely unchanged from the prior pass — the visual-identity revision changes *how* this copy renders (color, weight, panel treatment), not the copy itself or its underlying interaction model. All copy is bilingual (FR / EN) per I18N-01. FR is authored first (primary market, D-12: statements adapted from the existing Myportfolio site's French text), EN is the professional translation.
 
 | Element | Copy |
 |---------|------|
-| Primary CTA | Gallery card (listing → detail): the entire card is the link; visible text is the gallery title only (proper noun, shared across locales per D-04, e.g. "Rebut"). A screen-reader-only suffix supplies the actionable verb: **FR:** "Voir la galerie" · **EN:** "View gallery" (concatenated into the link's accessible name, e.g. "Rebut — View gallery"). Thumbnail click (detail → lightbox): no visible button copy — the image itself is the trigger; accessible name: **FR:** "Voir en taille réelle, image {n} sur {total}" · **EN:** "View full size, image {n} of {total}". |
+| Primary CTA | Gallery card (listing → detail): the entire card is the link; visible text is the gallery title only (proper noun, shared across locales per D-04, e.g. "Rebut"), now rendered as the oversized Display title inside the Wild Strawberry panel. A screen-reader-only suffix supplies the actionable verb: **FR:** "Voir la galerie" · **EN:** "View gallery" (concatenated into the link's accessible name, e.g. "Rebut — View gallery"). Thumbnail click (detail → lightbox): no visible button copy — the image itself is the trigger; accessible name: **FR:** "Voir en taille réelle, image {n} sur {total}" · **EN:** "View full size, image {n} of {total}". |
 | Empty state heading | **FR:** "Galeries à venir" · **EN:** "Galleries coming soon" |
 | Empty state body | **FR:** "De nouvelles œuvres seront bientôt visibles ici. Revenez prochainement." · **EN:** "New work will appear here shortly. Check back soon." (Not expected to be seen at launch per D-11/D-13 — all known projects ship with real content — but declared for CMS robustness, since CMS-01 lets Romane remove all galleries at any time.) |
-| Error state | Gallery slug not found → reuse the existing, already-implemented, base-aware localized 404 page from Phase 1 (`src/pages/404.astro`) — no new copy needed. Image fails to load inside the lightbox (rare — images are build-time verified from Sanity's asset CDN, not user-submitted at runtime) → no custom error copy; browser's native broken-image treatment plus the required alt text (D-02) is sufficient; do not build custom error UI for this edge case (YAGNI). |
+| Error state | Gallery slug not found → reuse the existing, already-implemented, base-aware localized 404 page from Phase 1 (`src/pages/404.astro`), now re-skinned with the new tokens (Heading 20/900, Body 16/300, Woodsmoke-on-Dawn-Pink) — no new copy needed. Image fails to load inside the lightbox (rare — images are build-time verified from Sanity's asset CDN, not user-submitted at runtime) → no custom error copy; browser's native broken-image treatment plus the required alt text (D-02) is sufficient; do not build custom error UI for this edge case (YAGNI). |
 | Destructive confirmation | None. No destructive actions are exposed to visitors in this phase (no delete/remove UI on the public site). Gallery/image reordering and deletion happen exclusively in Sanity Studio's own stock document-list and array UI (Romane's CMS workflow, CMS-01) — that surface is Sanity's default editor chrome, out of scope for this visitor-facing UI contract. |
 | Nav label (extends `navLabels`, Sanity-editable) | **FR:** "Galeries" · **EN:** "Galleries" — new field on the `siteSettings.navLabels` object, following the exact `home` field pattern in `sanity/schemas/siteSettings.ts` (`localized string, both fr/en required`). |
 
@@ -108,13 +157,13 @@ All copy is bilingual (FR / EN) per I18N-01. FR is authored first (primary marke
 
 ## Layout Notes (Phase 2 specifics, not covered by the template's fixed sections)
 
-These are prescriptive defaults filling gaps left open by `02-CONTEXT.md`'s implementation decisions (which covered data model and interaction behavior, not exact visual layout):
-
-- **Gallery listing grid:** responsive grid, single breakpoint at 768px matching the only breakpoint already used in `BaseLayout.astro` — 1 column below 768px, 3 columns at/above 768px. Grid `gap`: `var(--space-xl)` (32px). Each card: cover thumbnail (first image in the array, per D-09) with a **1:1 square crop** (`object-fit: cover`) for grid alignment across mixed portrait/landscape source photos, title below the image (Heading role), ordered by the manual order field (D-10).
-- **Gallery detail page:** `<h1>` (Display role, project title) → artist statement paragraph(s) (Body role, `max-width: 640px`, matching the homepage `.welcome` block's established reading-width precedent) → thumbnail grid of that gallery's own images (same grid rules as the listing page: 1/3 column breakpoint at 768px, `var(--space-xl)` gap, 1:1 square crop thumbnails). Statement sits above the grid per D-07; no additional subheading/label is used before it (matches the homepage's plain `h1` + `p` pattern, no "About this series" label).
-- **Lightbox (island, D-05/D-06):** full-viewport overlay, `rgba(26, 26, 26, 0.96)` scrim (see Color exception above). Full-size image centered, `max-height`/`max-width` constrained to viewport with `object-fit: contain` (never cropped in the lightbox, unlike grid thumbnails). Close button top-right, prev/next chevron buttons vertically centered left/right, image counter (Label role, e.g. "3 / 12") bottom-center. All three controls: 44px minimum tap target (spacing exception above), `var(--color-dominant)` icon color, keyboard arrow-key navigation + `Escape` to close + touch swipe on mobile (D-06). Focus is trapped/moved to the lightbox on open and returned to the triggering thumbnail on close (standard modal a11y pattern; not explicitly stated in CONTEXT.md but required for WCAG-compliant modal behavior, consistent with the project's existing `focus-visible` rigor).
+- **Gallery listing grid:** responsive grid, single breakpoint at 768px matching the only breakpoint already used in `BaseLayout.astro` — 1 column below 768px, 3 columns at/above 768px. Grid `gap`: `var(--space-xl)` (32px). Each card: cover thumbnail (first image in the array, per D-09) with a **1:1 square crop** (`object-fit: cover`) for grid alignment across mixed portrait/landscape source photos. **New this revision:** a Wild Strawberry panel (`var(--space-xl)`/`var(--space-lg)` padding, see Spacing exceptions) is anchored to the bottom edge of the card, overlapping the lower portion of the cover photo (not a separate block below it — this is the Reference-2 "panel overlays photography" look), containing the gallery title at Display-card size (40px/900, Woodsmoke text). Cards ordered by the manual order field (D-10).
+- **Gallery detail page:** `<h1>` (Display-hero role, project title, in a Wild Strawberry panel positioned beside or overlapping the cover/hero image — same panel treatment as the card, scaled to hero size) → artist statement paragraph(s) (Body role, `max-width: 640px`, matching the homepage `.welcome` block's established reading-width precedent) → thumbnail grid of that gallery's own images (same grid rules as the listing page: 1/3 column breakpoint at 768px, `var(--space-xl)` gap, 1:1 square crop thumbnails, **no** panel treatment on individual thumbnails — the panel is reserved for the one project-title moment per page). Statement sits above the grid per D-07; no additional subheading/label is used before it (matches the homepage's plain `h1` + `p` pattern, no "About this series" label).
+- **Homepage:** welcome heading now renders at Display-hero size (56/104px, 900 weight) on the Dawn Pink background — plain text, no panel (panel is gallery-specific, see Color section's documented exception). This is the one non-gallery element that adopts the new oversized-headline treatment, since the revision is explicitly site-wide and the homepage is the site's other hero moment.
+- **Lightbox (island, D-05/D-06):** full-viewport overlay, `rgba(20, 18, 19, 0.96)` Woodsmoke scrim (see Color exception above — corrected token from the prior draft). Full-size image centered, `max-height`/`max-width` constrained to viewport with `object-fit: contain` (never cropped in the lightbox, unlike grid thumbnails). Close button top-right, prev/next chevron buttons vertically centered left/right, image counter (Label role, e.g. "3 / 12") bottom-center. All three controls: 44px minimum tap target (spacing exception above), `var(--color-dominant)` (Dawn Pink) icon color, keyboard arrow-key navigation + `Escape` to close + touch swipe on mobile (D-06). Focus is trapped/moved to the lightbox on open and returned to the triggering thumbnail on close (standard modal a11y pattern, consistent with the project's existing `focus-visible` rigor).
 - **Images:** all gallery images rendered via `@sanity/image-url` at build time (per `.planning/research/STACK.md`), with explicit `width`/`height` attributes to prevent layout shift, and `loading="lazy" decoding="async"` on every thumbnail below the fold (Pitfall 4 — protect free-tier bandwidth; cover/first visible images may omit `lazy` for LCP). No raw/original-resolution images are ever served directly (Anti-Pattern 2, Architecture research).
-- **Hover/focus affordance on gallery cards:** subtle `transform: scale(1.02)` on the cover image on hover, underline on the title on hover/focus-visible, `2px solid var(--color-accent)` focus-visible outline with 2px offset on the whole card (matches the existing global focus-visible rule in `BaseLayout.astro`).
+- **Hover/focus affordance on gallery cards:** `transform: scale(1.02)` on the cover image on hover (unchanged). New double-ring focus-visible treatment on the whole card (`outline: 2px solid var(--color-ink); outline-offset: 2px; box-shadow: 0 0 0 4px var(--color-accent);` — see Color section's focus-contrast resolution). No title underline needed on hover (the bold panel treatment already differentiates the title from body copy); the panel itself may gain a subtle `filter: brightness(1.05)` on hover as the interactive cue instead.
+- **Buttons/CTAs (if/when any exist beyond the whole-card link — none required by this phase's copywriting contract, but declared for consistency):** Wild Strawberry background, Woodsmoke text at Heading weight (900), no border — matches the ≈5.3:1 contrast figure and the panel motif.
 
 ---
 
@@ -138,4 +187,4 @@ shadcn is not initialized for this project (see Design System section). No regis
 - [ ] Dimension 5 Spacing: PASS
 - [ ] Dimension 6 Registry Safety: PASS
 
-**Approval:** pending
+**Approval:** pending — re-review required (this is a substantive revision of a previously-approved contract; the checker's prior PASS applied to the superseded grayscale/system-font version, not this one).
