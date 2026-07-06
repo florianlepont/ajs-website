@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 01-03-PLAN.md
-last_updated: "2026-07-06T12:10:27.305Z"
+stopped_at: Completed 01-04-PLAN.md
+last_updated: "2026-07-06T12:27:44.350Z"
 last_activity: 2026-07-06
 progress:
   total_phases: 5
   completed_phases: 0
   total_plans: 5
-  completed_plans: 3
+  completed_plans: 4
   percent: 0
 ---
 
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-07-05)
 ## Current Position
 
 Phase: 01 (foundation-bilingual-infrastructure) — EXECUTING
-Plan: 4 of 5
+Plan: 5 of 5
 Status: Ready to execute
 Last activity: 2026-07-06
 
@@ -55,6 +55,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 01 P01 | 11min | 3 tasks | 12 files |
 | Phase 01 P02 | 15min | 2 tasks | 1 files |
 | Phase 01 P03 | 35min | 2 tasks | 9 files |
+| Phase 01 P04 | 14min | 3 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -70,6 +71,9 @@ Recent decisions affecting current work:
 - [Phase 01]: Phase 1 staging deploys to GitHub Pages (repo now public) instead of an OVH subdomain; OVH SFTP facts recorded for Phase 5 — OVH Free hosting tier cannot attach any subdomain (multisite requires paid tier); GitHub Pages reuses existing repo with zero new signup and automatic HTTPS
 - [Phase 01]: Sanity read-only + one-time write tokens created and revoked entirely via CLI (sanity tokens add/delete), no dashboard visit needed — sanity tokens add/list/delete supports full non-interactive token lifecycle management
 - [Phase 01]: siteSettings singleton bilingual placeholder copy published via a temporary editor-role token created and deleted in the same session — Viewer (read-only) token cannot write; a scoped, immediately-revoked editor token avoided a manual Studio-publish step for Florian
+- [Phase 01]: [Phase 01 Plan 04]: Wired the previously-unused Sanity navLabels.home field into BaseLayout as a localized Home/Accueil nav link, since the seeded siteTitle is an intentionally untranslated brand name shared across locales
+- [Phase 01]: [Phase 01 Plan 04]: vitest.config.ts switched from vitest/config defineConfig to astro/config getViteConfig so the astro:i18n virtual module resolves under Vitest
+- [Phase 01]: [Phase 01 Plan 04]: getSwitcherHref normalizes trailing slash independent of the project's trailingSlash/build.format config (homepage always trailing-slash, other pages never) to match the locked shared-slug unit test contract
 
 ### Pending Todos
 
@@ -90,6 +94,6 @@ Items acknowledged and carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-06T12:10:27.303Z
-Stopped at: Completed 01-03-PLAN.md
+Last session: 2026-07-06T12:27:27.078Z
+Stopped at: Completed 01-04-PLAN.md
 Resume file: None
