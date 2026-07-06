@@ -46,7 +46,7 @@ Visitors can browse Romane's photographic work and buy a piece (print, original,
 - Builder (Florian) is Romane's brother, building this as a custom-coded project rather than configuring an existing SaaS builder.
 - Budget is near-zero: free-tier hosting and free/open-source tooling preferred, accepting only unavoidable per-transaction payment processing fees (e.g. Stripe).
 - Romane is not a developer. Whatever content-editing solution is chosen must be simple enough for her to add photos and update the exhibitions list herself, while staying within the near-zero budget (e.g. a free-tier headless CMS rather than a paid enterprise one).
-- Research (`.planning/research/`) recommends Astro + Cloudflare Pages + Sanity CMS + custom Stripe Checkout — €0/month baseline plus Stripe's per-transaction fee. Key risk: Stripe doesn't manage inventory, so stock must be tracked and atomically re-validated server-side to avoid overselling one-of-a-kind originals.
+- Research (`.planning/research/`) recommended Astro + Cloudflare Pages + Sanity CMS + custom Stripe Checkout. Florian already has OVH Web Hosting in place (sunk cost, not incremental budget) and wants to use it instead of Cloudflare Pages — the site (Astro, static output for v1) deploys to OVH hosting instead. Sanity's CMS/image CDN is host-agnostic and still applies regardless of where the static site is served. Key risk (for the future v1.x checkout milestone, not v1): Stripe doesn't manage inventory, so stock must be tracked and atomically re-validated server-side to avoid overselling one-of-a-kind originals — OVH's mutualized hosting may not support the serverless functions this needs, so the hosting approach for server-side logic will need re-evaluating when v1.x is planned.
 - French e-commerce legal requirements (mentions légales, CGV incl. 14-day droit de rétractation, GDPR/cookie consent) are mandatory before any live transaction. Separately, Stripe payouts require Romane to have a registered business (SIRET) in France — this has its own lead time and should be tracked as an early, parallel administrative task, not a blocker gating development.
 
 ## Constraints
@@ -67,12 +67,13 @@ Visitors can browse Romane's photographic work and buy a piece (print, original,
 | Shipping limited to France + Europe | Balances reach against shipping/customs complexity | — Pending |
 | Track stock for originals and limited editions | Originals are one-of-a-kind and must not oversell; editions are limited runs | — Pending |
 | Near-zero budget tooling | Personal/family project, cost sensitivity is explicit and primary | — Pending |
-| Stack: Astro + Cloudflare Pages + Sanity + custom Stripe Checkout | Meets €0/month budget, non-technical CMS editing, and image-heavy free-tier hosting needs (research-backed) | — Pending |
+| Stack: Astro (static) + OVH Web Hosting + Sanity + custom Stripe Checkout (v1.x) | Florian already has OVH hosting (sunk cost); overrides research's Cloudflare Pages recommendation for hosting specifically. Sanity CMS/image CDN still applies regardless of host. | — Pending |
 | Track Romane's SIRET/business registration as an early parallel roadmap item | Stripe payouts require it; has its own lead time separate from dev work | — Pending |
 | Defer COA messaging, edition numbering, room mockups, newsletter to v1.x | Not required to prove the core shop works; keeps v1 scope focused on launch-blocking essentials | — Pending |
 | Include per-project artist statements in v1 | User chose to write these before launch rather than defer | — Pending |
 | Phased launch: v1 = portfolio/about/contact only; v1.x = exhibitions + shop + checkout + shipping | User wants the old Myportfolio site replaced quickly without waiting for the full shop to be built | — Pending |
 | Commerce-specific legal pages (CGV, droit de rétractation acknowledgment) move to v1.x with the shop | Only needed once there's something to sell; mentions légales/privacy/cookies still ship in v1 for the content-only site | — Pending |
+| Phase 1 staging deploys to GitHub Pages, not an OVH subdomain | Discovered during Phase 1 execution (2026-07-06): OVH's "Free hosting" tier cannot attach any additional domain/subdomain to a Hébergement Mutualisé (multisite is unavailable on this tier at all, not just cert-delayed). GitHub Pages reuses the existing GitHub repo (zero new signup) and gets automatic free HTTPS. OVH remains the production target for the real domain cutover in Phase 5, using the confirmed SFTP protocol (host `ftp.cluster129.hosting.ovh.net`, user `atelihu`, home dir `/home/atelihu`, SFTP enabled on port 22 — better than the FTPS originally assumed). | Confirmed |
 
 ## Evolution
 
