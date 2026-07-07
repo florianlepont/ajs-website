@@ -122,3 +122,16 @@ None - no external service configuration required. (Font licensing is tracked as
 ---
 *Phase: 02-portfolio-galleries*
 *Completed: 2026-07-07*
+
+## Self-Check: PASSED
+
+- FOUND: `src/layouts/BaseLayout.astro`
+- FOUND: `src/pages/index.astro`
+- FOUND: `src/pages/en/index.astro`
+- FOUND: `.planning/phases/02-portfolio-galleries/deferred-items.md`
+- FOUND: `.planning/phases/02-portfolio-galleries/02-02-SUMMARY.md`
+- FOUND commit: `9c981c3` (Task 1)
+- FOUND commit: `5a38027` (Task 2 close-out)
+- FOUND commit: `1f9e549` (SUMMARY)
+- All Task 1 acceptance criteria re-verified passing (see Deviations section)
+- Plan-level `<verification>` re-confirmed: `npm run build` succeeds; `dist/404.html` and `dist/index.html` both contain the Wild Strawberry/Dawn Pink tokens (case-insensitive match, minifier lowercases hex); double-ring focus-visible and accent underline present in compiled CSS
