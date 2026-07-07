@@ -1,0 +1,53 @@
+import {defineField, defineType} from 'sanity'
+import {orderRankField} from '@sanity/orderable-document-list'
+
+/**
+ * Locale-aware text pair, copied verbatim from `siteSettings.ts`'s
+ * `localeTextField` helper (no shared schema-lib module exists yet to import
+ * it from — see 02-PATTERNS.md's guidance to duplicate the shape inline).
+ */
+function localeTextField(name: string, title: string) {
+  return defineField({
+    name,
+    title,
+    type: 'object',
+    fields: [
+      defineField({name: 'fr', title: 'French', type: 'text', rows: 3, validation: (rule) => rule.required()}),
+      defineField({name: 'en', title: 'English', type: 'text', rows: 3, validation: (rule) => rule.required()}),
+    ],
+  })
+}
+
+export const gallery = defineType({
+  name: 'gallery',
+  title: 'Gallery',
+  type: 'document',
+  fields: [
+    // D-04: plain string, NOT a locale-object — project titles are shared
+    // proper nouns across both locales (e.g. "Rebut").
+    defineField({name: 'title', title: 'Title', type: 'string', validation: (rule) => rule.required()}),
+    defineField({
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      options: {source: 'title'},
+      validation: (rule) => rule.required(),
+    }),
+    localeTextField('statement', 'Artist Statement'),
+    defineField({
+      name: 'images',
+      title: 'Gallery Images',
+      type: 'array',
+      of: [{type: 'galleryImage'}],
+      options: {layout: 'grid'},
+      validation: (rule) =>
+        rule.min(1).error('A gallery needs at least one image (D-09: the first image is the cover).'),
+    }),
+    // Fractional-index ordering field for Studio drag-reorder (CMS-01/D-10).
+    // Hidden per Pitfall 4 so Romane never sees the raw field in the edit form.
+    {...orderRankField({type: 'gallery'}), hidden: true},
+  ],
+  preview: {
+    select: {title: 'title', media: 'images.0.image'},
+  },
+})

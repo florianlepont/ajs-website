@@ -51,6 +51,15 @@ export const siteSettings = defineType({
             defineField({name: 'en', title: 'English', type: 'string', validation: (rule) => rule.required()}),
           ],
         }),
+        defineField({
+          name: 'galleries',
+          title: 'Galleries label',
+          type: 'object',
+          fields: [
+            defineField({name: 'fr', title: 'French', type: 'string', validation: (rule) => rule.required()}),
+            defineField({name: 'en', title: 'English', type: 'string', validation: (rule) => rule.required()}),
+          ],
+        }),
       ],
     }),
     localeStringField('footerText', 'Footer Text'),

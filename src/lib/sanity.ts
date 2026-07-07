@@ -39,6 +39,7 @@ export interface SiteSettings {
   siteTitle: LocaleString
   navLabels: {
     home: LocaleString
+    galleries: LocaleString
   }
   footerText: LocaleString
   welcomeHeading: LocaleString
@@ -59,5 +60,49 @@ const SITE_SETTINGS_QUERY = /* groq */ `*[_type == "siteSettings"][0]{
  */
 export async function getSiteSettings(): Promise<SiteSettings | null> {
   const result = await sanityClient.fetch<SiteSettings | null>(SITE_SETTINGS_QUERY)
+  return result ?? null
+}
+
+/** A single gallery image: the Sanity image asset ref + bilingual alt text (D-01/D-02). */
+export interface GalleryImage {
+  image: {
+    asset: {_ref: string}
+    hotspot?: {x: number; y: number; height: number; width: number}
+  }
+  alt: LocaleString
+}
+
+/** A `gallery` document, typed for both locales. */
+export interface Gallery {
+  title: string // D-04: not locale-aware — shared proper noun across fr/en
+  slug: string
+  statement: LocaleString
+  images: GalleryImage[] // D-09: images[0] is always the cover
+}
+
+const GALLERIES_QUERY = /* groq */ `*[_type == "gallery"] | order(orderRank) {
+  title, "slug": slug.current, statement, images
+}`
+
+const GALLERY_BY_SLUG_QUERY = /* groq */ `*[_type == "gallery" && slug.current == $slug][0]{
+  title, "slug": slug.current, statement, images
+}`
+
+/**
+ * Fetches all published `gallery` documents at build time, in Romane's
+ * manually-set drag-reorder order (D-10, via the `orderRank` fractional index
+ * maintained by `@sanity/orderable-document-list`).
+ */
+export async function getGalleries(): Promise<Gallery[]> {
+  return sanityClient.fetch<Gallery[]>(GALLERIES_QUERY)
+}
+
+/**
+ * Fetches a single published `gallery` document by its slug at build time.
+ * Returns `null` if no gallery with that slug has been published yet
+ * (WR-03 null-safety).
+ */
+export async function getGallery(slug: string): Promise<Gallery | null> {
+  const result = await sanityClient.fetch<Gallery | null>(GALLERY_BY_SLUG_QUERY, {slug})
   return result ?? null
 }
