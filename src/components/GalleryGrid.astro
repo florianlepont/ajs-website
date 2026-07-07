@@ -1,0 +1,25 @@
+---
+// Presentational, content-agnostic grid wrapper (UI-SPEC Layout Notes):
+// reused by the gallery listing page (GalleryCard children) and the gallery
+// detail page (plain thumbnail <img> children) — it only lays out whatever
+// is passed into its default slot, it never knows what a "gallery" is.
+---
+
+<div class="gallery-grid">
+  <slot />
+</div>
+
+<style>
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+    background: var(--color-dominant);
+  }
+
+  @media (min-width: 768px) {
+    .gallery-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>
