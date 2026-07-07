@@ -24,18 +24,20 @@ const welcomeBody = siteSettings?.welcomeBody?.fr ?? '';
     margin: 0 auto;
     padding: 48px 16px; /* 2xl vertical, md horizontal */
     text-align: center;
+    container-type: inline-size; /* required for the Display role's cqi clamp() to resolve */
   }
 
   .welcome h1 {
-    font-size: 32px; /* Display role */
-    font-weight: 600;
-    line-height: 1.2;
+    font-size: clamp(2.5rem, 12cqi, 6.5rem); /* Display role */
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.02em;
     margin: 0 0 16px;
   }
 
   .welcome p {
     font-size: 16px; /* Body role */
-    font-weight: 400;
+    font-weight: 300;
     line-height: 1.5;
     margin: 0;
   }

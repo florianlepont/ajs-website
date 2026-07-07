@@ -24,6 +24,12 @@ const siteTitle = siteSettings?.siteTitle?.[locale] ?? 'Atelier Jacqueline Suzan
 const footerText = siteSettings?.footerText?.[locale] ?? '';
 const homeLabel = siteSettings?.navLabels?.home?.[locale] ?? (locale === 'en' ? 'Home' : 'Accueil');
 const homeHref = getRelativeLocaleUrl(locale, '');
+// WR-03: defensive fallback — navLabels.galleries is Studio-required (fr/en)
+// per 02-01's schema validation, but a document written outside the
+// Studio's publish-time validation could still be partially populated.
+const galleriesLabel =
+  siteSettings?.navLabels?.galleries?.[locale] ?? (locale === 'en' ? 'Galleries' : 'Galeries');
+const galleriesHref = getRelativeLocaleUrl(locale, 'galleries');
 ---
 
 <!doctype html>
@@ -63,6 +69,7 @@ const homeHref = getRelativeLocaleUrl(locale, '');
       <p class="site-title">{siteTitle}</p>
       <nav class="site-nav" aria-label="Primary">
         <a href={homeHref} class="nav-link">{homeLabel}</a>
+        <a href={galleriesHref} class="nav-link">{galleriesLabel}</a>
       </nav>
       <LanguageSwitcher />
     </header>
@@ -76,10 +83,23 @@ const homeHref = getRelativeLocaleUrl(locale, '');
 </html>
 
 <style is:global>
+  /* Delight variable font (100-900 weight axis), self-hosted per UI-SPEC —
+     the system-font stack below remains a fully functional fallback until
+     the licensed file lands at public/fonts/delight.woff2 (Task 2). */
+  @font-face {
+    font-family: 'Delight';
+    src: url('/fonts/delight.woff2') format('woff2');
+    font-weight: 100 900;
+    font-display: swap;
+  }
+
   :root {
-    --color-dominant: #ffffff;
-    --color-secondary: #f5f4f2;
-    --color-accent: #1a1a1a;
+    /* Dawn Pink / Woodsmoke / Wild Strawberry — real visual identity,
+       supersedes Phase 1's provisional grayscale (02-UI-SPEC.md Color). */
+    --color-dominant: #F0E7E4;
+    --color-secondary: #E4D9D0;
+    --color-accent: #F92D97;
+    --color-ink: #141213;
     --color-destructive: #dc2626; /* reserved for later phases, unused this phase */
 
     --space-xs: 4px;
@@ -103,24 +123,49 @@ const homeHref = getRelativeLocaleUrl(locale, '');
 
   body {
     font-family:
+      'Delight',
       -apple-system,
       BlinkMacSystemFont,
       'Segoe UI',
       Helvetica,
       Arial,
       sans-serif;
+    font-weight: 300; /* Body/Label role default — Heading/Display opt into 900 */
     background-color: var(--color-dominant);
-    color: var(--color-accent);
+    color: var(--color-ink);
   }
 
+  /* Wild Strawberry text fails WCAG contrast on Dawn Pink (~2.95:1), so links
+     keep the compliant Woodsmoke glyph color and carry the accent only via a
+     permanent underline cue (02-UI-SPEC.md Color, contrast resolution). */
   a {
-    color: var(--color-accent);
+    color: var(--color-ink);
+    text-decoration-color: var(--color-accent);
+    text-underline-offset: 3px;
   }
 
+  /* Co-styled double ring: the compliant Woodsmoke outline plus a Wild
+     Strawberry ring just outside it (bare accent-only outline fails the same
+     ~2.95:1 non-text contrast check as link text). */
   a:focus-visible,
   button:focus-visible {
-    outline: 2px solid var(--color-accent);
+    outline: 2px solid var(--color-ink);
     outline-offset: 2px;
+    box-shadow: 0 0 0 4px var(--color-accent);
+  }
+
+  /* Visually-hidden but screen-reader-available utility (introduced here for
+     reuse by GalleryCard in Plan 03). */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
   }
 </style>
 
@@ -146,18 +191,20 @@ const homeHref = getRelativeLocaleUrl(locale, '');
   .site-title {
     margin: 0;
     font-size: 20px; /* Heading role */
-    font-weight: 600;
+    font-weight: 900;
     line-height: 1.2;
   }
 
   .site-nav {
     margin-right: auto;
     margin-left: var(--space-md);
+    display: flex;
+    gap: var(--space-md);
   }
 
   .nav-link {
     font-size: 14px; /* Label role */
-    font-weight: 400;
+    font-weight: 300;
     line-height: 1.5;
     text-decoration: none;
   }
@@ -174,7 +221,7 @@ const homeHref = getRelativeLocaleUrl(locale, '');
   .footer-text {
     margin: 0;
     font-size: 14px; /* Label role */
-    font-weight: 400;
+    font-weight: 300;
     line-height: 1.5;
   }
 

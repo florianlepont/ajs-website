@@ -18,3 +18,20 @@ new/modified files (`src/lib/sanity.ts` additions, `src/lib/image.ts`) introduce
 type errors beyond these two pre-existing categories. Not fixed here (out of scope for this
 plan); left for a future cleanup task (`npm i --save-dev @types/node` + fixing the
 `vitest.config.ts` type shape) — flagging for the phase owner to schedule.
+
+## Plan 02-02 confirmation (BaseLayout/homepage rebrand)
+
+Re-ran `npx tsc --noEmit` after 02-02's changes (`src/layouts/BaseLayout.astro`,
+`src/pages/index.astro`, `src/pages/en/index.astro`) — no new errors introduced by these three
+files; all reported errors match the pre-existing categories above, plus two more pre-existing
+gaps surfaced by 02-01's own additions (also not caused by 02-02): `sanity/schemas/gallery.ts`
+and `sanity/schemas/structure.ts` reference `@sanity/orderable-document-list`, and
+`sanity/sanity.config.ts` references `@sanity/vision` — both listed in `sanity/package.json`
+dependencies but not present in `sanity/node_modules` in this worktree checkout (a fresh
+worktree does not run `npm install`). Not fixed here (out of scope, pre-existing dependency
+install gap, not a code defect). The `<verify>` command's literal
+`grep -q "#F92D97" dist/index.html` also does not match post-build because Vite's CSS minifier
+lowercases hex colors in the compiled output (`#f92d97`); confirmed case-insensitively
+(`grep -qi`) that the token reaches the built CSS correctly — the source file
+`src/layouts/BaseLayout.astro` carries the exact uppercase value the plan's acceptance criteria
+checks against.
