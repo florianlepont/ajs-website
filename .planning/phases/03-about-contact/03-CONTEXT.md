@@ -37,6 +37,10 @@ Visitors can learn who Romane is and her artistic/atelier practice via an About 
 - Exact visual treatment of the About page's section breaks (spacing/typography within the "single flowing page" structure) — no specific preference stated beyond D-02.
 - Wording of the inline confirmation message and any client-side validation error states.
 
+### Post-Research Amendments (2026-07-07)
+- **D-01/D-04 amendment:** Research (03-RESEARCH.md) found no existing bio/about content anywhere on the live Myportfolio site — the reuse premise does not hold. Resolution: ship the About page with clearly-marked placeholder bio/practice text (same treatment as D-06's medium/technique placeholder) for Romane to fill in before launch, rather than migrating nonexistent content.
+- **D-07 clarification:** Research found the live site's Contact page displaying a destination address under the reversed-word-order domain `jacquelinesuzanneatelier.fr`, raising doubt about D-07. Confirmed: the new form delivers to the `atelierjacquelinesuzanne.fr` mailbox as D-07 originally states — the live site's other-domain address is treated as legacy/incidental, not a signal to change destination.
+
 </decisions>
 
 <canonical_refs>
