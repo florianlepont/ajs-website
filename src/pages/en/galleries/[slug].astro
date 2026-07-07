@@ -1,0 +1,110 @@
+---
+// English gallery detail page (PORT-01/PORT-03). Identical structure to the
+// French detail page at src/pages/galleries/[slug].astro — only import depth
+// and locale key differ.
+import type { GetStaticPaths } from 'astro';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import GalleryGrid from '../../../components/GalleryGrid.astro';
+import { getGalleries } from '../../../lib/sanity';
+import { thumbnailUrl } from '../../../lib/image';
+import type { Gallery } from '../../../lib/sanity';
+
+export const getStaticPaths = (async () => {
+  const galleries = await getGalleries();
+  return galleries.map((gallery) => ({
+    params: { slug: gallery.slug },
+    props: { gallery },
+  }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  gallery: Gallery;
+}
+
+const { gallery } = Astro.props;
+const locale = 'en' as const;
+// WR-03: statement is Studio-required (fr/en) per 02-01's schema validation,
+// but a document written outside the Studio's publish-time validation could
+// still be partially populated mid-edit.
+const statement = gallery.statement?.[locale] ?? '';
+const backHref = getRelativeLocaleUrl(locale, 'galleries');
+---
+
+<BaseLayout title={`${gallery.title} — Atelier Jacqueline Suzanne`}>
+  <div class="gallery-detail">
+    <div class="gallery-detail__header">
+      <h1>{gallery.title}</h1>
+    </div>
+    <p class="gallery-detail__statement">{statement}</p>
+    <GalleryGrid>
+      {
+        gallery.images.map((img, index) => (
+          <img
+            src={thumbnailUrl(img.image, 600)}
+            width="600"
+            height="600"
+            alt={img.alt?.[locale] ?? ''}
+            loading="lazy"
+            decoding="async"
+            data-gallery-thumb
+            data-index={index}
+            class="gallery-detail__thumb"
+          />
+        ))
+      }
+    </GalleryGrid>
+    <p class="gallery-detail__back">
+      <a href={backHref}>Back to galleries</a>
+    </p>
+  </div>
+</BaseLayout>
+
+<style>
+  .gallery-detail {
+    padding: var(--space-2xl) var(--space-md);
+  }
+
+  .gallery-detail__header {
+    container-type: inline-size;
+    background: var(--color-accent);
+    padding: var(--space-lg) var(--space-xl);
+    margin: 0 0 var(--space-2xl);
+    display: inline-block;
+  }
+
+  .gallery-detail__header h1 {
+    margin: 0;
+    font-size: clamp(2.5rem, 12cqi, 6.5rem); /* Display role */
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--color-ink);
+  }
+
+  .gallery-detail__statement {
+    max-width: 640px;
+    font-size: 16px; /* Body role */
+    font-weight: 300;
+    line-height: 1.5;
+    margin: 0 0 var(--space-2xl);
+  }
+
+  .gallery-detail__thumb {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+
+  .gallery-detail__back {
+    margin: var(--space-2xl) 0 0;
+    font-size: 16px; /* Body role */
+    font-weight: 300;
+  }
+
+  .gallery-detail__back a {
+    color: var(--color-ink);
+  }
+</style>

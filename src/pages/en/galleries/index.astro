@@ -1,0 +1,66 @@
+---
+// English gallery listing (PORT-01). Identical layout to the French listing
+// at src/pages/galleries/index.astro — only import depth and copy differ.
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import GalleryGrid from '../../../components/GalleryGrid.astro';
+import GalleryCard from '../../../components/GalleryCard.astro';
+import { getGalleries } from '../../../lib/sanity';
+
+const galleries = await getGalleries();
+---
+
+<BaseLayout title="Galleries — Atelier Jacqueline Suzanne">
+  {
+    galleries.length > 0 ? (
+      <div class="galleries-page">
+        <h1>Galleries</h1>
+        <GalleryGrid>
+          {galleries.map((gallery) => (
+            <GalleryCard gallery={gallery} />
+          ))}
+        </GalleryGrid>
+      </div>
+    ) : (
+      <div class="empty-state">
+        <h1>Galleries coming soon</h1>
+        <p>New work will appear here shortly. Check back soon.</p>
+      </div>
+    )
+  }
+</BaseLayout>
+
+<style>
+  .galleries-page {
+    padding: var(--space-2xl) var(--space-md);
+  }
+
+  .galleries-page h1 {
+    container-type: inline-size;
+    font-size: clamp(2.5rem, 12cqi, 6.5rem); /* Display role */
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin: 0 0 var(--space-xl);
+  }
+
+  .empty-state {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: var(--space-2xl) var(--space-md);
+    text-align: center;
+  }
+
+  .empty-state h1 {
+    font-size: 20px; /* Heading role */
+    font-weight: 900;
+    line-height: 1.2;
+    margin: 0 0 var(--space-md);
+  }
+
+  .empty-state p {
+    font-size: 16px; /* Body role */
+    font-weight: 300;
+    line-height: 1.5;
+    margin: 0;
+  }
+</style>
