@@ -79,7 +79,7 @@ Plans:
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
-- [ ] 02-03-PLAN.md — Visitor browsing slice: GalleryGrid/GalleryCard + FR/EN listing & detail pages + full content migration (Wave 3)
+- [x] 02-03-PLAN.md — Visitor browsing slice: GalleryGrid/GalleryCard + FR/EN listing & detail pages + full content migration (Wave 3)
 
 **Wave 4** *(blocked on Wave 3 completion)*
 
@@ -140,7 +140,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation & Bilingual Infrastructure | 5/5 | Complete   | 2026-07-06 |
-| 2. Portfolio Galleries | 2/4 | In Progress|  |
+| 2. Portfolio Galleries | 3/4 | In Progress|  |
 | 3. About & Contact | 0/TBD | Not started | - |
 | 4. Legal & Compliance | 0/TBD | Not started | - |
 | 5. Launch & Domain Cutover | 0/TBD | Not started | - |

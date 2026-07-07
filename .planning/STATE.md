@@ -4,13 +4,13 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Phase 2 UI-SPEC approved (with real visual identity revision)
-last_updated: "2026-07-07T17:36:31.450Z"
+last_updated: "2026-07-07T19:08:47.365Z"
 last_activity: 2026-07-07
 progress:
   total_phases: 5
   completed_phases: 1
   total_plans: 9
-  completed_plans: 7
+  completed_plans: 8
   percent: 20
 ---
 
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-07-05)
 ## Current Position
 
 Phase: 02 (portfolio-galleries) — EXECUTING
-Plan: 3 of 4
+Plan: 4 of 4
 Status: Ready to execute
 Last activity: 2026-07-07
 
@@ -59,6 +59,7 @@ Progress: [██████████] 100%
 | Phase 01 P05 | 35min | 3 tasks | 3 files |
 | Phase 02 P01 | 50 | 3 tasks | 13 files |
 | Phase 02 P02 | 25 | 2 tasks | 5 files |
+| Phase 02 P03 | ~2h (incl. content migration + 2 real bugs found/fixed) | 3 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -83,6 +84,8 @@ Recent decisions affecting current work:
 - [Phase 01]: Post-completion code review (01-REVIEW.md) found 1 Critical + 6 Warnings; fixed CR-01 (404 page's hardcoded links weren't base-aware — real live bug, confirmed via curl against the deployed site) plus WR-01 (Sanity singleton create/duplicate guard), WR-02 (locale cookie scoped to base path, not domain-wide), WR-03 (null-safety for partially-populated Sanity docs), WR-04 (extracted stripBasePath + unit tests + a CI grep guard against un-prefixed hrefs), WR-06 (404 page switcher no longer computes a nonsensical /404 slug). WR-05 and remaining Info items deferred by explicit choice. Re-verified live post-fix: 404 page links all correctly base-prefixed, HTTP 404 served correctly.
 - [Phase 02]: @sanity/orderable-document-list verified legitimate via blocking human checkpoint (npmjs.com, sanity-io org, v2.0.8, matching peer deps) before install — repo now lives in the sanity-io/plugins monorepo, a normal consolidation, not a legitimacy concern
 - [Phase 02]: Shipped visual rebrand on the system-font fallback; Delight variable font sourcing/licensing deferred as a follow-up, not a Phase 2 blocker — user chose fallback-only at the checkpoint rather than block the phase on sourcing/licensing a Behance-hosted font with no CDN/npm distribution
+- [Phase 02]: Fixed gallery images schema to attach alt-text fields directly on an image-type array member (not a wrapping object type), restoring Sanity Studio's native multi-file drag-and-drop upload — Romane's Lightroom-exported folders need batch upload; the original galleryImage object wrapper broke Studio's per-file-drop-to-array-item heuristic, discovered when she reported drag-and-drop of multiple files wasn't working
+- [Phase 02]: Restricted sanityClient to perspective: 'published' so build-time queries never pull in unpublished drafts — an in-progress draft gallery (title set, no images) reached getGalleries() and crashed the static build with a null images array — published-only perspective ensures Romane's mid-edit documents can never break a production build
 
 ### Pending Todos
 
