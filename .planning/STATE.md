@@ -4,13 +4,13 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Phase 2 UI-SPEC approved (with real visual identity revision)
-last_updated: "2026-07-06T16:03:11.002Z"
-last_activity: 2026-07-06 -- Phase 02 planning complete
+last_updated: "2026-07-07T17:36:31.450Z"
+last_activity: 2026-07-07
 progress:
   total_phases: 5
   completed_phases: 1
   total_plans: 9
-  completed_plans: 5
+  completed_plans: 7
   percent: 20
 ---
 
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-07-05)
 
 **Core value:** Visitors can browse Romane's photographic work and buy a piece through a real, working checkout — everything else supports that. (v1 milestone delivers the portfolio/about/contact foundation; checkout follows in v1.x.)
-**Current focus:** Phase 01 — foundation-bilingual-infrastructure
+**Current focus:** Phase 02 — portfolio-galleries
 
 ## Current Position
 
-Phase: 01 (foundation-bilingual-infrastructure) — COMPLETE
-Plan: 5 of 5
+Phase: 02 (portfolio-galleries) — EXECUTING
+Plan: 3 of 4
 Status: Ready to execute
-Last activity: 2026-07-06 -- Phase 02 planning complete
+Last activity: 2026-07-07
 
 Progress: [██████████] 100%
 
@@ -57,6 +57,8 @@ Progress: [██████████] 100%
 | Phase 01 P03 | 35min | 2 tasks | 9 files |
 | Phase 01 P04 | 14min | 3 tasks | 8 files |
 | Phase 01 P05 | 35min | 3 tasks | 3 files |
+| Phase 02 P01 | 50 | 3 tasks | 13 files |
+| Phase 02 P02 | 25 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -79,6 +81,8 @@ Recent decisions affecting current work:
 - [Phase 01]: [Phase 01 Plan 05]: Fixed getSwitcherHref and the locale-cookie redirect script to strip the configured base path before computing slugs/paths — both broke under GitHub Pages' non-root base, only discovered once ASTRO_BASE was actually exercised in this plan
 - [Phase 01]: [Phase 01 Plan 05]: Phase 1 staging site is live at https://florianlepont.github.io/ajs-website/, verified end-to-end (push-triggered deploy, repository_dispatch-triggered rebuild, live switcher/cookie/404 checks via a headless-browser script against the production URL) — Phase 1 is complete
 - [Phase 01]: Post-completion code review (01-REVIEW.md) found 1 Critical + 6 Warnings; fixed CR-01 (404 page's hardcoded links weren't base-aware — real live bug, confirmed via curl against the deployed site) plus WR-01 (Sanity singleton create/duplicate guard), WR-02 (locale cookie scoped to base path, not domain-wide), WR-03 (null-safety for partially-populated Sanity docs), WR-04 (extracted stripBasePath + unit tests + a CI grep guard against un-prefixed hrefs), WR-06 (404 page switcher no longer computes a nonsensical /404 slug). WR-05 and remaining Info items deferred by explicit choice. Re-verified live post-fix: 404 page links all correctly base-prefixed, HTTP 404 served correctly.
+- [Phase 02]: @sanity/orderable-document-list verified legitimate via blocking human checkpoint (npmjs.com, sanity-io org, v2.0.8, matching peer deps) before install — repo now lives in the sanity-io/plugins monorepo, a normal consolidation, not a legitimacy concern
+- [Phase 02]: Shipped visual rebrand on the system-font fallback; Delight variable font sourcing/licensing deferred as a follow-up, not a Phase 2 blocker — user chose fallback-only at the checkpoint rather than block the phase on sourcing/licensing a Behance-hosted font with no CDN/npm distribution
 
 ### Pending Todos
 
