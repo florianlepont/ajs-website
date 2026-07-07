@@ -9,6 +9,7 @@ import type { GetStaticPaths } from 'astro';
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import GalleryGrid from '../../components/GalleryGrid.astro';
+import Lightbox from '../../components/Lightbox.astro';
 import { getGalleries } from '../../lib/sanity';
 import { thumbnailUrl } from '../../lib/image';
 import type { Gallery } from '../../lib/sanity';
@@ -43,17 +44,23 @@ const backHref = getRelativeLocaleUrl(locale, 'galleries');
     <GalleryGrid>
       {
         gallery.images.map((img, index) => (
-          <img
-            src={thumbnailUrl(img, 600)}
-            width="600"
-            height="600"
-            alt={img.alt?.[locale] ?? ''}
-            loading="lazy"
-            decoding="async"
+          <button
+            type="button"
+            class="gallery-detail__thumb-button"
             data-gallery-thumb
             data-index={index}
-            class="gallery-detail__thumb"
-          />
+            aria-label={`Voir en taille réelle, image ${index + 1} sur ${gallery.images.length}`}
+          >
+            <img
+              src={thumbnailUrl(img, 600)}
+              width="600"
+              height="600"
+              alt=""
+              loading="lazy"
+              decoding="async"
+              class="gallery-detail__thumb"
+            />
+          </button>
         ))
       }
     </GalleryGrid>
@@ -61,6 +68,7 @@ const backHref = getRelativeLocaleUrl(locale, 'galleries');
       <a href={backHref}>Retour aux galeries</a>
     </p>
   </div>
+  <Lightbox images={gallery.images} locale={locale} />
 </BaseLayout>
 
 <style>
@@ -91,6 +99,21 @@ const backHref = getRelativeLocaleUrl(locale, 'galleries');
     font-weight: 300;
     line-height: 1.5;
     margin: 0 0 var(--space-2xl);
+  }
+
+  .gallery-detail__thumb-button {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .gallery-detail__thumb-button:focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px var(--color-accent);
   }
 
   .gallery-detail__thumb {
