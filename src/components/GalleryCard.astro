@@ -17,7 +17,7 @@ const locale = Astro.currentLocale === 'en' ? 'en' : 'fr';
 
 const href = getRelativeLocaleUrl(locale, `galleries/${gallery.slug}`);
 const cover = gallery.images[0];
-const coverSrc = thumbnailUrl(cover.image, 600);
+const coverSrc = thumbnailUrl(cover, 600);
 // WR-03: alt text is Studio-required (D-02), but a document written outside
 // the Studio's publish-time validation could still be partially populated.
 const coverAlt = cover.alt?.[locale] ?? '';

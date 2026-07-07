@@ -1,4 +1,4 @@
-import {defineField, defineType} from 'sanity'
+import {defineArrayMember, defineField, defineType} from 'sanity'
 import {orderRankField} from '@sanity/orderable-document-list'
 
 /**
@@ -38,7 +38,30 @@ export const gallery = defineType({
       name: 'images',
       title: 'Gallery Images',
       type: 'array',
-      of: [{type: 'galleryImage'}],
+      // D-01/D-02/CMS-01: `alt` fields are attached directly onto an `image`-
+      // type array member (rather than nesting `image` inside a separate
+      // `object` wrapper type) so Sanity Studio still recognizes each array
+      // item as an image and preserves native multi-file drag-and-drop
+      // upload — one dropped file becomes one array item automatically.
+      // Nesting `image` inside a custom object type breaks that heuristic.
+      of: [
+        defineArrayMember({
+          type: 'image',
+          options: {hotspot: true},
+          fields: [
+            defineField({
+              name: 'alt',
+              title: 'Alt Text',
+              type: 'object',
+              validation: (rule) => rule.required(),
+              fields: [
+                defineField({name: 'fr', title: 'French', type: 'string', validation: (rule) => rule.required()}),
+                defineField({name: 'en', title: 'English', type: 'string', validation: (rule) => rule.required()}),
+              ],
+            }),
+          ],
+        }),
+      ],
       options: {layout: 'grid'},
       validation: (rule) =>
         rule.min(1).error('A gallery needs at least one image (D-09: the first image is the cover).'),
@@ -48,6 +71,6 @@ export const gallery = defineType({
     {...orderRankField({type: 'gallery'}), hidden: true},
   ],
   preview: {
-    select: {title: 'title', media: 'images.0.image'},
+    select: {title: 'title', media: 'images.0'},
   },
 })

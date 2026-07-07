@@ -63,12 +63,16 @@ export async function getSiteSettings(): Promise<SiteSettings | null> {
   return result ?? null
 }
 
-/** A single gallery image: the Sanity image asset ref + bilingual alt text (D-01/D-02). */
+/**
+ * A single gallery image: the Sanity image asset ref + bilingual alt text
+ * (D-01/D-02). `asset`/`hotspot` sit at the top level (not nested under an
+ * `image` key) because the Studio schema attaches `alt` directly onto an
+ * `image`-type array member — see sanity/schemas/gallery.ts — which is what
+ * preserves Studio's native multi-file drag-and-drop upload.
+ */
 export interface GalleryImage {
-  image: {
-    asset: {_ref: string}
-    hotspot?: {x: number; y: number; height: number; width: number}
-  }
+  asset: {_ref: string}
+  hotspot?: {x: number; y: number; height: number; width: number}
   alt: LocaleString
 }
 

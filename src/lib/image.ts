@@ -15,7 +15,7 @@ const builder = createImageUrlBuilder(sanityClient)
  * 1:1 square-crop thumbnail URL, for gallery listing/detail grid cards
  * (UI-SPEC: grid alignment across mixed portrait/landscape source photos).
  */
-export function thumbnailUrl(img: GalleryImage['image'], size = 600): string {
+export function thumbnailUrl(img: GalleryImage, size = 600): string {
   return builder.image(img).width(size).height(size).fit('crop').auto('format').url()
 }
 
@@ -23,6 +23,6 @@ export function thumbnailUrl(img: GalleryImage['image'], size = 600): string {
  * Full-size, uncropped URL, for the lightbox (UI-SPEC: `object-fit: contain`,
  * never cropped).
  */
-export function fullSizeUrl(img: GalleryImage['image'], maxWidth = 2000): string {
+export function fullSizeUrl(img: GalleryImage, maxWidth = 2000): string {
   return builder.image(img).width(maxWidth).fit('max').auto('format').url()
 }

@@ -44,7 +44,7 @@ const backHref = getRelativeLocaleUrl(locale, 'galleries');
       {
         gallery.images.map((img, index) => (
           <img
-            src={thumbnailUrl(img.image, 600)}
+            src={thumbnailUrl(img, 600)}
             width="600"
             height="600"
             alt={img.alt?.[locale] ?? ''}
