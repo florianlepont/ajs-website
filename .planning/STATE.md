@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: verifying
 stopped_at: Phase 2 UI-SPEC approved (with real visual identity revision)
-last_updated: "2026-07-07T19:26:19.707Z"
+last_updated: "2026-07-07T19:34:29.025Z"
 last_activity: 2026-07-07
 progress:
   total_phases: 5
@@ -88,6 +88,7 @@ Recent decisions affecting current work:
 - [Phase 02]: Fixed gallery images schema to attach alt-text fields directly on an image-type array member (not a wrapping object type), restoring Sanity Studio's native multi-file drag-and-drop upload — Romane's Lightroom-exported folders need batch upload; the original galleryImage object wrapper broke Studio's per-file-drop-to-array-item heuristic, discovered when she reported drag-and-drop of multiple files wasn't working
 - [Phase 02]: Restricted sanityClient to perspective: 'published' so build-time queries never pull in unpublished drafts — an in-progress draft gallery (title set, no images) reached getGalleries() and crashed the static build with a null images array — published-only perspective ensures Romane's mid-edit documents can never break a production build
 - [Phase 02]: Pushed to origin/main mid-phase to verify the CMS-01/lightbox checkpoint against real deployed GitHub Pages staging content, including a genuine mobile-device touch test — user chose live verification over local-only preview since real touch-swipe feel and Romane's unassisted Studio workflow can't be confidently confirmed from a local dev server
+- [Phase 02]: Overrode D-13 (all-known-projects-migrated) to close Phase 2 with 2/8 projects published (Silos, Brume) — the content-migration pipeline is proven end-to-end with real content; remaining 6 projects (Rebut, Adults, The Victorian Tea Room, Paysages, Accumulation, MADO) are tracked as follow-up content work, not a code blocker — user explicitly accepted this override
 
 ### Pending Todos
 
