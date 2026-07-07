@@ -131,3 +131,9 @@ None — no new external service configuration required. The `@sanity/orderable-
 ---
 *Phase: 02-portfolio-galleries*
 *Completed: 2026-07-07*
+
+## Self-Check: PASSED
+
+All created files verified present on disk (galleryImage.ts, gallery.ts, image.ts, gallery.spec.ts,
+gallery-query.test.ts, deferred-items.md, this SUMMARY.md). All referenced commits (`203e1e2`,
+`88ffb68`, `1c5bdad`) verified present in `git log --oneline --all`.
