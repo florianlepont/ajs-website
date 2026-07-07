@@ -100,7 +100,16 @@ Plans:
   3. Visitor can submit a contact form and the message reaches Romane.
   4. Automated/bot submissions are blocked by a honeypot (or equivalent) without impacting real visitors.
 
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+**Wave 1**
+
+- [ ] 03-01-PLAN.md — About page vertical slice: FR/EN hardcoded bio + atelier/practice placeholder copy (D-01/D-04 amendment, D-06), About nav link, RED→GREEN e2e (Wave 1)
+
+**Wave 2** *(blocked on Wave 1 completion — shared BaseLayout.astro nav)*
+
+- [ ] 03-02-PLAN.md — Contact form vertical slice: pure validation/honeypot lib + vanilla-JS ContactForm island (Web3Forms fetch, inline success/error) + FR/EN pages + Contact nav link + unit/e2e + live-delivery human check (Wave 2)
+
 **UI hint**: yes
 
 ### Phase 4: Legal & Compliance
@@ -141,7 +150,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 |-------|----------------|--------|-----------|
 | 1. Foundation & Bilingual Infrastructure | 5/5 | Complete   | 2026-07-06 |
 | 2. Portfolio Galleries | 4/4 | Complete    | 2026-07-07 |
-| 3. About & Contact | 0/TBD | Not started | - |
+| 3. About & Contact | 0/2 | Not started | - |
 | 4. Legal & Compliance | 0/TBD | Not started | - |
 | 5. Launch & Domain Cutover | 0/TBD | Not started | - |
 
