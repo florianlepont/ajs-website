@@ -26,6 +26,12 @@ export const sanityClient = createClient({
   token,
   apiVersion: '2024-01-01',
   useCdn: !token, // authenticated reads bypass the CDN cache per @sanity/client guidance
+  // Without this, an authenticated token also returns unpublished drafts —
+  // an editor's in-progress, incomplete document (e.g. a gallery with no
+  // images yet) would otherwise reach build-time queries and crash the
+  // static build. 'published' is CDN-compatible too, so it's safe to keep
+  // regardless of the useCdn value above.
+  perspective: 'published',
 })
 
 /** A string with both French and English values (D-09 locale-object shape). */
