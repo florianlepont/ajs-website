@@ -2,9 +2,9 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: verifying
-stopped_at: Phase 2 UI-SPEC approved (with real visual identity revision)
-last_updated: "2026-07-07T19:34:29.025Z"
+status: planning
+stopped_at: Phase 2 complete and verified (1 override applied — see 02-VERIFICATION.md); ready to start Phase 3
+last_updated: "2026-07-07T19:34:45.944Z"
 last_activity: 2026-07-07
 progress:
   total_phases: 5
@@ -21,13 +21,13 @@ progress:
 See: .planning/PROJECT.md (updated 2026-07-05)
 
 **Core value:** Visitors can browse Romane's photographic work and buy a piece through a real, working checkout — everything else supports that. (v1 milestone delivers the portfolio/about/contact foundation; checkout follows in v1.x.)
-**Current focus:** Phase 02 — portfolio-galleries
+**Current focus:** Phase 03 — about-&-contact
 
 ## Current Position
 
-Phase: 02 (portfolio-galleries) — EXECUTING
-Plan: 4 of 4
-Status: Phase complete — ready for verification
+Phase: 3
+Plan: Not started
+Status: Ready to start Phase 3
 Last activity: 2026-07-07
 
 Progress: [██████████] 100%
@@ -36,7 +36,7 @@ Progress: [██████████] 100%
 
 **Velocity:**
 
-- Total plans completed: 0
+- Total plans completed: 4
 - Average duration: - min
 - Total execution time: 0 hours
 
@@ -44,7 +44,7 @@ Progress: [██████████] 100%
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| - | - | - | - |
+| 02 | 4 | - | - |
 
 **Recent Trend:**
 

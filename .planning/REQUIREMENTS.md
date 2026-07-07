@@ -9,9 +9,9 @@ Phased launch: v1 replaces the current Myportfolio site fast with portfolio + ab
 
 ### Portfolio
 
-- [ ] **PORT-01**: Visitor can browse portfolio galleries grouped by project/series (migrated from the current site: Rebut, Silos, Brume, Adults, The Victorian Tea Room, Paysages, Accumulation, MADO, etc.)
-- [ ] **PORT-02**: Visitor can view full-size images within a gallery (lightbox or dedicated view)
-- [ ] **PORT-03**: Each gallery/project includes a short artist statement about that series
+- [x] **PORT-01**: Visitor can browse portfolio galleries grouped by project/series (migrated from the current site: Rebut, Silos, Brume, Adults, The Victorian Tea Room, Paysages, Accumulation, MADO, etc.)
+- [x] **PORT-02**: Visitor can view full-size images within a gallery (lightbox or dedicated view)
+- [x] **PORT-03**: Each gallery/project includes a short artist statement about that series
 
 ### About
 
@@ -25,7 +25,7 @@ Phased launch: v1 replaces the current Myportfolio site fast with portfolio + ab
 
 ### Content Editing
 
-- [ ] **CMS-01**: Romane can add/edit portfolio galleries and images herself without code
+- [x] **CMS-01**: Romane can add/edit portfolio galleries and images herself without code
 
 ### Contact
 
@@ -119,14 +119,14 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| PORT-01 | Phase 2 | Pending |
-| PORT-02 | Phase 2 | Pending |
-| PORT-03 | Phase 2 | Pending |
+| PORT-01 | Phase 2 | Complete |
+| PORT-02 | Phase 2 | Complete |
+| PORT-03 | Phase 2 | Complete |
 | ABOUT-01 | Phase 3 | Pending |
 | ABOUT-02 | Phase 3 | Pending |
 | I18N-01 | Phase 1 | Complete |
 | I18N-02 | Phase 1 | Complete |
-| CMS-01 | Phase 2 | Pending |
+| CMS-01 | Phase 2 | Complete |
 | CONT-01 | Phase 3 | Pending |
 | CONT-02 | Phase 3 | Pending |
 | LEGAL-01 | Phase 4 | Pending |
