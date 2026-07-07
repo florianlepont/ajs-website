@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: executing
+status: verifying
 stopped_at: Phase 2 UI-SPEC approved (with real visual identity revision)
-last_updated: "2026-07-07T19:08:47.365Z"
+last_updated: "2026-07-07T19:26:19.707Z"
 last_activity: 2026-07-07
 progress:
   total_phases: 5
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 9
-  completed_plans: 8
-  percent: 20
+  completed_plans: 9
+  percent: 40
 ---
 
 # Project State
@@ -27,7 +27,7 @@ See: .planning/PROJECT.md (updated 2026-07-05)
 
 Phase: 02 (portfolio-galleries) — EXECUTING
 Plan: 4 of 4
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-07-07
 
 Progress: [██████████] 100%
@@ -60,6 +60,7 @@ Progress: [██████████] 100%
 | Phase 02 P01 | 50 | 3 tasks | 13 files |
 | Phase 02 P02 | 25 | 2 tasks | 5 files |
 | Phase 02 P03 | ~2h (incl. content migration + 2 real bugs found/fixed) | 3 tasks | 8 files |
+| Phase 02 P04 | 90 | 3 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -86,6 +87,7 @@ Recent decisions affecting current work:
 - [Phase 02]: Shipped visual rebrand on the system-font fallback; Delight variable font sourcing/licensing deferred as a follow-up, not a Phase 2 blocker — user chose fallback-only at the checkpoint rather than block the phase on sourcing/licensing a Behance-hosted font with no CDN/npm distribution
 - [Phase 02]: Fixed gallery images schema to attach alt-text fields directly on an image-type array member (not a wrapping object type), restoring Sanity Studio's native multi-file drag-and-drop upload — Romane's Lightroom-exported folders need batch upload; the original galleryImage object wrapper broke Studio's per-file-drop-to-array-item heuristic, discovered when she reported drag-and-drop of multiple files wasn't working
 - [Phase 02]: Restricted sanityClient to perspective: 'published' so build-time queries never pull in unpublished drafts — an in-progress draft gallery (title set, no images) reached getGalleries() and crashed the static build with a null images array — published-only perspective ensures Romane's mid-edit documents can never break a production build
+- [Phase 02]: Pushed to origin/main mid-phase to verify the CMS-01/lightbox checkpoint against real deployed GitHub Pages staging content, including a genuine mobile-device touch test — user chose live verification over local-only preview since real touch-swipe feel and Romane's unassisted Studio workflow can't be confidently confirmed from a local dev server
 
 ### Pending Todos
 
