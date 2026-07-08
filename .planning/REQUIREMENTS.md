@@ -15,8 +15,8 @@ Phased launch: v1 replaces the current Myportfolio site fast with portfolio + ab
 
 ### About
 
-- [ ] **ABOUT-01**: Visitor can read an About/bio page covering Romane's background and artistic approach
-- [ ] **ABOUT-02**: About page includes atelier/practice information (where she works, medium, techniques)
+- [x] **ABOUT-01**: Visitor can read an About/bio page covering Romane's background and artistic approach
+- [x] **ABOUT-02**: About page includes atelier/practice information (where she works, medium, techniques)
 
 ### Bilingual
 
@@ -122,8 +122,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PORT-01 | Phase 2 | Complete |
 | PORT-02 | Phase 2 | Complete |
 | PORT-03 | Phase 2 | Complete |
-| ABOUT-01 | Phase 3 | Pending |
-| ABOUT-02 | Phase 3 | Pending |
+| ABOUT-01 | Phase 3 | Complete |
+| ABOUT-02 | Phase 3 | Complete |
 | I18N-01 | Phase 1 | Complete |
 | I18N-02 | Phase 1 | Complete |
 | CMS-01 | Phase 2 | Complete |
