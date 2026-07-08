@@ -128,7 +128,20 @@ Plans:
   2. Visitor can view a privacy policy / GDPR notice describing what data is collected (e.g., via the contact form) and how it's used.
   3. Visitor sees a CNIL-compliant cookie/consent banner before any non-essential cookie is set (or the banner correctly reflects that none are used).
 
-**Plans**: TBD
+**Plans**: 3 plans
+Plans:
+**Wave 1**
+
+- [ ] 04-01-PLAN.md — Mentions légales bilingual slice + Wave 0 failing e2e harness + footer legal nav (LEGAL-01)
+
+**Wave 2** *(blocked on Wave 1 — shared BaseLayout.astro footer + legal.spec.ts)*
+
+- [ ] 04-02-PLAN.md — Privacy policy bilingual slice (data flows + ajs_locale cookie disclosure, no banner) + privacy footer link (LEGAL-03, LEGAL-05)
+
+**Wave 3** *(blocked on Wave 2)*
+
+- [ ] 04-03-PLAN.md — Legal-content accuracy human-verify checkpoint (name / OVH host / business status)
+
 **UI hint**: yes
 
 ### Phase 5: Launch & Domain Cutover
@@ -155,7 +168,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 1. Foundation & Bilingual Infrastructure | 5/5 | Complete   | 2026-07-06 |
 | 2. Portfolio Galleries | 4/4 | Complete    | 2026-07-07 |
 | 3. About & Contact | 3/3 | Complete    | 2026-07-08 |
-| 4. Legal & Compliance | 0/TBD | Not started | - |
+| 4. Legal & Compliance | 0/3 | Not started | - |
 | 5. Launch & Domain Cutover | 0/TBD | Not started | - |
 
 ## Milestone Scope Note
