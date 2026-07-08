@@ -40,11 +40,13 @@ const contactLabel = locale === 'en' ? 'Contact' : 'Contact';
 const contactHref = getRelativeLocaleUrl(locale, 'contact');
 // Legal pages (Phase 4, D-06): footer-only links, every page, not scoped to
 // About/Contact. Same hardcoded locale-conditional pattern as above — legal
-// copy is not CMS-editable (RESEARCH.md "Don't Hand-Roll"). Only the legal
-// notice link ships in this plan (04-01); the Confidentialité/Privacy link
-// is appended in Plan 04-02, preserving this link's position first.
+// copy is not CMS-editable (RESEARCH.md "Don't Hand-Roll"). Legal notice
+// link shipped in Plan 04-01; Confidentialité/Privacy link appended in Plan
+// 04-02, after the legal-notice link (UI-SPEC footer link order).
 const legalNoticeLabel = locale === 'en' ? 'Legal notice' : 'Mentions légales';
 const legalNoticeHref = getRelativeLocaleUrl(locale, 'mentions-legales');
+const privacyLabel = locale === 'en' ? 'Privacy' : 'Confidentialité';
+const privacyHref = getRelativeLocaleUrl(locale, 'confidentialite');
 ---
 
 <!doctype html>
@@ -97,6 +99,7 @@ const legalNoticeHref = getRelativeLocaleUrl(locale, 'mentions-legales');
       <p class="footer-text">{footerText}</p>
       <nav class="footer-legal-nav" aria-label="Legal">
         <a href={legalNoticeHref} class="nav-link">{legalNoticeLabel}</a>
+        <a href={privacyHref} class="nav-link">{privacyLabel}</a>
       </nav>
     </footer>
   </body>
