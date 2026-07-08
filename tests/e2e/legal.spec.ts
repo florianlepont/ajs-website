@@ -122,7 +122,9 @@ test.describe('switcher', () => {
     await page.goto('/mentions-legales/');
     await page.locator('header').getByRole('link', { name: 'EN' }).click();
 
-    await expect(page).toHaveURL(/\/en\/mentions-legales\/$/);
+    // getSwitcherHref strips the trailing slash for non-homepage slugs
+    // (src/lib/i18n-paths.ts) — same tolerant pattern as contact.spec.ts.
+    await expect(page).toHaveURL(/\/en\/mentions-legales\/?$/);
   });
 
   test('clicking the switcher from "/en/mentions-legales/" navigates back to "/mentions-legales/"', async ({
@@ -131,7 +133,7 @@ test.describe('switcher', () => {
     await page.goto('/en/mentions-legales/');
     await page.locator('header').getByRole('link', { name: 'FR' }).click();
 
-    await expect(page).toHaveURL(/\/mentions-legales\/$/);
+    await expect(page).toHaveURL(/\/mentions-legales\/?$/);
   });
 
   test('clicking the switcher from "/confidentialite/" navigates to "/en/confidentialite/"', async ({
@@ -140,7 +142,7 @@ test.describe('switcher', () => {
     await page.goto('/confidentialite/');
     await page.locator('header').getByRole('link', { name: 'EN' }).click();
 
-    await expect(page).toHaveURL(/\/en\/confidentialite\/$/);
+    await expect(page).toHaveURL(/\/en\/confidentialite\/?$/);
   });
 
   test('clicking the switcher from "/en/confidentialite/" navigates back to "/confidentialite/"', async ({
@@ -149,7 +151,7 @@ test.describe('switcher', () => {
     await page.goto('/en/confidentialite/');
     await page.locator('header').getByRole('link', { name: 'FR' }).click();
 
-    await expect(page).toHaveURL(/\/confidentialite\/$/);
+    await expect(page).toHaveURL(/\/confidentialite\/?$/);
   });
 });
 
