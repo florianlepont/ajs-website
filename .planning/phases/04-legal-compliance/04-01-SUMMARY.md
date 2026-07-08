@@ -128,3 +128,9 @@ None - no external service configuration required. (A local `.env` with Sanity b
 ---
 *Phase: 04-legal-compliance*
 *Completed: 2026-07-08*
+
+## Self-Check: PASSED
+
+All created files and commit hashes verified present:
+- `tests/e2e/legal.spec.ts`, `src/pages/mentions-legales.astro`, `src/pages/en/mentions-legales.astro`, `src/layouts/BaseLayout.astro`, `.planning/phases/04-legal-compliance/04-01-SUMMARY.md` — all FOUND
+- Commits `8572407`, `e04b07b`, `67a4b90` — all FOUND in git log
