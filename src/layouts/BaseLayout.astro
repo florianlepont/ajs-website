@@ -35,6 +35,9 @@ const galleriesHref = getRelativeLocaleUrl(locale, 'galleries');
 // field.
 const aboutLabel = locale === 'en' ? 'About' : 'À propos';
 const aboutHref = getRelativeLocaleUrl(locale, 'about');
+// Contact content is likewise outside CMS-01's galleries-only scope.
+const contactLabel = locale === 'en' ? 'Contact' : 'Contact';
+const contactHref = getRelativeLocaleUrl(locale, 'contact');
 ---
 
 <!doctype html>
@@ -76,6 +79,7 @@ const aboutHref = getRelativeLocaleUrl(locale, 'about');
         <a href={homeHref} class="nav-link">{homeLabel}</a>
         <a href={galleriesHref} class="nav-link">{galleriesLabel}</a>
         <a href={aboutHref} class="nav-link">{aboutLabel}</a>
+        <a href={contactHref} class="nav-link">{contactLabel}</a>
       </nav>
       <LanguageSwitcher />
     </header>

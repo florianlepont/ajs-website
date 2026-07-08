@@ -1,0 +1,40 @@
+---
+// English Contact page (CONT-01, CONT-02): identical structure to
+// src/pages/contact.astro; only import depth and copy differ.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ContactForm from '../../components/ContactForm.astro';
+
+const locale = 'en' as const;
+---
+
+<BaseLayout title="Contact — Atelier Jacqueline Suzanne">
+  <div class="contact-page">
+    <h1>Contact</h1>
+    <p class="contact-page__lead">A question, or an idea for a collaboration? Get in touch.</p>
+    <ContactForm locale={locale} />
+  </div>
+</BaseLayout>
+
+<style>
+  .contact-page {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: var(--space-2xl) var(--space-md);
+  }
+
+  .contact-page h1 {
+    container-type: inline-size;
+    font-size: clamp(2.5rem, 12cqi, 6.5rem); /* Display role */
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin: 0 0 var(--space-xl);
+  }
+
+  .contact-page__lead {
+    font-size: 16px; /* Body role */
+    font-weight: 300;
+    line-height: 1.5;
+    margin: 0 0 var(--space-2xl);
+  }
+</style>

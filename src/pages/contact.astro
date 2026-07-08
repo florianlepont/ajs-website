@@ -1,0 +1,44 @@
+---
+// French Contact page (CONT-01, CONT-02): mounts the ContactForm island at
+// the bottom of BaseLayout's body, passing `locale` as a build-time prop —
+// same mount style as <Lightbox images={...} locale={locale} /> in
+// src/pages/galleries/[slug].astro. Mirrors src/pages/about.astro's
+// hardcoded-content page shape; only import depth and copy differ from
+// src/pages/en/contact.astro.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactForm from '../components/ContactForm.astro';
+
+const locale = 'fr' as const;
+---
+
+<BaseLayout title="Contact — Atelier Jacqueline Suzanne">
+  <div class="contact-page">
+    <h1>Contact</h1>
+    <p class="contact-page__lead">Une question, une envie de collaboration&nbsp;? Écrivez-moi.</p>
+    <ContactForm locale={locale} />
+  </div>
+</BaseLayout>
+
+<style>
+  .contact-page {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: var(--space-2xl) var(--space-md);
+  }
+
+  .contact-page h1 {
+    container-type: inline-size;
+    font-size: clamp(2.5rem, 12cqi, 6.5rem); /* Display role */
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin: 0 0 var(--space-xl);
+  }
+
+  .contact-page__lead {
+    font-size: 16px; /* Body role */
+    font-weight: 300;
+    line-height: 1.5;
+    margin: 0 0 var(--space-2xl);
+  }
+</style>
