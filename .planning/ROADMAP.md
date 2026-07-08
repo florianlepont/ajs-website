@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation & Bilingual Infrastructure** - Site scaffolding (Astro + OVH Web Hosting + Sanity) deployed with working FR/EN routing and a persistent language switcher (completed 2026-07-06)
 - [x] **Phase 2: Portfolio Galleries** - Visitors can browse migrated galleries and full-size images; Romane can self-serve gallery edits via the CMS (completed 2026-07-07)
-- [ ] **Phase 3: About & Contact** - Visitors can read Romane's bio/practice info and reach her through a spam-protected contact form
+- [x] **Phase 3: About & Contact** - Visitors can read Romane's bio/practice info and reach her through a spam-protected contact form (completed 2026-07-08)
 - [ ] **Phase 4: Legal & Compliance** - Mentions légales, privacy/GDPR notice, and CNIL-compliant cookie consent are live
 - [ ] **Phase 5: Launch & Domain Cutover** - The new site is live at atelierjacquelinesuzanne.fr, replacing the old Myportfolio site
 
@@ -104,11 +104,11 @@ Plans:
 Plans:
 **Wave 1**
 
-- [ ] 03-01-PLAN.md — About page vertical slice: FR/EN hardcoded bio + atelier/practice placeholder copy (D-01/D-04 amendment, D-06), About nav link, RED→GREEN e2e (Wave 1)
+- [x] 03-01-PLAN.md — About page vertical slice: FR/EN hardcoded bio + atelier/practice placeholder copy (D-01/D-04 amendment, D-06), About nav link, RED→GREEN e2e (Wave 1)
 
 **Wave 2** *(blocked on Wave 1 completion — shared BaseLayout.astro nav)*
 
-- [ ] 03-02-PLAN.md — Contact form vertical slice: pure validation/honeypot lib + vanilla-JS ContactForm island (Web3Forms fetch, inline success/error) + FR/EN pages + Contact nav link + unit/e2e + live-delivery human check (Wave 2)
+- [x] 03-02-PLAN.md — Contact form vertical slice: pure validation/honeypot lib + vanilla-JS ContactForm island (Web3Forms fetch, inline success/error) + FR/EN pages + Contact nav link + unit/e2e + live-delivery human check (Wave 2)
 
 **UI hint**: yes
 
@@ -150,7 +150,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 |-------|----------------|--------|-----------|
 | 1. Foundation & Bilingual Infrastructure | 5/5 | Complete   | 2026-07-06 |
 | 2. Portfolio Galleries | 4/4 | Complete    | 2026-07-07 |
-| 3. About & Contact | 0/2 | Not started | - |
+| 3. About & Contact | 2/2 | Complete   | 2026-07-08 |
 | 4. Legal & Compliance | 0/TBD | Not started | - |
 | 5. Launch & Domain Cutover | 0/TBD | Not started | - |
 
