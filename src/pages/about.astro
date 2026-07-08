@@ -1,0 +1,65 @@
+---
+// French About page (ABOUT-01, ABOUT-02): bio + atelier/practice section.
+// Hardcoded content (Pattern 3 — no Sanity fetch): live-site verification
+// found no existing bio/practice text to migrate (03-RESEARCH.md Open
+// Question 1, resolved by 03-CONTEXT.md Post-Research Amendment), so this
+// page ships with clearly-marked italic placeholder copy — same treatment
+// as the locked D-06 medium/technique placeholder — for Romane to replace
+// before launch. Mirrors the FR/EN page pair pattern from
+// src/pages/index.astro; only import depth and copy differ from
+// src/pages/en/about.astro.
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="À propos — Atelier Jacqueline Suzanne">
+  <div class="about-page">
+    <h1>À propos</h1>
+    <p class="placeholder">
+      Le texte de présentation de Romane sera bientôt disponible ici — en attente de sa version
+      définitive.
+    </p>
+    <h2>Atelier &amp; pratique</h2>
+    <p class="placeholder">
+      Informations sur l'atelier et la pratique de Romane à venir prochainement.
+    </p>
+    <p class="placeholder">
+      Précisions sur le médium et la technique à venir — en attente de confirmation avec
+      l'artiste.
+    </p>
+  </div>
+</BaseLayout>
+
+<style>
+  .about-page {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: var(--space-2xl) var(--space-md);
+  }
+
+  .about-page h1 {
+    container-type: inline-size;
+    font-size: clamp(2.5rem, 12cqi, 6.5rem); /* Display role */
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin: 0 0 var(--space-xl);
+  }
+
+  .about-page h2 {
+    font-size: 20px; /* Heading role */
+    font-weight: 900;
+    line-height: 1.2;
+    margin: var(--space-2xl) 0 var(--space-md);
+  }
+
+  .about-page p {
+    font-size: 16px; /* Body role */
+    font-weight: 300;
+    line-height: 1.5;
+    margin: 0 0 var(--space-md);
+  }
+
+  .about-page .placeholder {
+    font-style: italic;
+  }
+</style>
