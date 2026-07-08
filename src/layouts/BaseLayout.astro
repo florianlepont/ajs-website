@@ -38,6 +38,13 @@ const aboutHref = getRelativeLocaleUrl(locale, 'about');
 // Contact content is likewise outside CMS-01's galleries-only scope.
 const contactLabel = locale === 'en' ? 'Contact' : 'Contact';
 const contactHref = getRelativeLocaleUrl(locale, 'contact');
+// Legal pages (Phase 4, D-06): footer-only links, every page, not scoped to
+// About/Contact. Same hardcoded locale-conditional pattern as above — legal
+// copy is not CMS-editable (RESEARCH.md "Don't Hand-Roll"). Only the legal
+// notice link ships in this plan (04-01); the Confidentialité/Privacy link
+// is appended in Plan 04-02, preserving this link's position first.
+const legalNoticeLabel = locale === 'en' ? 'Legal notice' : 'Mentions légales';
+const legalNoticeHref = getRelativeLocaleUrl(locale, 'mentions-legales');
 ---
 
 <!doctype html>
@@ -88,6 +95,9 @@ const contactHref = getRelativeLocaleUrl(locale, 'contact');
     </main>
     <footer class="chrome-band">
       <p class="footer-text">{footerText}</p>
+      <nav class="footer-legal-nav" aria-label="Legal">
+        <a href={legalNoticeHref} class="nav-link">{legalNoticeLabel}</a>
+      </nav>
     </footer>
   </body>
 </html>
@@ -233,6 +243,12 @@ const contactHref = getRelativeLocaleUrl(locale, 'contact');
     font-size: 14px; /* Label role */
     font-weight: 300;
     line-height: 1.5;
+  }
+
+  .footer-legal-nav {
+    display: flex;
+    gap: var(--space-xl);
+    margin-top: var(--space-md);
   }
 
   main {
