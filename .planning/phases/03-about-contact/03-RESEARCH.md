@@ -379,22 +379,25 @@ form?.addEventListener('submit', async (e) => {
 | A4 | OVH "Free hosting" tier's PHP `mail()` availability is genuinely uncertain (not simply "yes" or "no") | Alternatives Considered | Low — this claim is used only to justify *not* choosing PHP mail(), and the chosen alternative (Web3Forms) sidesteps the question entirely; doesn't block execution either way. |
 | A5 | Web3Forms relays via its own sending domain (not by spoofing `atelierjacquelinesuzanne.fr`), so there is no MX/SPF interaction | Summary | Medium — this is standard behavior for this class of service and consistent with how the API/docs describe delivery, but was not independently confirmed by inspecting actual email headers from a real test submission. Recommend a real test submission during execution to confirm the received message's `From:` domain and that it doesn't trigger any SPF/DMARC warnings in Romane's Zimbra inbox. |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Where does D-01's "existing bio/background text" actually live?**
    - What we know: Live verification (direct fetch of `atelierjacquelinesuzanne.fr`, its `/work`, `/contact`, `/test` pages, and its full nav-link list) found no About/bio page and no atelier/practice text anywhere on the crawlable site.
    - What's unclear: Whether this content exists somewhere not discoverable via a plain page fetch (e.g., a private doc Florian/Romane already have, an Instagram caption, a PDF press kit) — this research could not access those.
    - Recommendation: Planner should add an explicit content-gathering/confirmation step before the About-page copy task — likely a `checkpoint:human-verify` requesting Florian/Romane supply the actual bio text, rather than assuming an executor can "copy it from the live site."
+   - **RESOLVED:** Resolved via 03-CONTEXT.md's Post-Research Amendments section (D-01/D-04 amendment) — the reuse premise does not hold, so the About page ships with clearly-marked italic placeholder bio/practice copy for Romane to fill in before launch. Implemented in plan 03-01 (Task 2 hardcodes the FR/EN bio-section placeholder strings; Task 1's e2e RED test asserts them). No `checkpoint:human-verify` needed at plan time — the placeholder-copy treatment replaces the content-gathering blocker.
 
 2. **What is the correct destination mailbox address for the contact form?**
    - What we know: D-07 specifies "Romane's existing OVH/Zimbra mailbox" on `atelierjacquelinesuzanne.fr` (per `01-CONTEXT.md` D-14). The current live site's own Contact page displays `contact@jacquelinesuzanneatelier.fr` — a different domain (reversed word order).
    - What's unclear: Whether that's a typo-variant domain Romane also owns that forwards to the same Zimbra inbox, a genuinely separate mailbox, or simply stale/wrong copy on the old site.
    - Recommendation: Confirm the exact address with the user before wiring the Web3Forms access key to a destination inbox.
+   - **RESOLVED:** Resolved via 03-CONTEXT.md's D-07 clarification — confirmed the form delivers to the `atelierjacquelinesuzanne.fr` mailbox as D-07 originally states; the live site's reversed-word-order `jacquelinesuzanneatelier.fr` address is treated as legacy/incidental, not a signal to change destination. Implemented via plan 03-02's `user_setup` (Web3Forms access key configured against the confirmed `atelierjacquelinesuzanne.fr` inbox).
 
 3. **Does Web3Forms' bot/Cloudflare protection allow Playwright-driven (headless Chromium) submissions in CI, or only "real" human browser sessions?**
    - What we know: A raw `curl` POST to the live endpoint was explicitly rejected (403, "Use our API in client side"). This confirms the mechanism requires genuine browser-context requests, but this research did not run an actual Playwright test against the live endpoint to confirm headless Chromium clears that bar.
    - What's unclear: Whether CI-run Playwright tests can reliably hit the real endpoint, or whether they'll intermittently get flagged.
    - Recommendation: Don't depend on it either way — mock/intercept the network call for the automated e2e suite (Pitfall 2), and treat one manual, human-run submission as the actual proof of end-to-end delivery.
+   - **RESOLVED (sidestepped by design):** The dependency is avoided entirely — plan 03-02 (Task 1) mocks the Web3Forms network call via Playwright's `page.route()` rather than hitting the live endpoint, matching this document's own recommendation (Pitfall 2). CI never depends on Web3Forms' bot-detection behavior; a single manual human-verified submission remains the proof of real end-to-end delivery, tracked as a checkpoint (not an automated gate).
 
 ## Environment Availability
 
