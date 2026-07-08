@@ -103,3 +103,9 @@ None — no external service configuration required.
 ---
 *Phase: 04-legal-compliance*
 *Completed: 2026-07-08*
+
+## Self-Check: PASSED
+
+All created/modified files and commit hashes verified present:
+- `src/pages/confidentialite.astro`, `src/pages/en/confidentialite.astro`, `src/layouts/BaseLayout.astro`, `.planning/phases/04-legal-compliance/04-02-SUMMARY.md` — all FOUND
+- Commits `da6b5b3`, `eceaf05` — all FOUND in git log
