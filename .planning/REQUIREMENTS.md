@@ -29,8 +29,8 @@ Phased launch: v1 replaces the current Myportfolio site fast with portfolio + ab
 
 ### Contact
 
-- [ ] **CONT-01**: Visitor can contact Romane via a contact form
-- [ ] **CONT-02**: Contact form is protected against spam (e.g. honeypot)
+- [x] **CONT-01**: Visitor can contact Romane via a contact form
+- [x] **CONT-02**: Contact form is protected against spam (e.g. honeypot)
 
 ### Legal
 
@@ -127,8 +127,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | I18N-01 | Phase 1 | Complete |
 | I18N-02 | Phase 1 | Complete |
 | CMS-01 | Phase 2 | Complete |
-| CONT-01 | Phase 3 | Pending |
-| CONT-02 | Phase 3 | Pending |
+| CONT-01 | Phase 3 | Complete |
+| CONT-02 | Phase 3 | Complete |
 | LEGAL-01 | Phase 4 | Pending |
 | LEGAL-03 | Phase 4 | Pending |
 | LEGAL-05 | Phase 4 | Pending |
