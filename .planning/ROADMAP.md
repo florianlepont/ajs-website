@@ -17,6 +17,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: Portfolio Galleries** - Visitors can browse migrated galleries and full-size images; Romane can self-serve gallery edits via the CMS (completed 2026-07-07)
 - [x] **Phase 3: About & Contact** - Visitors can read Romane's bio/practice info and reach her through a spam-protected contact form (reopened 2026-07-08 — verification found the About page ships placeholder-only content; gap-closure plan 03-03 added) (completed 2026-07-08)
 - [x] **Phase 4: Legal & Compliance** - Mentions légales, privacy/GDPR notice, and CNIL-compliant cookie consent are live (completed 2026-07-08)
+- [ ] **Phase 04.1: Design System & Homepage Refresh (INSERTED)** - Adopt the imported design system's rebrand and rebuild the homepage per the imported prototype
+- [ ] **Phase 04.2: Social Media Links (INSERTED)** - Instagram link visible in the footer and on the About/Contact page
 - [ ] **Phase 5: Launch & Domain Cutover** - The new site is live at atelierjacquelinesuzanne.fr, replacing the old Myportfolio site
 
 ## Phase Details
@@ -144,11 +146,33 @@ Plans:
 
 **UI hint**: yes
 
+### Phase 04.1: Design System & Homepage Refresh (INSERTED)
+
+**Goal:** The site adopts the imported design system's monochrome + pop-pink visual identity (superseding Phase 2's Dawn Pink/Wild Strawberry palette) and the homepage becomes a real hero-carousel/grid-toggle gallery entry point, replacing the current placeholder "under construction" page.
+**Requirements**: TBD — see `.planning/design-import/README.md` for imported reference material (tokens, components, homepage prototype)
+**Depends on:** Phase 4
+**Plans:** 0 plans
+
+Plans:
+
+- [ ] TBD (run /gsd:plan-phase 04.1 to break down)
+
+### Phase 04.2: Social Media Links (INSERTED)
+
+**Goal:** Visitors can find and follow Romane's Instagram (@ajs_romanelepont) from the site footer (site-wide) and from the About/Contact page.
+**Requirements**: TBD
+**Depends on:** Phase 4
+**Plans:** 0 plans
+
+Plans:
+
+- [ ] TBD (run /gsd:plan-phase 04.2 to break down)
+
 ### Phase 5: Launch & Domain Cutover
 
 **Goal**: The new site fully replaces the old Myportfolio site at the live domain, with no unplanned downtime or broken email.
 **Mode:** mvp
-**Depends on**: Phase 2, Phase 3, Phase 4
+**Depends on**: Phase 2, Phase 3, Phase 4, Phase 04.1, Phase 04.2
 **Requirements**: LAUNCH-01
 **Success Criteria** (what must be TRUE):
 

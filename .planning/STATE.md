@@ -4,14 +4,14 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Phase 4 context gathered
-last_updated: "2026-07-08T20:12:19.457Z"
+last_updated: "2026-07-08T21:19:24.589Z"
 last_activity: 2026-07-08
 progress:
-  total_phases: 5
+  total_phases: 7
   completed_phases: 4
   total_plans: 15
   completed_plans: 15
-  percent: 80
+  percent: 57
 ---
 
 # Project State
@@ -25,9 +25,9 @@ See: .planning/PROJECT.md (updated 2026-07-05)
 
 ## Current Position
 
-Phase: 5
+Phase: 04.1
 Plan: Not started
-Status: Executing Phase 04
+Status: Ready to plan
 Last activity: 2026-07-08
 
 Progress: [██████████] 100%
@@ -65,6 +65,11 @@ Progress: [██████████] 100%
 | Phase 02 P04 | 90 | 3 tasks | 3 files |
 
 ## Accumulated Context
+
+### Roadmap Evolution
+
+- Phase 04.1: Design System & Homepage Refresh (INSERTED after Phase 4, URGENT) — import + adopt the Claude-Design-generated monochrome/pop-pink identity and rebuild the homepage per the imported prototype. See `.planning/design-import/README.md`.
+- Phase 04.2: Social Media Links (INSERTED after Phase 4, URGENT) — Instagram link in the footer and on the About/Contact page.
 
 ### Decisions
 
