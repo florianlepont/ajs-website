@@ -139,9 +139,13 @@ shadcn is not initialized for this project (see Design System section). No regis
 
 - Single page, flowing sections top-to-bottom — no tabs, no sub-navigation, no visually-boxed panels between sections (D-02, locked). Structure:
   1. `<h1>` — Display role, plain, no panel (see Typography role table above).
-  2. Bio section — Body-role paragraph(s), migrated verbatim from the current Myportfolio site (D-01), nothing dropped (D-04).
+  2. Bio section — Body-role paragraph, **amended post-research** (03-RESEARCH.md Open Question 1 / 03-CONTEXT.md Post-Research Amendments): live-site verification found no existing bio/background text to migrate, so D-01/D-04's "reuse verbatim" premise does not hold. Ships instead as an italic placeholder paragraph (`font-style: italic`, same treatment as item 5 below — no box/border/background):
+     - **FR:** "*Le texte de présentation de Romane sera bientôt disponible ici — en attente de sa version définitive.*"
+     - **EN:** "*Romane's biography will be available here soon — pending her final text.*"
   3. Atelier/practice subheading — Heading role, e.g. **FR:** "Atelier & pratique" · **EN:** "Studio & practice".
-  4. Atelier/practice paragraph(s) — Body role, existing content migrated where available, lightly expanded only where the current site is incomplete (D-05).
+  4. Atelier/practice paragraph — Body role, **amended post-research** (same finding as item 2: no existing "where she works" content found on the live site). Ships as an italic placeholder paragraph:
+     - **FR:** "*Informations sur l'atelier et la pratique de Romane à venir prochainement.*"
+     - **EN:** "*Information about Romane's studio and practice is coming soon.*"
   5. Placeholder paragraph for medium/technique specifics not yet confirmed by Romane (D-06) — **do not infer or guess** (e.g. do not assert analog/film/darkroom process from photo grain alone). Rendered as a normal Body-role paragraph with `font-style: italic` as the sole visual marker (no box, border, or background — consistent with D-02's "no boxed panels"), reading as a natural, visitor-facing "more soon" note rather than a raw TODO:
      - **FR:** "*Précisions sur le médium et la technique à venir — en attente de confirmation avec l'artiste.*"
      - **EN:** "*Details on medium and technique coming soon — pending confirmation with the artist.*"
