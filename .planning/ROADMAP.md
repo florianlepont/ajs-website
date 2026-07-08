@@ -16,7 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Foundation & Bilingual Infrastructure** - Site scaffolding (Astro + OVH Web Hosting + Sanity) deployed with working FR/EN routing and a persistent language switcher (completed 2026-07-06)
 - [x] **Phase 2: Portfolio Galleries** - Visitors can browse migrated galleries and full-size images; Romane can self-serve gallery edits via the CMS (completed 2026-07-07)
 - [x] **Phase 3: About & Contact** - Visitors can read Romane's bio/practice info and reach her through a spam-protected contact form (reopened 2026-07-08 — verification found the About page ships placeholder-only content; gap-closure plan 03-03 added) (completed 2026-07-08)
-- [ ] **Phase 4: Legal & Compliance** - Mentions légales, privacy/GDPR notice, and CNIL-compliant cookie consent are live
+- [x] **Phase 4: Legal & Compliance** - Mentions légales, privacy/GDPR notice, and CNIL-compliant cookie consent are live (completed 2026-07-08)
 - [ ] **Phase 5: Launch & Domain Cutover** - The new site is live at atelierjacquelinesuzanne.fr, replacing the old Myportfolio site
 
 ## Phase Details
@@ -140,7 +140,7 @@ Plans:
 
 **Wave 3** *(blocked on Wave 2)*
 
-- [ ] 04-03-PLAN.md — Legal-content accuracy human-verify checkpoint (name / OVH host / business status)
+- [x] 04-03-PLAN.md — Legal-content accuracy human-verify checkpoint (name / OVH host / business status)
 
 **UI hint**: yes
 
@@ -168,7 +168,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 1. Foundation & Bilingual Infrastructure | 5/5 | Complete   | 2026-07-06 |
 | 2. Portfolio Galleries | 4/4 | Complete    | 2026-07-07 |
 | 3. About & Contact | 3/3 | Complete    | 2026-07-08 |
-| 4. Legal & Compliance | 2/3 | In Progress|  |
+| 4. Legal & Compliance | 3/3 | Complete   | 2026-07-08 |
 | 5. Launch & Domain Cutover | 0/TBD | Not started | - |
 
 ## Milestone Scope Note
