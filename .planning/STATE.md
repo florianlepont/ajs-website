@@ -4,8 +4,8 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Phase 4 context gathered
-last_updated: "2026-07-08T15:59:44.094Z"
-last_activity: 2026-07-08 -- Phase 04 planning complete
+last_updated: "2026-07-08T16:10:05.142Z"
+last_activity: 2026-07-08 -- Phase 04 execution started
 progress:
   total_phases: 5
   completed_phases: 3
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-07-05)
 
 **Core value:** Visitors can browse Romane's photographic work and buy a piece through a real, working checkout — everything else supports that. (v1 milestone delivers the portfolio/about/contact foundation; checkout follows in v1.x.)
-**Current focus:** Phase 03 — about-contact
+**Current focus:** Phase 04 — legal-compliance
 
 ## Current Position
 
-Phase: 4
-Plan: Not started
-Status: Ready to execute
-Last activity: 2026-07-08 -- Phase 04 planning complete
+Phase: 04 (legal-compliance) — EXECUTING
+Plan: 1 of 3
+Status: Executing Phase 04
+Last activity: 2026-07-08 -- Phase 04 execution started
 
 Progress: [██████████] 100%
 

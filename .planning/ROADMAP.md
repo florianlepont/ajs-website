@@ -132,7 +132,7 @@ Plans:
 Plans:
 **Wave 1**
 
-- [ ] 04-01-PLAN.md — Mentions légales bilingual slice + Wave 0 failing e2e harness + footer legal nav (LEGAL-01)
+- [x] 04-01-PLAN.md — Mentions légales bilingual slice + Wave 0 failing e2e harness + footer legal nav (LEGAL-01)
 
 **Wave 2** *(blocked on Wave 1 — shared BaseLayout.astro footer + legal.spec.ts)*
 
@@ -168,7 +168,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 1. Foundation & Bilingual Infrastructure | 5/5 | Complete   | 2026-07-06 |
 | 2. Portfolio Galleries | 4/4 | Complete    | 2026-07-07 |
 | 3. About & Contact | 3/3 | Complete    | 2026-07-08 |
-| 4. Legal & Compliance | 0/3 | Not started | - |
+| 4. Legal & Compliance | 1/3 | In Progress|  |
 | 5. Launch & Domain Cutover | 0/TBD | Not started | - |
 
 ## Milestone Scope Note
