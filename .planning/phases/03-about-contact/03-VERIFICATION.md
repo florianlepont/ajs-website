@@ -3,7 +3,16 @@ phase: 03-about-contact
 verified: 2026-07-08T06:29:53Z
 status: gaps_found
 score: 4/7 must-haves verified
-overrides_applied: 0
+overrides_applied: 2
+overrides:
+  - must_have: "Visitor can read an About page covering Romane's background and artistic approach, in both French and English"
+    reason: "Approved: ship with clearly-marked placeholder bio/atelier copy; real content is a content follow-up, not a code blocker, per 03-CONTEXT.md D-01/D-04 amendment. Signed off via 03-03-PLAN.md Task 1 checkpoint (Path B)."
+    accepted_by: "Florian Lepont"
+    accepted_at: "2026-07-08T10:44:57Z"
+  - must_have: "Visitor can read atelier/practice information (where she works, medium, techniques) on the About page"
+    reason: "Approved: same as above"
+    accepted_by: "Florian Lepont"
+    accepted_at: "2026-07-08T10:44:57Z"
 gaps:
   - truth: "Visitor can read an About page covering Romane's background and artistic approach, in both French and English (ROADMAP Success Criterion 1 / ABOUT-01)"
     status: failed
