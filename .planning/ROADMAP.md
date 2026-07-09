@@ -151,11 +151,20 @@ Plans:
 **Goal:** The site adopts the imported design system's monochrome + pop-pink visual identity (superseding Phase 2's Dawn Pink/Wild Strawberry palette) and the homepage becomes a real hero-carousel/grid-toggle gallery entry point, replacing the current placeholder "under construction" page.
 **Requirements**: TBD — see `.planning/design-import/README.md` for imported reference material (tokens, components, homepage prototype)
 **Depends on:** Phase 4
-**Plans:** 0 plans
+**Plans:** 6 plans
 
 Plans:
+**Wave 1**
 
-- [ ] TBD (run /gsd:plan-phase 04.1 to break down)
+- [ ] 04.1-01-PLAN.md — Foundation: rebrand tokens + self-hosted Archivo Black + white-on-white chrome + AJS logo header (headerVariant prop) (Wave 1)
+- [ ] 04.1-02-PLAN.md — Wave 0 RED e2e spec: homepage carousel/grid/auto-advance/only-migrated-galleries contract (Wave 1)
+
+**Wave 2** *(blocked on Wave 1 — new :root tokens + headerVariant prop)*
+
+- [ ] 04.1-03-PLAN.md — New Button/Input/Textarea/EmptyState components + ContactForm ink-only-error refactor + galleries EmptyState adoption (Wave 2)
+- [ ] 04.1-04-PLAN.md — Homepage rebuild: HomeCarousel island (carousel+grid+auto-advance) + FR/EN index pages, turns homepage.spec.ts GREEN (Wave 2)
+- [ ] 04.1-05-PLAN.md — Repaint GalleryCard/Grid/Lightbox/LanguageSwitcher + gallery-detail hero-scrim (D-07) (Wave 2)
+- [ ] 04.1-06-PLAN.md — Repaint About + legal-page (mentions-légales/confidentialité, FR/EN) typography to the fixed Display/Heading/Body roles — closes the D-01 split-identity gap (Wave 2)
 
 ### Phase 04.2: Social Media Links (INSERTED)
 
