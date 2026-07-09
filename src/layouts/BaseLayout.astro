@@ -14,9 +14,15 @@ import '@fontsource/archivo-black';
 
 interface Props {
   title: string;
+  // D-11/D-13/RESEARCH.md Architectural Responsibility Map: 'solid' (default)
+  // is every existing page's white-on-white hairline header; 'transparent'
+  // is the gallery-detail hero-scrim header (Plan 04.1-05, D-07); 'none'
+  // suppresses the shared header entirely for the homepage's own overlaid
+  // top bar (Plan 04.1-04). The shared <footer> always renders regardless.
+  headerVariant?: 'solid' | 'transparent' | 'none';
 }
 
-const { title } = Astro.props;
+const { title, headerVariant = 'solid' } = Astro.props;
 const locale = Astro.currentLocale === 'en' ? 'en' : 'fr';
 
 const siteSettings = await getSiteSettings();
@@ -52,6 +58,13 @@ const legalNoticeLabel = locale === 'en' ? 'Legal notice' : 'Mentions légales';
 const legalNoticeHref = getRelativeLocaleUrl(locale, 'mentions-legales');
 const privacyLabel = locale === 'en' ? 'Privacy' : 'Confidentialité';
 const privacyHref = getRelativeLocaleUrl(locale, 'confidentialite');
+
+// D-11: real AJS wordmark PNG logo, header only. Base-aware (matches the
+// CR-01 precedent, 01-REVIEW.md) so the asset resolves correctly under
+// GitHub Pages' non-root base as well as OVH's root base.
+const assetBase = (import.meta.env.BASE_URL ?? '/').replace(/\/$/, '');
+const logoBlackSrc = `${assetBase}/logos/AJS_Brutalist_Black_Transparent.png`;
+const logoWhiteSrc = `${assetBase}/logos/AJS_Brutalist_White_Transparent.png`;
 ---
 
 <!doctype html>
@@ -87,16 +100,22 @@ const privacyHref = getRelativeLocaleUrl(locale, 'confidentialite');
     </script>
   </head>
   <body>
-    <header class="chrome-band">
-      <p class="site-title">{siteTitle}</p>
-      <nav class="site-nav" aria-label="Primary">
-        <a href={homeHref} class="nav-link">{homeLabel}</a>
-        <a href={galleriesHref} class="nav-link">{galleriesLabel}</a>
-        <a href={aboutHref} class="nav-link">{aboutLabel}</a>
-        <a href={contactHref} class="nav-link">{contactLabel}</a>
-      </nav>
-      <LanguageSwitcher />
-    </header>
+    {headerVariant !== 'none' && (
+      <header class:list={['chrome-band', 'site-header', `site-header--${headerVariant}`]}>
+        <a href={homeHref} class="logo-mark" aria-label={siteTitle}>
+          <span class="logo-mark__chip" aria-hidden="true"></span>
+          <img src={logoBlackSrc} alt="" class="logo-mark__img logo-mark__img--default" />
+          <img src={logoWhiteSrc} alt="" class="logo-mark__img logo-mark__img--hover" />
+        </a>
+        <nav class="site-nav" aria-label="Primary">
+          <a href={homeHref} class="nav-link">{homeLabel}</a>
+          <a href={galleriesHref} class="nav-link">{galleriesLabel}</a>
+          <a href={aboutHref} class="nav-link">{aboutLabel}</a>
+          <a href={contactHref} class="nav-link">{contactLabel}</a>
+        </nav>
+        <LanguageSwitcher />
+      </header>
+    )}
     <main>
       <slot />
     </main>
@@ -237,8 +256,9 @@ const privacyHref = getRelativeLocaleUrl(locale, 'confidentialite');
 </style>
 
 <style>
+  /* D-04: header/footer merge onto --color-dominant (white-on-white),
+     delineated only by a 1px hairline border — no chrome-band tint. */
   .chrome-band {
-    background-color: var(--color-secondary);
     padding: var(--space-lg) var(--space-md);
   }
 
@@ -248,18 +268,88 @@ const privacyHref = getRelativeLocaleUrl(locale, 'confidentialite');
     }
   }
 
-  header.chrome-band {
+  .site-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: var(--space-md);
   }
 
-  .site-title {
-    margin: 0;
-    font-size: 20px; /* Heading role */
-    font-weight: 900;
-    line-height: 1.2;
+  .site-header--solid {
+    background-color: var(--color-dominant);
+    border-bottom: var(--border-hairline) solid var(--color-border);
+  }
+
+  /* D-07/Plan 04.1-05: absolutely-positioned, transparent/gradient header
+     over a hero photo scrim — no hairline border (the scrim itself is the
+     delineation). Nav text renders white in this variant. */
+  .site-header--transparent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.25) 60%, rgba(0, 0, 0, 0) 100%);
+  }
+
+  .site-header--transparent .nav-link {
+    color: #FFFFFF;
+  }
+
+  /* D-11/D-13/RESEARCH.md Pattern 3: two stacked <img> elements, hover-invert
+     via opacity cross-fade. */
+  .logo-mark {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  /* Dark backdrop chip (logo bounding box + --space-sm padding, --radius-none
+     square corners) so the white PNG variant stays legible when it fades in
+     over the white solid header (UI-SPEC Layout Notes — Header). */
+  .logo-mark__chip {
+    position: absolute;
+    inset: calc(-1 * var(--space-sm));
+    background-color: var(--color-ink);
+    border-radius: var(--radius-none);
+    opacity: 0;
+    transition: opacity 150ms ease;
+    z-index: 0;
+  }
+
+  .logo-mark__img {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 56px;
+    height: auto;
+  }
+
+  .logo-mark__img--hover {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 150ms ease;
+  }
+
+  /* Solid header: default = black logo; hover/focus-within cross-fades to
+     the white variant over the dark chip. */
+  .site-header--solid .logo-mark:hover .logo-mark__chip,
+  .site-header--solid .logo-mark:focus-within .logo-mark__chip,
+  .site-header--solid .logo-mark:hover .logo-mark__img--hover,
+  .site-header--solid .logo-mark:focus-within .logo-mark__img--hover {
+    opacity: 1;
+  }
+
+  /* Transparent header: white logo variant shown by default (over the dark
+     scrim already provided by the header background) — no hover swap. */
+  .site-header--transparent .logo-mark__img--default {
+    opacity: 0;
+  }
+
+  .site-header--transparent .logo-mark__img--hover {
+    opacity: 1;
   }
 
   .site-nav {
@@ -271,7 +361,7 @@ const privacyHref = getRelativeLocaleUrl(locale, 'confidentialite');
 
   .nav-link {
     font-size: 14px; /* Label role */
-    font-weight: 300;
+    font-weight: var(--weight-regular);
     line-height: 1.5;
     text-decoration: none;
   }
@@ -283,12 +373,13 @@ const privacyHref = getRelativeLocaleUrl(locale, 'confidentialite');
 
   footer.chrome-band {
     text-align: left;
+    border-top: var(--border-hairline) solid var(--color-border);
   }
 
   .footer-text {
     margin: 0;
     font-size: 14px; /* Label role */
-    font-weight: 300;
+    font-weight: var(--weight-regular);
     line-height: 1.5;
   }
 
