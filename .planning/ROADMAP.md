@@ -169,13 +169,13 @@ Plans:
 ### Phase 04.2: Social Media Links (INSERTED)
 
 **Goal:** Visitors can find and follow Romane's Instagram (@ajs_romanelepont) from the site footer (site-wide) and from the About/Contact page.
-**Requirements**: TBD
+**Requirements**: SOCIAL-01 (synthetic — maps to the phase goal; ROADMAP had no formal REQ-ID)
 **Depends on:** Phase 4
-**Plans:** 0 plans
+**Plans:** 1 plan
 
 Plans:
 
-- [ ] TBD (run /gsd:plan-phase 04.2 to break down)
+- [ ] 04.2-01-PLAN.md — Add the Instagram link to the site-wide footer + About/Contact pages (FR/EN), with e2e coverage
 
 ### Phase 5: Launch & Domain Cutover
 
