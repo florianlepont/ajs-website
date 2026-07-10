@@ -17,7 +17,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: Portfolio Galleries** - Visitors can browse migrated galleries and full-size images; Romane can self-serve gallery edits via the CMS (completed 2026-07-07)
 - [x] **Phase 3: About & Contact** - Visitors can read Romane's bio/practice info and reach her through a spam-protected contact form (reopened 2026-07-08 — verification found the About page ships placeholder-only content; gap-closure plan 03-03 added) (completed 2026-07-08)
 - [x] **Phase 4: Legal & Compliance** - Mentions légales, privacy/GDPR notice, and CNIL-compliant cookie consent are live (completed 2026-07-08)
-- [ ] **Phase 04.1: Design System & Homepage Refresh (INSERTED)** - Adopt the imported design system's rebrand and rebuild the homepage per the imported prototype
+- [x] **Phase 04.1: Design System & Homepage Refresh (INSERTED)** - Adopt the imported design system's rebrand and rebuild the homepage per the imported prototype (completed 2026-07-10)
 - [ ] **Phase 04.2: Social Media Links (INSERTED)** - Instagram link visible in the footer and on the About/Contact page
 - [ ] **Phase 5: Launch & Domain Cutover** - The new site is live at atelierjacquelinesuzanne.fr, replacing the old Myportfolio site
 
@@ -151,7 +151,7 @@ Plans:
 **Goal:** The site adopts the imported design system's monochrome + pop-pink visual identity (superseding Phase 2's Dawn Pink/Wild Strawberry palette) and the homepage becomes a real hero-carousel/grid-toggle gallery entry point, replacing the current placeholder "under construction" page.
 **Requirements**: TBD — see `.planning/design-import/README.md` for imported reference material (tokens, components, homepage prototype)
 **Depends on:** Phase 4
-**Plans:** 2/6 plans executed
+**Plans:** 6/6 plans complete
 
 Plans:
 **Wave 1**
@@ -161,10 +161,10 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 — new :root tokens + headerVariant prop)*
 
-- [ ] 04.1-03-PLAN.md — New Button/Input/Textarea/EmptyState components + ContactForm ink-only-error refactor + galleries EmptyState adoption (Wave 2)
-- [ ] 04.1-04-PLAN.md — Homepage rebuild: HomeCarousel island (carousel+grid+auto-advance) + FR/EN index pages, turns homepage.spec.ts GREEN (Wave 2)
-- [ ] 04.1-05-PLAN.md — Repaint GalleryCard/Grid/Lightbox/LanguageSwitcher + gallery-detail hero-scrim (D-07) (Wave 2)
-- [ ] 04.1-06-PLAN.md — Repaint About + legal-page (mentions-légales/confidentialité, FR/EN) typography to the fixed Display/Heading/Body roles — closes the D-01 split-identity gap (Wave 2)
+- [x] 04.1-03-PLAN.md — New Button/Input/Textarea/EmptyState components + ContactForm ink-only-error refactor + galleries EmptyState adoption (Wave 2)
+- [x] 04.1-04-PLAN.md — Homepage rebuild: HomeCarousel island (carousel+grid+auto-advance) + FR/EN index pages, turns homepage.spec.ts GREEN (Wave 2)
+- [x] 04.1-05-PLAN.md — Repaint GalleryCard/Grid/Lightbox/LanguageSwitcher + gallery-detail hero-scrim (D-07) (Wave 2)
+- [x] 04.1-06-PLAN.md — Repaint About + legal-page (mentions-légales/confidentialité, FR/EN) typography to the fixed Display/Heading/Body roles — closes the D-01 split-identity gap (Wave 2)
 
 ### Phase 04.2: Social Media Links (INSERTED)
 
