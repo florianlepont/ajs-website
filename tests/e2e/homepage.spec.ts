@@ -7,8 +7,14 @@ import { test, expect } from '@playwright/test';
 // 04.1-UI-SPEC.md, built in Plan 04.1-04. They are expected to FAIL until then
 // — do not stub or weaken them to make them pass early.
 
-const MIGRATED_GALLERIES = [/silos/i, /brume/i];
-const UNMIGRATED_GALLERIES = [/rebut/i, /adults/i, /victorian tea room/i, /paysages/i];
+// Content note: a third Sanity gallery document (slug `adults`) now has real
+// published photos under the title "Paysage" — added directly in Sanity
+// Studio, outside this phase's work. D-12's filter is content-driven
+// (`images.length > 0`, not a hardcoded slug denylist per CONTEXT.md), so it
+// correctly picks this up. Only Rebut and The Victorian Tea Room remain
+// genuinely unmigrated (still zero images).
+const MIGRATED_GALLERIES = [/silos/i, /brume/i, /paysage/i];
+const UNMIGRATED_GALLERIES = [/rebut/i, /victorian tea room/i];
 
 test.describe('homepage carousel', () => {
   test('carousel root renders and shows the first migrated gallery', async ({ page }) => {
@@ -21,15 +27,20 @@ test.describe('homepage carousel', () => {
 });
 
 test.describe('only migrated galleries appear (D-12)', () => {
-  test('unmigrated galleries never appear; both migrated galleries are reachable', async ({ page }) => {
+  test('unmigrated galleries never appear; all migrated galleries are reachable', async ({ page }) => {
     await page.goto('/');
-    const bodyText = await page.locator('body').innerText();
+
+    // The carousel shows one slide's title at a time by design, so "all
+    // migrated galleries are reachable" is checked in grid mode, where every
+    // gallery renders as its own visible tile simultaneously.
+    await page.getByRole('button', { name: 'Grille' }).click();
+    const gridText = await page.locator('[data-role="home-grid"]').innerText();
 
     for (const forbidden of UNMIGRATED_GALLERIES) {
-      expect(bodyText).not.toMatch(forbidden);
+      expect(gridText).not.toMatch(forbidden);
     }
     for (const migrated of MIGRATED_GALLERIES) {
-      expect(bodyText).toMatch(migrated);
+      expect(gridText).toMatch(migrated);
     }
   });
 });
@@ -46,8 +57,13 @@ test.describe('carousel/grid display mode toggle (D-08)', () => {
     await page.getByRole('button', { name: 'Grille' }).click();
 
     await expect(carousel).toBeHidden();
-    await expect(page.getByText(/silos/i).first()).toBeVisible();
-    await expect(page.getByText(/brume/i).first()).toBeVisible();
+    // Scope to the grid container: the (now-hidden) carousel hero heading
+    // also matches these gallery-name patterns, and an unscoped getByText
+    // would resolve to whichever DOM node comes first regardless of
+    // visibility, not necessarily the visible grid tile.
+    const grid = page.locator('[data-role="home-grid"]');
+    await expect(grid.getByText(/silos/i).first()).toBeVisible();
+    await expect(grid.getByText(/brume/i).first()).toBeVisible();
 
     await page.getByRole('button', { name: 'Carrousel' }).click();
     await expect(carousel).toBeVisible();
