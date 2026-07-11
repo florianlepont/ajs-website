@@ -2,7 +2,7 @@
 status: awaiting_human_verify
 trigger: "* The logo does not appears\n* There is no margin on the bottom and right side of the hero\n* The hero is cropped on my display\n* FR | EN is colorized but it supposed to stay white or black\n* SOme items of the navigation are missing on the homepage"
 created: 2026-07-10T15:16:37.402Z
-updated: 2026-07-11T06:42:11.352Z
+updated: 2026-07-11T16:33:35.326Z
 ---
 
 ## Current Focus
@@ -24,7 +24,15 @@ test: |
   reads) at 1440x760 and again at an extreme 1440x500 to confirm hero height always exactly equals
   window.innerHeight regardless of how short the viewport is.
 expecting: N/A — verified live, not guessed.
-next_action: Awaiting final user confirmation (all 5 symptoms) before moving this session to resolved.
+
+Round 4 (new user feedback after round 3 screenshot): user confirmed 1/2/3/5 fixed but raised two new items —
+(a) header buttons visually misaligned, (b) the whole header (not just FR|EN) should never use the cycling
+accent color, only white/ink for contrast. Root-caused (a) as a display:block-vs-flex mismatch between
+.home-nav-link/.home-toggle__btn (top-aligned text within their min-height box) and .switcher-link
+(flex-centered) — same box position, different internal text alignment. Root-caused (b) as
+.home-header's own color declaration in carousel mode still being var(--current-accent, ...), which every
+child inherited via color:inherit except the switcher (which had its own override from round 3).
+next_action: Awaiting user confirmation on round 4's fixes (uniform white/ink header, aligned baselines) before moving this session to resolved.
 reasoning_checkpoint:
   hypothesis: |
     Round 2 finding: adding About/Contact to HomeCarousel's nav made the mobile (flex-wrap) header grow from 2 rows (~192px) to 3 rows (~252px), because the nav item no longer fits on the same wrapped row as the toggle/switcher. The prev/next arrows (positioned `top: 50%` relative to the whole `.home-hero` box, which was only `min-height: 420px` on mobile) now overlapped the taller header — a regression introduced by this same debugging session's fix for symptom 5, not by the original Phase 04.1 work.
@@ -146,6 +154,18 @@ started: |
   found: "navLinkColor=rgb(175,61,255) (accent, unchanged) vs switcherLinkColor=rgb(255,255,255) (white, neutral) in carousel mode; both rgb(26,26,26) in grid mode (coincides with nav's ink there, which is also neutral). heroHeight === window.innerHeight exactly at both 760px and 500px viewport heights — hero can structurally never exceed the viewport once min-height is removed."
   implication: Symptom 4 now correctly shows a neutral switcher distinct from the accent-colored nav. Symptom 3 is now guaranteed fixed for any viewport height, not just the ones tested, since the fix removes the failure mode entirely rather than picking a new constant.
 
+- timestamp: 2026-07-11T16:30:00.000Z
+  checked: "User's round-4 screenshot (Paysage/teal gallery) + reply: 1/2/3/5 confirmed fixed; header buttons visually misaligned; wants the ENTIRE header (not just the switcher) to drop the cycling accent color entirely, plain white/ink only"
+  found: |
+    getBoundingClientRect() on .home-nav-link / .home-toggle__btn / .switcher-link all showed identical box position (top:44, bottom:88) — the boxes were already aligned. But getComputedStyle showed .home-nav-link/.home-toggle__btn use `display:block` (default) while .switcher-link uses `display:flex; align-items:center` — same box, but nav-link/toggle text sits near the box's top edge (block layout) while switcher text is vertically centered, producing the visual misalignment despite identical outer geometry.
+    Separately confirmed .home-header's own color in carousel mode was still `var(--current-accent, var(--color-accent))`, inherited by nav-links/toggle via color:inherit (round-3's switcher override only fixed the switcher specifically, not the header's base color that everything else still inherits).
+  implication: Two independent, narrow fixes needed — (a) add display:inline-flex;align-items:center to .home-nav-link/.home-toggle__btn to match switcher's text-centering, (b) change .home-header's own carousel-mode color from the accent var to a plain #FFFFFF (grid mode was already var(--color-ink), no change needed there).
+
+- timestamp: 2026-07-11T16:33:00.000Z
+  checked: "Live Browser-pane verification after both fixes, at default 1440x760, checking all 3 element types' box position AND computed color in both display modes"
+  found: "All 3 (.home-nav-link, .home-toggle__btn, .switcher-link) report identical top/bottom (44/88) AND identical color: rgb(255,255,255) in carousel mode, rgb(26,26,26) in grid mode. Zoomed screenshot confirms visually flush baseline alignment across the whole header."
+  implication: Both round-4 issues fixed and verified live, not just via computed-style assertions.
+
 ## Resolution
 <!-- OVERWRITE as understanding evolves -->
 
@@ -154,19 +174,20 @@ root_cause: |
   1. Logo <img> srcs hardcoded root-relative (`/logos/...`) instead of base-aware like BaseLayout — 404s under the GitHub Pages ASTRO_BASE deploy.
   2. `.home-hero__accent` hardcoded `right: 0; bottom: 0;` instead of the approved prototype's `var(--space-md)` inset on both.
   3. Desktop hero height floor (`min-height`, originally 680px per the approved spec) forced scroll/cropping whenever the real browser window was shorter than the floor — true at both 680px and a subsequently-tried 600px on the user's actual MacBook Air 13" (2026). Any fixed floor is fragile against an unknown real viewport height.
-  4. LanguageSwitcher.astro's own hardcoded pink color overrode HomeCarousel's contextual header color. The first fix (`color: inherit`) was directionally right but wrong in effect: it made the switcher match the accent-colored nav-links, which the user then clarified is NOT wanted — the switcher must stay neutral (white/ink), distinct from the accent-colored nav.
-  5. Homepage nav was missing About/Contact — originally treated as intentional (matching the imported prototype's minimal nav per UI-SPEC), but the user confirmed this was an unwanted gap. Adding it caused a secondary mobile-only regression (taller wrapped header colliding with the prev/next arrows), fixed by raising the mobile hero's min-height floor.
+  4. LanguageSwitcher.astro's own hardcoded pink color overrode HomeCarousel's contextual header color. Round 3's `color: inherit` fix was directionally right but wrong in effect (matched the still-accent-colored header). Round 4 clarified the requirement further: the ENTIRE header (not just the switcher) must never use the cycling accent color — `.home-header`'s own carousel-mode color declaration was still `var(--current-accent, ...)`, which every nav-link/toggle button inherited.
+  5. Homepage nav was missing About/Contact — originally treated as intentional (matching the imported prototype's minimal nav per UI-SPEC), but the user confirmed this was an unwanted gap. Adding it caused a secondary mobile-only regression (taller wrapped header colliding with the prev/next arrows, fixed by raising the mobile hero's min-height floor) and, separately, exposed a pre-existing header-button vertical misalignment: `.home-nav-link`/`.home-toggle__btn` used `display:block` (text sits near the box's top edge) while `.switcher-link` used `display:flex;align-items:center` (text vertically centered) — same box geometry, different internal text alignment.
 fix: |
   All changes in src/components/HomeCarousel.astro only (LanguageSwitcher.astro/BaseLayout.astro untouched):
   1. Added a local `assetBase` (mirrors BaseLayout.astro) to prefix both logo <img> srcs.
   2. Changed `.home-hero__accent` from `right: 0; bottom: 0;` to `right: var(--space-md); bottom: var(--space-md);`.
   3. Removed the desktop `.home-hero` min-height declaration entirely (was 680px, then 600px) — `height: 100vh` alone can never exceed the real viewport, eliminating the failure mode instead of picking another guessed constant.
-  4. Replaced the `color: inherit` override with explicit mode-scoped neutral colors: `#FFFFFF` in carousel mode, `var(--color-ink)` in grid mode — scoped to `.home-header` only, so the switcher stays visually distinct from the accent-colored nav-links as requested, while every other page's switcher (still hardcoded pink via LanguageSwitcher.astro itself) is untouched.
-  5. Added aboutLabel/aboutHref/contactLabel/contactHref (mirroring BaseLayout's exact pattern) and two new nav links to HomeCarousel's own `<nav class="home-nav">`. Raised mobile `.home-hero` min-height from 420px to 600px to give the now-taller wrapped mobile header enough clearance from the prev/next arrows (empirically verified, not guessed; this one keeps a floor since mobile uses `height: auto`, not `100vh`, so there's no self-correcting mechanism there).
+  4. `.home-header`'s own carousel-mode color changed from `var(--current-accent, var(--color-accent))` to a plain `#FFFFFF` — the cycling accent color is now reserved for the accent panel only (D-05), nothing in the header/nav uses it. Grid mode was already `var(--color-ink)`, unchanged. The switcher's own explicit white/ink override (round 3) is kept for clarity even though it's now redundant with the header's base color, since LanguageSwitcher.astro's own hardcoded pink still needs an override to not win.
+  5. Added aboutLabel/aboutHref/contactLabel/contactHref (mirroring BaseLayout's exact pattern) and two new nav links to HomeCarousel's own `<nav class="home-nav">`. Raised mobile `.home-hero` min-height from 420px to 600px for arrow/header clearance. Added `display:inline-flex;align-items:center` to `.home-nav-link`/`.home-toggle__btn` so their text vertically centers within the tap-target box exactly like `.switcher-link`, fixing the baseline misalignment across the whole header.
 verification: |
   - Round 1 (symptoms 1/2/4-partial + desktop symptom 3-partial): rebuilt with ASTRO_BASE=/ajs-website/ and grepped dist/index.html for correctly-prefixed logo paths; Playwright confirmed accent-panel margins at 4 desktop viewport sizes; full regression suite 46/46 e2e + 23/23 unit passed.
   - Round 2 (symptom 5 + its mobile regression): live DOM verification at 1440x760 (desktop, 4 nav items on one row, no wrap) and 375x667 (mobile, arrows clear of header by measured pixel gaps, both FR and EN copy correct). Re-ran full suite: 46/46 e2e + 23/23 unit still passing.
-  - Round 3 (symptom 4 correction + symptom 3 structural fix): live Browser-pane verification (navigate + resize_window + javascript_tool) confirmed switcher color is white/ink (not accent) in both display modes, and hero height exactly equals window.innerHeight at both 760px and an extreme 500px viewport height. Re-ran full suite again: 46/46 e2e + 23/23 unit still passing.
-  - User confirmed symptoms 1/2/5 resolved. Awaiting final confirmation on the round-3 fixes for symptoms 3/4 before moving to resolved.
+  - Round 3 (symptom 4 correction + symptom 3 structural fix): live Browser-pane verification confirmed switcher color is white/ink (not accent) in both display modes, and hero height exactly equals window.innerHeight at 760px and 500px. Re-ran full suite: 46/46 e2e + 23/23 unit still passing.
+  - Round 4 (header-wide neutral color + button alignment): live Browser-pane verification confirmed .home-nav-link/.home-toggle__btn/.switcher-link report identical box position AND identical color (white in carousel, ink in grid) — no element anywhere in the header uses the accent color anymore. Zoomed screenshot confirms visually flush text-baseline alignment. Re-ran full suite: 46/46 e2e + 23/23 unit still passing.
+  - User confirmed symptoms 1/2/3/5 resolved. Awaiting final confirmation on round 4's fixes (uniform header color + alignment) before moving to resolved.
 files_changed:
   - src/components/HomeCarousel.astro

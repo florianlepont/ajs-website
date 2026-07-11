@@ -311,7 +311,11 @@ const logoBlackSrc = `${assetBase}/logos/AJS_Brutalist_Black_Transparent.png`;
     left: 0;
     right: 0;
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
-    color: var(--current-accent, var(--color-accent));
+    /* Neutral white, not the cycling accent color (direct user feedback —
+       the accent-per-gallery color is reserved for the accent panel only,
+       per D-05; header/nav text should read for contrast, not compete with
+       it). */
+    color: #FFFFFF;
   }
 
   .home[data-display-mode='grid'] .home-header {
@@ -347,13 +351,11 @@ const logoBlackSrc = `${assetBase}/logos/AJS_Brutalist_Black_Transparent.png`;
   }
 
   /* LanguageSwitcher.astro hardcodes its own links pink (correct everywhere
-     else on the site, D-06) — but on the homepage's own top bar the switcher
-     must stay neutral (white in carousel mode, ink in grid mode), NOT follow
-     the cycling accent color the rest of the nav uses (confirmed via direct
-     user feedback — the FR|EN switcher reads as a locale utility, not a
-     site-navigation link, so it should not compete with the accent-colored
-     nav/CTA). Scoped to .home-header only so LanguageSwitcher's behavior
-     everywhere else (BaseLayout's solid/transparent headers) is untouched. */
+     else on the site, D-06) — but the homepage's own top bar is neutral
+     white/ink throughout (see .home-header color above), so the switcher
+     needs its own override here too. Scoped to .home-header only so
+     LanguageSwitcher's behavior everywhere else (BaseLayout's solid/
+     transparent headers) is untouched. */
   .home[data-display-mode='carousel'] .home-header :global(.switcher-link),
   .home[data-display-mode='carousel'] .home-header :global(.switcher-separator) {
     color: #FFFFFF;
@@ -366,6 +368,12 @@ const logoBlackSrc = `${assetBase}/logos/AJS_Brutalist_Black_Transparent.png`;
 
   .home-nav-link,
   .home-toggle__btn {
+    display: inline-flex; /* matches LanguageSwitcher's .switcher-link so text
+                              baselines line up across the whole header —
+                              a plain block/inline box top-aligns its text
+                              within the min-height box instead of centering
+                              it, which read as misaligned buttons */
+    align-items: center;
     font-size: 14px; /* Label role */
     font-weight: var(--weight-regular);
     line-height: 1.5;
