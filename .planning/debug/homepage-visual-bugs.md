@@ -2,16 +2,29 @@
 status: awaiting_human_verify
 trigger: "* The logo does not appears\n* There is no margin on the bottom and right side of the hero\n* The hero is cropped on my display\n* FR | EN is colorized but it supposed to stay white or black\n* SOme items of the navigation are missing on the homepage"
 created: 2026-07-10T15:16:37.402Z
-updated: 2026-07-10T18:10:00.000Z
+updated: 2026-07-11T06:42:11.352Z
 ---
 
 ## Current Focus
 <!-- OVERWRITE on each update - always reflects NOW -->
 
-hypothesis: All 5 symptoms are now addressed. Symptoms 1/2/4 were implementation deviations from the approved UI-SPEC/prototype (fixed round 1). Symptom 3 (hero cropped) was confirmed real on the user's actual device (MacBook Air 13", 2026) — the approved 680px desktop min-height floor was too tall for common laptop viewport heights; lowered to 600px. Symptom 5 (missing nav items) was reclassified from "design as intended" to a real gap after the user confirmed via screenshot they specifically meant About/Contact — added both to HomeCarousel's own nav, matching BaseLayout's exact label/href pattern.
-test: Added About/Contact nav links, then live-verified via preview_eval/DOM measurement (not just Playwright) at 1440x760 (desktop) and 375x667 (mobile) against a running preview server.
-expecting: N/A — all fixes verified live in-browser, not just via assertions.
-next_action: Awaiting user confirmation that all 5 symptoms are resolved on their actual device before moving to resolved/committing.
+hypothesis: |
+  Round 3: user confirmed symptoms 1/2/5 fixed. Symptom 4 needed a correction (not a full revert) —
+  the switcher should be NEUTRAL (white in carousel mode, ink in grid mode), not follow the cycling
+  accent color like the rest of the nav; "inherit" was the wrong mechanism since it made the switcher
+  match the accent-colored nav-links, which the user explicitly said was wrong. Symptom 3 (hero cropped)
+  was NOT fixed by round 1's 600px floor — the user's actual viewport is apparently shorter than 600px.
+  Root-caused: ANY fixed min-height floor can exceed an unknown real browser window's innerHeight;
+  the only fix that structurally guarantees no cropping is removing the floor entirely and relying on
+  height:100vh alone (which by definition always equals the viewport, never exceeds it).
+test: |
+  Replaced `color: inherit` with explicit mode-scoped colors (#FFFFFF in carousel, var(--color-ink) in
+  grid) and removed the desktop .home-hero min-height declaration entirely. Verified live via the
+  Browser pane's javascript_tool (navigate + resize_window + direct getComputedStyle/getBoundingClientRect
+  reads) at 1440x760 and again at an extreme 1440x500 to confirm hero height always exactly equals
+  window.innerHeight regardless of how short the viewport is.
+expecting: N/A — verified live, not guessed.
+next_action: Awaiting final user confirmation (all 5 symptoms) before moving this session to resolved.
 reasoning_checkpoint:
   hypothesis: |
     Round 2 finding: adding About/Contact to HomeCarousel's nav made the mobile (flex-wrap) header grow from 2 rows (~192px) to 3 rows (~252px), because the nav item no longer fits on the same wrapped row as the toggle/switcher. The prev/next arrows (positioned `top: 50%` relative to the whole `.home-hero` box, which was only `min-height: 420px` on mobile) now overlapped the taller header — a regression introduced by this same debugging session's fix for symptom 5, not by the original Phase 04.1 work.
@@ -123,26 +136,37 @@ started: |
   found: "420px (original): 40-60px header/arrow overlap. 560px: only 6px clearance (fragile). 600px: 26px clearance from header, 172px clearance from caption block below — comfortable margin on both sides."
   implication: Chose 600px as the fix value for .home-hero mobile min-height (up from 420px), applied directly to src/components/HomeCarousel.astro with a comment documenting why.
 
+- timestamp: 2026-07-11T06:40:00.000Z
+  checked: "User's round-3 reply: confirmed 1/2/5 fixed; symptom 3 (hero cropped) still broken with round-1's 600px desktop floor; symptom 4 clarification — FR|EN must stay neutral (white/black), not follow the accent color"
+  found: "The round-1 fix for symptom 4 used `color: inherit`, which correctly propagates HomeCarousel's contextual color (accent in carousel mode / ink in grid mode) — but that IS the accent color in carousel mode, which is exactly what the user says is wrong. The user wants the switcher visually distinct from the nav-links (neutral), not matching them."
+  implication: Round 1's symptom 4 fix was directionally correct (stopped the switcher being permanently pink) but used the wrong target color for carousel mode. Symptom 3's 600px value was still insufficient — the user's real viewport height is below 600px, meaning any further guessed constant risks the same failure.
+
+- timestamp: 2026-07-11T06:42:00.000Z
+  checked: "Live Browser-pane verification (javascript_tool, not Playwright) at 1440x760 and 1440x500 after (a) replacing switcher color:inherit with explicit #FFFFFF (carousel)/var(--color-ink) (grid), and (b) removing .home-hero's min-height entirely"
+  found: "navLinkColor=rgb(175,61,255) (accent, unchanged) vs switcherLinkColor=rgb(255,255,255) (white, neutral) in carousel mode; both rgb(26,26,26) in grid mode (coincides with nav's ink there, which is also neutral). heroHeight === window.innerHeight exactly at both 760px and 500px viewport heights — hero can structurally never exceed the viewport once min-height is removed."
+  implication: Symptom 4 now correctly shows a neutral switcher distinct from the accent-colored nav. Symptom 3 is now guaranteed fixed for any viewport height, not just the ones tested, since the fix removes the failure mode entirely rather than picking a new constant.
+
 ## Resolution
 <!-- OVERWRITE as understanding evolves -->
 
 root_cause: |
-  Five symptoms, four distinct causes, all in src/components/HomeCarousel.astro (Phase 04.1 Plan 04):
+  Five symptoms, all in src/components/HomeCarousel.astro (Phase 04.1 Plan 04):
   1. Logo <img> srcs hardcoded root-relative (`/logos/...`) instead of base-aware like BaseLayout — 404s under the GitHub Pages ASTRO_BASE deploy.
   2. `.home-hero__accent` hardcoded `right: 0; bottom: 0;` instead of the approved prototype's `var(--space-md)` inset on both.
-  3. Desktop hero height floor (`min-height: 680px`, an approved-but-impractical spec value) forced scroll/cropping on common laptop viewport heights, confirmed on the user's actual MacBook Air 13" (2026).
-  4. LanguageSwitcher.astro's own hardcoded pink color overrides HomeCarousel's contextual header color (current accent / ink), instead of following it like the rest of the nav.
-  5. Homepage nav was missing About/Contact — originally treated as intentional (matching the imported prototype's minimal nav per UI-SPEC), but the user confirmed this was an unwanted gap, not an accepted design choice. Adding it then caused a secondary mobile-only regression: the taller wrapped header (3 rows instead of 2) collided with the prev/next arrows, which was itself fixed by raising the mobile hero's min-height floor.
+  3. Desktop hero height floor (`min-height`, originally 680px per the approved spec) forced scroll/cropping whenever the real browser window was shorter than the floor — true at both 680px and a subsequently-tried 600px on the user's actual MacBook Air 13" (2026). Any fixed floor is fragile against an unknown real viewport height.
+  4. LanguageSwitcher.astro's own hardcoded pink color overrode HomeCarousel's contextual header color. The first fix (`color: inherit`) was directionally right but wrong in effect: it made the switcher match the accent-colored nav-links, which the user then clarified is NOT wanted — the switcher must stay neutral (white/ink), distinct from the accent-colored nav.
+  5. Homepage nav was missing About/Contact — originally treated as intentional (matching the imported prototype's minimal nav per UI-SPEC), but the user confirmed this was an unwanted gap. Adding it caused a secondary mobile-only regression (taller wrapped header colliding with the prev/next arrows), fixed by raising the mobile hero's min-height floor.
 fix: |
   All changes in src/components/HomeCarousel.astro only (LanguageSwitcher.astro/BaseLayout.astro untouched):
   1. Added a local `assetBase` (mirrors BaseLayout.astro) to prefix both logo <img> srcs.
   2. Changed `.home-hero__accent` from `right: 0; bottom: 0;` to `right: var(--space-md); bottom: var(--space-md);`.
-  3. Lowered desktop `.home-hero` min-height from 680px to 600px.
-  4. Added a scoped `.home-header :global(.switcher-link), .home-header :global(.switcher-separator) { color: inherit; }` override, scoped to `.home-header` only.
-  5. Added aboutLabel/aboutHref/contactLabel/contactHref (mirroring BaseLayout's exact pattern) and two new nav links to HomeCarousel's own `<nav class="home-nav">`. Raised mobile `.home-hero` min-height from 420px to 600px to give the now-taller wrapped mobile header enough clearance from the prev/next arrows (empirically verified, not guessed).
+  3. Removed the desktop `.home-hero` min-height declaration entirely (was 680px, then 600px) — `height: 100vh` alone can never exceed the real viewport, eliminating the failure mode instead of picking another guessed constant.
+  4. Replaced the `color: inherit` override with explicit mode-scoped neutral colors: `#FFFFFF` in carousel mode, `var(--color-ink)` in grid mode — scoped to `.home-header` only, so the switcher stays visually distinct from the accent-colored nav-links as requested, while every other page's switcher (still hardcoded pink via LanguageSwitcher.astro itself) is untouched.
+  5. Added aboutLabel/aboutHref/contactLabel/contactHref (mirroring BaseLayout's exact pattern) and two new nav links to HomeCarousel's own `<nav class="home-nav">`. Raised mobile `.home-hero` min-height from 420px to 600px to give the now-taller wrapped mobile header enough clearance from the prev/next arrows (empirically verified, not guessed; this one keeps a floor since mobile uses `height: auto`, not `100vh`, so there's no self-correcting mechanism there).
 verification: |
-  - Round 1 (symptoms 1/2/4 + desktop symptom 3): rebuilt with ASTRO_BASE=/ajs-website/ and grepped dist/index.html for correctly-prefixed logo paths; Playwright confirmed accent-panel margins and switcher color-matching at 4 desktop viewport sizes; full regression suite 46/46 e2e + 23/23 unit passed.
-  - Round 2 (symptom 5 + its mobile regression): live preview_eval/DOM verification (not just Playwright) at 1440x760 (desktop, 4 nav items on one row, no wrap) and 375x667 (mobile, arrows clear of header by measured pixel gaps, both FR and EN copy correct). Re-ran full suite after: 46/46 e2e + 23/23 unit still passing.
-  - Not yet done: user's own live confirmation on their actual device (MacBook Air 13", 2026) that all 5 symptoms are resolved. This is the human-verify gate before moving to resolved.
+  - Round 1 (symptoms 1/2/4-partial + desktop symptom 3-partial): rebuilt with ASTRO_BASE=/ajs-website/ and grepped dist/index.html for correctly-prefixed logo paths; Playwright confirmed accent-panel margins at 4 desktop viewport sizes; full regression suite 46/46 e2e + 23/23 unit passed.
+  - Round 2 (symptom 5 + its mobile regression): live DOM verification at 1440x760 (desktop, 4 nav items on one row, no wrap) and 375x667 (mobile, arrows clear of header by measured pixel gaps, both FR and EN copy correct). Re-ran full suite: 46/46 e2e + 23/23 unit still passing.
+  - Round 3 (symptom 4 correction + symptom 3 structural fix): live Browser-pane verification (navigate + resize_window + javascript_tool) confirmed switcher color is white/ink (not accent) in both display modes, and hero height exactly equals window.innerHeight at both 760px and an extreme 500px viewport height. Re-ran full suite again: 46/46 e2e + 23/23 unit still passing.
+  - User confirmed symptoms 1/2/5 resolved. Awaiting final confirmation on the round-3 fixes for symptoms 3/4 before moving to resolved.
 files_changed:
   - src/components/HomeCarousel.astro

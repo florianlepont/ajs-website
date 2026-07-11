@@ -348,14 +348,20 @@ const logoBlackSrc = `${assetBase}/logos/AJS_Brutalist_Black_Transparent.png`;
 
   /* LanguageSwitcher.astro hardcodes its own links pink (correct everywhere
      else on the site, D-06) — but on the homepage's own top bar the switcher
-     must follow the same contextual color as the rest of the nav (current
-     accent in carousel mode, ink in grid mode, per UI-SPEC Layout Notes),
-     not stay pink-locked. Scoped to .home-header only so LanguageSwitcher's
-     behavior everywhere else (BaseLayout's solid/transparent headers) is
-     untouched. */
-  .home-header :global(.switcher-link),
-  .home-header :global(.switcher-separator) {
-    color: inherit;
+     must stay neutral (white in carousel mode, ink in grid mode), NOT follow
+     the cycling accent color the rest of the nav uses (confirmed via direct
+     user feedback — the FR|EN switcher reads as a locale utility, not a
+     site-navigation link, so it should not compete with the accent-colored
+     nav/CTA). Scoped to .home-header only so LanguageSwitcher's behavior
+     everywhere else (BaseLayout's solid/transparent headers) is untouched. */
+  .home[data-display-mode='carousel'] .home-header :global(.switcher-link),
+  .home[data-display-mode='carousel'] .home-header :global(.switcher-separator) {
+    color: #FFFFFF;
+  }
+
+  .home[data-display-mode='grid'] .home-header :global(.switcher-link),
+  .home[data-display-mode='grid'] .home-header :global(.switcher-separator) {
+    color: var(--color-ink);
   }
 
   .home-nav-link,
@@ -391,16 +397,15 @@ const logoBlackSrc = `${assetBase}/logos/AJS_Brutalist_Black_Transparent.png`;
 
   /* Carousel mode — full-viewport hero photo + scrim + caption + accent
      panel (D-08/D-09, UI-SPEC Layout Notes — Homepage Carousel mode).
-     min-height lowered from the UI-SPEC's original 680px: that value forced
-     a vertical scrollbar and cropped the hero/nav on common 13" laptop
-     viewports (e.g. a MacBook Air with normal browser chrome, whose
-     innerHeight regularly falls below 680px) — confirmed via real user
-     report, not a hypothetical edge case. 600px still reads as a full-bleed
-     hero on desktop but no longer forces scroll on that class of device. */
+     The UI-SPEC's original min-height floor (680px, then lowered to 600px)
+     still cropped the hero on a real MacBook Air 13" (confirmed by direct
+     user report both times) — any fixed floor can exceed an unknown real
+     window's innerHeight. Removed entirely: height:100vh alone can never
+     exceed the actual viewport, so this eliminates the whole bug class
+     instead of chasing another guessed pixel value. */
   .home-hero {
     position: relative;
     height: 100vh;
-    min-height: 600px;
     overflow: hidden;
   }
 
